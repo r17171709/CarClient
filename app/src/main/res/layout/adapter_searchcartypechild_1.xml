@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/adapter_searchcartype_child_1_layout" >
+    <TextView
+        android:id="@+id/adapter_searchcartype_child_1_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="123"/>
+    <ImageView
+        android:id="@+id/adapter_searchcartype_child_1_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/ic_arr_down_red"/>
+</RelativeLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:gravity="center_vertical"
+    android:background="#eeeeee"
+    android:id="@+id/searchbrand_layout">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dip">
+        <ImageView
+            android:id="@+id/searchbrand_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_brand_default"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:scaleType="centerCrop"/>
+        <ImageView
+            android:id="@+id/searchbrand_arror"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_arr_down_black"/>
+        <TextView
+            android:id="@+id/searchbrand_title"
+            android:layout_toRightOf="@id/searchbrand_image"
+            android:layout_toLeftOf="@id/searchbrand_arror"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#202020"
+            android:text="123"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_marginLeft="10dip"
+        android:background="#d8d8d8">
+
+    </View>
+</LinearLayout>

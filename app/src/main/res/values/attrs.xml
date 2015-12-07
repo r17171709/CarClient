@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressCircleViewStyle">
+        <attr name="background_color" format="color"></attr>
+        <attr name="foreground_color" format="color"></attr>
+        <!-- 百分比 -->
+        <attr name="progress" format="integer"></attr>
+        <attr name="stoke_width" format="dimension"></attr>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/view_toolbar_center"></include>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginLeft="50dip"
+                android:layout_marginRight="50dip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/search_category"
+                        android:layout_marginTop="20dip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_category"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dip"
+                        android:textSize="13sp"
+                        android:textColor="@android:color/black"
+                        android:text="分  类"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/search_brand"
+                        android:layout_marginTop="20dip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_brand"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dip"
+                        android:textSize="13sp"
+                        android:textColor="@android:color/black"
+                        android:text="品  牌"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/search_cartype"
+                        android:layout_marginTop="20dip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_brand"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dip"
+                        android:textSize="13sp"
+                        android:textColor="@android:color/black"
+                        android:text="车  型"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="10dip"
+                android:background="#ebebeb">
+
+            </View>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="34dip"
+                android:textColor="#b52821"
+                android:gravity="bottom"
+                android:textSize="10sp"
+                android:paddingLeft="30dip"
+                android:text="热门分类"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="3dip"
+                android:background="#ebebeb">
+
+            </View>
+            <com.renyu.carclient.myview.NoScrollGridView
+                android:id="@+id/search_hot_category"
+                android:layout_marginTop="3dip"
+                android:numColumns="5"
+                android:background="#dadddd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.renyu.carclient.myview.NoScrollGridView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="34dip"
+                android:textColor="#b52821"
+                android:gravity="bottom"
+                android:textSize="10sp"
+                android:paddingLeft="30dip"
+                android:text="热门品牌"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="3dip"
+                android:background="#ebebeb">
+
+            </View>
+            <com.renyu.carclient.myview.NoScrollGridView
+                android:id="@+id/search_hot_brand"
+                android:layout_marginTop="3dip"
+                android:numColumns="4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.renyu.carclient.myview.NoScrollGridView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="34dip"
+                android:textColor="#b52821"
+                android:gravity="bottom"
+                android:textSize="10sp"
+                android:paddingLeft="30dip"
+                android:text="热门车型"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginTop="3dip"
+                android:background="#ebebeb">
+
+            </View>
+            <com.renyu.carclient.myview.NoScrollGridView
+                android:id="@+id/search_hot_cartype"
+                android:layout_marginTop="3dip"
+                android:numColumns="4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.renyu.carclient.myview.NoScrollGridView>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <RelativeLayout 
+	    android:id="@+id/capture_containter"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+	    <SurfaceView
+	        android:id="@+id/capture_preview"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" />
+		<ImageView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="@mipmap/scan_mask"/>
+	    <RelativeLayout
+	        android:id="@+id/capture_crop_layout"
+	        android:layout_width="250dp"
+	        android:layout_height="250dp"
+	        android:layout_centerInParent="true"
+	        android:background="@mipmap/ic_scan_border"
+	        android:contentDescription="@string/app_name" >
+	        <ImageView
+	            android:id="@+id/capture_scan_line"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentTop="true"
+	            android:layout_margin="5dp"
+	            android:background="@mipmap/ic_scan_line"
+	            android:contentDescription="@string/app_name" />
+	    </RelativeLayout>
+	    <TextView
+			android:id="@+id/capture_tip"
+			android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/capture_crop_layout"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginTop="50dp"
+	        android:text="将二维码放入框内，即可自动扫描"
+	        android:textColor="@android:color/white"
+	        android:textSize="15sp" />
+	</RelativeLayout>
+</LinearLayout>
