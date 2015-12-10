@@ -1,6 +1,7 @@
 package com.renyu.carclient.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.search.GoodsListActivity;
 import com.renyu.carclient.model.SearchCategoryModel;
 
 import java.util.ArrayList;
@@ -78,6 +80,13 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
             else {
                 ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
             }
+            ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, GoodsListActivity.class);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

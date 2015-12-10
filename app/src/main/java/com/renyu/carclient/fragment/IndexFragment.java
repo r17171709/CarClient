@@ -18,7 +18,7 @@ import butterknife.OnClick;
 /**
  * Created by renyu on 15/10/18.
  */
-public class MainFragment extends BaseFragment {
+public class IndexFragment extends BaseFragment {
 
     @Bind(R.id.main_wv)
     WebView main_wv;

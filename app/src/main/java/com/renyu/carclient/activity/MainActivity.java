@@ -12,7 +12,7 @@ import com.renyu.carclient.R;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.fragment.CartFragment;
 import com.renyu.carclient.fragment.CartypeFragment;
-import com.renyu.carclient.fragment.MainFragment;
+import com.renyu.carclient.fragment.IndexFragment;
 import com.renyu.carclient.fragment.MyFragment;
 import com.renyu.carclient.fragment.SearchFragment;
 
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.main_my_text)
     TextView main_my_text;
 
-    MainFragment mainFragment=null;
+    IndexFragment mainFragment=null;
     SearchFragment searchFragment=null;
     CartypeFragment cartypeFragment=null;
     CartFragment cartFragment=null;
@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity {
         Fragment toFragment = getSupportFragmentManager().findFragmentByTag(title);
         if (toFragment==null) {
             if (title.equals("one")) {
-                mainFragment=new MainFragment();
+                mainFragment=new IndexFragment();
                 transaction.add(R.id.main_fl, mainFragment, "one");
                 currentFragment=mainFragment;
             }
@@ -195,7 +195,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (currentTitle.equals("one")) {
-            boolean flag=((MainFragment) currentFragment).checkBack();
+            boolean flag=((IndexFragment) currentFragment).checkBack();
             if (!flag) {
                 finish();
             }
