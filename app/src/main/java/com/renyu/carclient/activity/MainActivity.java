@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.base.BaseActivity;
-import com.renyu.carclient.fragment.CartFragment;
 import com.renyu.carclient.fragment.CartypeFragment;
 import com.renyu.carclient.fragment.IndexFragment;
 import com.renyu.carclient.fragment.MyFragment;
+import com.renyu.carclient.fragment.OrderFragment;
 import com.renyu.carclient.fragment.SearchFragment;
 
 import java.util.List;
@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
     IndexFragment mainFragment=null;
     SearchFragment searchFragment=null;
     CartypeFragment cartypeFragment=null;
-    CartFragment cartFragment=null;
+    OrderFragment orderFragment=null;
     MyFragment myFragment=null;
 
     //当前选中的title
@@ -125,9 +125,9 @@ public class MainActivity extends BaseActivity {
                 currentFragment=cartypeFragment;
             }
             else if (title.equals("four")) {
-                cartFragment=new CartFragment();
-                transaction.add(R.id.main_fl, cartFragment, "four");
-                currentFragment=cartFragment;
+                orderFragment=new OrderFragment();
+                transaction.add(R.id.main_fl, orderFragment, "four");
+                currentFragment=orderFragment;
             }
             else if (title.equals("five")) {
                 myFragment=new MyFragment();

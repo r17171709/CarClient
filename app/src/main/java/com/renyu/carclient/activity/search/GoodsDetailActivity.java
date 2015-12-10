@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -21,6 +22,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.order.PayOrderActivity;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.commons.CommonUtils;
 
@@ -85,7 +87,7 @@ public class GoodsDetailActivity extends BaseActivity {
         goodsdetil_vp.startAutoScroll();
     }
 
-    @OnClick({R.id.goodsdetail_params, R.id.goodsdetail_cartype, R.id.goodsdetail_paytype, R.id.goodsdetail_tip_bglayout})
+    @OnClick({R.id.goodsdetail_params, R.id.goodsdetail_cartype, R.id.goodsdetail_paytype, R.id.goodsdetail_tip_bglayout, R.id.goodsdetail_addcart, R.id.goodsdetail_paynow})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.goodsdetail_params:
@@ -101,6 +103,12 @@ public class GoodsDetailActivity extends BaseActivity {
                 if (viewGroup!=null) {
                     closeLayout(viewGroup);
                 }
+                break;
+            case R.id.goodsdetail_addcart:
+                break;
+            case R.id.goodsdetail_paynow:
+                Intent intent=new Intent(GoodsDetailActivity.this, PayOrderActivity.class);
+                startActivity(intent);
                 break;
         }
     }

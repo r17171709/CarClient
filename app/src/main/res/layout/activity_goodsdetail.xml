@@ -191,11 +191,13 @@
             android:layout_alignParentBottom="true"
             android:gravity="center">
             <TextView
+                android:id="@+id/goodsdetail_addcart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="加入购物车"
                 android:padding="10dip"/>
             <TextView
+                android:id="@+id/goodsdetail_paynow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="立即购买"
