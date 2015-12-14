@@ -1,27 +1,33 @@
 package com.renyu.carclient.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.order.CartActivity;
 import com.renyu.carclient.base.BaseFragment;
 import com.renyu.carclient.commons.CommonUtils;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by renyu on 15/12/10.
  */
 public class OrderFragment extends BaseFragment {
 
+    @Bind(R.id.view_toolbar_center_next)
+    ImageView view_toolbar_center_next;
     @Bind(R.id.ordercenter_lv)
     ListView ordercenter_lv;
 
@@ -45,6 +51,7 @@ public class OrderFragment extends BaseFragment {
     }
 
     private void initViews() {
+        view_toolbar_center_next.setVisibility(View.VISIBLE);
         View headview= LayoutInflater.from(getActivity()).inflate(R.layout.view_ordercenterheadview, null, false);
         GridLayout ordercenter_gridlayout= (GridLayout) headview.findViewById(R.id.ordercenter_gridlayout);
         int width= CommonUtils.getScreenWidth(getActivity())/5;
@@ -110,5 +117,13 @@ public class OrderFragment extends BaseFragment {
         ordercenter_lv.setAdapter(null);
     }
 
-
+    @OnClick({R.id.view_toolbar_center_next})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.view_toolbar_center_next:
+                Intent intent=new Intent(getActivity(), CartActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }

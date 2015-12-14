@@ -9,15 +9,16 @@
         android:layout_weight="1">
         <ImageView
             android:id="@+id/ordercenterpaybefore_image"
+            android:layout_centerVertical="true"
             android:layout_width="93dip"
             android:layout_height="62dip"
             android:src="@mipmap/ic_launcher"/>
         <LinearLayout
             android:id="@+id/ordercenterpaybefore_productnum_layout"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/ordercenterpaybefore_productnum_delete"
@@ -57,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dip"
             android:layout_marginTop="3dip"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/ordercenterpaybefore_image"
             android:layout_toLeftOf="@id/ordercenterpaybefore_productnum_layout"
             android:orientation="vertical">

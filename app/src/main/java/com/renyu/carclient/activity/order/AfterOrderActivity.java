@@ -15,8 +15,8 @@ import butterknife.Bind;
  */
 public class AfterOrderActivity extends BaseActivity {
 
-    @Bind(R.id.adapter_ordercenterpending_detail)
-    LinearLayout adapter_ordercenterpending_detail;
+    @Bind(R.id.afterorder_orderlayout)
+    LinearLayout afterorder_orderlayout;
 
     @Override
     public int initContentView() {
@@ -32,8 +32,8 @@ public class AfterOrderActivity extends BaseActivity {
 
     private void initViews() {
         for (int i=0;i<3;i++) {
-            View view= LayoutInflater.from(this).inflate(R.layout.adapter_ordercenterpending_child, null, false);
-            adapter_ordercenterpending_detail.addView(view);
+            View view= LayoutInflater.from(this).inflate(R.layout.adapter_ordercenterpaybefore, null, false);
+            afterorder_orderlayout.addView(view);
         }
     }
 }

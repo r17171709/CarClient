@@ -96,18 +96,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/ordercentertobepaid_invoice"
-            android:text="普通发票"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:paddingTop="3dip"
-            android:paddingBottom="3dip"
-            android:background="@drawable/rectangle_corner_lightgray"
-            android:layout_marginLeft="10dip"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
         android:background="#747474"

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.base.BaseActivity;
-import com.renyu.carclient.fragment.CartypeFragment;
+import com.renyu.carclient.fragment.CollectionFragment;
 import com.renyu.carclient.fragment.IndexFragment;
 import com.renyu.carclient.fragment.MyFragment;
 import com.renyu.carclient.fragment.OrderFragment;
@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity {
 
     IndexFragment mainFragment=null;
     SearchFragment searchFragment=null;
-    CartypeFragment cartypeFragment=null;
+    CollectionFragment collectionFragment=null;
     OrderFragment orderFragment=null;
     MyFragment myFragment=null;
 
@@ -120,9 +120,9 @@ public class MainActivity extends BaseActivity {
                 currentFragment=searchFragment;
             }
             else if (title.equals("three")) {
-                cartypeFragment=new CartypeFragment();
-                transaction.add(R.id.main_fl, cartypeFragment, "three");
-                currentFragment=cartypeFragment;
+                collectionFragment=new CollectionFragment();
+                transaction.add(R.id.main_fl, collectionFragment, "three");
+                currentFragment=collectionFragment;
             }
             else if (title.equals("four")) {
                 orderFragment=new OrderFragment();

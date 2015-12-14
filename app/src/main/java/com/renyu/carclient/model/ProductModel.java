@@ -12,6 +12,7 @@ public class ProductModel {
     String choice="";
     boolean isChecked=false;
     double price=0;
+    boolean isEdit=false;
 
     public int getId() {
         return id;
@@ -67,5 +68,17 @@ public class ProductModel {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
     }
 }
