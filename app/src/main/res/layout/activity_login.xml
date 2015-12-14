@@ -69,16 +69,16 @@
         <Button
             android:layout_width="88dip"
             android:layout_height="35dip"
-            android:textColor="@android:color/white"
             android:layout_marginRight="15dip"
-            android:background="@drawable/drawable_delete"
-            android:text="登录"/>
+            android:textColor="@android:color/white"
+            android:background="@drawable/drawable_regist"
+            android:text="成为服务商"/>
         <Button
             android:layout_width="88dip"
             android:layout_height="35dip"
             android:textColor="@android:color/white"
             android:layout_marginLeft="15dip"
-            android:background="@drawable/drawable_regist"
-            android:text="注册"/>
+            android:background="@drawable/drawable_delete"
+            android:text="登录"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.renyu.carclient.activity;
+package com.renyu.carclient.activity.login;
 
 import android.os.Bundle;
 import android.util.Log;

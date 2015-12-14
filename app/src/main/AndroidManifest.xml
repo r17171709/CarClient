@@ -43,8 +43,9 @@
         <activity android:name=".activity.order.PayOrderActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".activity.order.AfterOrderActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.order.CartActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.LoginActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.RegistActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:name=".activity.login.LoginActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.login.JoinActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.login.ForgetActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="com.zbar.lib.CaptureActivity" android:screenOrientation="portrait"></activity>
 
         <!--微信分享相关-->
