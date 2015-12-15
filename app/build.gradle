@@ -34,4 +34,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.github.orangegangsters:swipy:1.2.0@aar'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 }

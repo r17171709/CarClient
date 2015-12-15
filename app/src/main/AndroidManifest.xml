@@ -46,6 +46,11 @@
         <activity android:name=".activity.login.LoginActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.login.JoinActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.login.ForgetActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.my.MyInfoActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.my.MyAddressActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.my.MyAddressAddActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.my.MyStatementActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.my.MyFeedBackActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="com.zbar.lib.CaptureActivity" android:screenOrientation="portrait"></activity>
 
         <!--微信分享相关-->

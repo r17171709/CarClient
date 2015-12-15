@@ -30,95 +30,52 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:gravity="bottom"
                 android:layout_marginBottom="10dip"
                 android:layout_height="105dip">
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                     <ImageView
+                        android:src="@mipmap/ic_launcher"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_me_01"/>
+                        android:layout_height="wrap_content" />
                     <TextView
+                        android:text="授信额度"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dip"
-                        android:textColor="#050505"
-                        android:text="我的收藏"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
-                <View
-                    android:background="#ececec"
-                    android:layout_width="1dip"
-                    android:layout_height="50dip">
-
-                </View>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
+                <android.support.v7.widget.GridLayout
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_me_02"/>
+                    android:layout_height="match_parent"
+                    app:columnCount="2"
+                    app:rowCount="2">
                     <TextView
+                        android:text="平台授信"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dip"
-                        android:textColor="#050505"
-                        android:text="待付款"/>
-                </LinearLayout>
-                <View
-                    android:background="#ececec"
-                    android:layout_width="1dip"
-                    android:layout_height="50dip">
-
-                </View>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_me_03"/>
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"/>
                     <TextView
+                        android:text="余额"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dip"
-                        android:textColor="#050505"
-                        android:text="待发货"/>
-                </LinearLayout>
-                <View
-                    android:background="#ececec"
-                    android:layout_width="1dip"
-                    android:layout_height="50dip">
-
-                </View>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_me_04"/>
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"/>
                     <TextView
+                        android:text="银行授信"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dip"
-                        android:textColor="#050505"
-                        android:text="退款/售后"/>
-                </LinearLayout>
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"/>
+                    <TextView
+                        android:text="余额"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"/>
+                </android.support.v7.widget.GridLayout>
             </LinearLayout>
             <View
                 android:background="#ececec"
@@ -127,6 +84,7 @@
 
             </View>
             <LinearLayout
+                android:id="@+id/my_info"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
@@ -137,45 +95,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_me_b_1"/>
+                    android:src="@mipmap/ic_launcher"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="13dip"
                     android:textColor="#020202"
-                    android:text="全部订单"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right|center"
-                    android:drawableRight="@mipmap/ic_arr_right_red"
-                    android:textSize="12sp"
-                    android:textColor="#050505"
-                    android:text="查看全部已购买宝贝"/>
-            </LinearLayout>
-            <View
-                android:background="#ececec"
-                android:layout_width="match_parent"
-                android:layout_height="1dip">
-
-            </View>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="59dip"
-                android:layout_marginLeft="25dip"
-                android:layout_marginRight="25dip">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_me_b_2"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="13dip"
-                    android:textColor="#020202"
-                    android:text="我的积分"/>
+                    android:text="基本信息"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -191,6 +117,7 @@
 
             </View>
             <LinearLayout
+                android:id="@+id/my_address"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
@@ -200,7 +127,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_me_b_3"/>
+                    android:src="@mipmap/ic_launcher"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -222,6 +149,7 @@
 
             </View>
             <LinearLayout
+                android:id="@+id/my_paylist"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
@@ -231,23 +159,102 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_me_b_4"/>
+                    android:src="@mipmap/ic_launcher"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="13dip"
                     android:textColor="#020202"
-                    android:text="客服电话"/>
+                    android:text="支付记录"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right|center"
-                    android:text="0579-82116661"
                     android:textSize="12sp"
                     android:textColor="#050505"
                     android:drawableRight="@mipmap/ic_arr_right_black" />
             </LinearLayout>
+            <View
+                android:background="#ececec"
+                android:layout_width="match_parent"
+                android:layout_height="1dip">
+
+            </View>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="59dip"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dip"
+                    android:textColor="#020202"
+                    android:text="授信还款"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|center"
+                    android:textSize="12sp"
+                    android:textColor="#050505"
+                    android:drawableRight="@mipmap/ic_arr_right_black" />
+            </LinearLayout>
+            <View
+                android:background="#ececec"
+                android:layout_width="match_parent"
+                android:layout_height="1dip">
+
+            </View>
+            <LinearLayout
+                android:id="@+id/my_feedback"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="59dip"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dip"
+                    android:textColor="#020202"
+                    android:text="申请售后"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|center"
+                    android:textSize="12sp"
+                    android:textColor="#050505"
+                    android:drawableRight="@mipmap/ic_arr_right_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="59dip"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dip"
+                    android:textColor="#020202"
+                    android:text="客服电话：4009696611"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
