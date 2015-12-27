@@ -9,7 +9,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
+import com.renyu.carclient.model.CategoryModel;
 
 import java.util.ArrayList;
 
@@ -22,12 +26,12 @@ import butterknife.ButterKnife;
 public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAdapter.SearchCategoryHolder> {
 
     Context context=null;
-    ArrayList<String> models=null;
+    ArrayList<CategoryModel> models=null;
     OnCategoryChoiceListener listener=null;
 
-    public SearchCategoryAdapter(Context context, ArrayList<String> strings, OnCategoryChoiceListener listener) {
+    public SearchCategoryAdapter(Context context, ArrayList<CategoryModel> models, OnCategoryChoiceListener listener) {
         this.context=context;
-        this.models=strings;
+        this.models=models;
         this.listener=listener;
     }
 
@@ -39,13 +43,14 @@ public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAd
 
     @Override
     public void onBindViewHolder(SearchCategoryHolder holder, final int position) {
-        holder.searchcategory_parent_text.setText("parent2222");
+        holder.searchcategory_parent_text.setText(models.get(position).getCat_name());
         holder.searchcategory_parent_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.choice(position);
             }
         });
+        ImageLoader.getInstance().displayImage(models.get(position).getCat_logo(), holder.searchcategory_parent_image, getCategoryImageOptions());
     }
 
     @Override
@@ -72,5 +77,17 @@ public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAd
 
     public interface OnCategoryChoiceListener {
         void choice(int position);
+    }
+
+
+    public DisplayImageOptions getCategoryImageOptions() {
+        return new DisplayImageOptions.Builder()
+                .showImageOnFail(R.mipmap.ic_launcher)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.mipmap.ic_launcher)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
     }
 }

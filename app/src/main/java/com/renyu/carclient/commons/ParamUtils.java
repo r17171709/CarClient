@@ -15,7 +15,9 @@ public class ParamUtils {
     //QQ分享ID manifest里面也要配置
     public final static String QQ_SHAREID="";
 
-    public final static String api="http://www.njecstore.com/b2b2c/public/index.php/api";
+    public final static String api="http://120.26.139.82/b2b2c/public/index.php/api";
+    public final static String CAT="cat_type";
+    public final static String BRAND="brand_type";
 
     private static String getSign(String method, String token) {
         return CommonUtils.MD5(CommonUtils.MD5(method).toUpperCase() + token).toUpperCase();

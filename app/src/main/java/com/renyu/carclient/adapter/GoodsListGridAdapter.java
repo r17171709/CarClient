@@ -10,8 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.GoodsDetailActivity;
+import com.renyu.carclient.model.GoodsListModel;
 
 import java.util.ArrayList;
 
@@ -24,11 +28,11 @@ import butterknife.ButterKnife;
 public class GoodsListGridAdapter extends RecyclerView.Adapter<GoodsListGridAdapter.GoodsDetailGridViewHolder> {
 
     Context context=null;
-    ArrayList<String> strings=null;
+    ArrayList<GoodsListModel> models=null;
 
-    public GoodsListGridAdapter(Context context, ArrayList<String> strings) {
+    public GoodsListGridAdapter(Context context, ArrayList<GoodsListModel> models) {
         this.context=context;
-        this.strings=strings;
+        this.models=models;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class GoodsListGridAdapter extends RecyclerView.Adapter<GoodsListGridAdap
 
     @Override
     public void onBindViewHolder(GoodsDetailGridViewHolder holder, int position) {
-        holder.adapter_goodslist_grid_title.setText(strings.get(position));
+        holder.adapter_goodslist_grid_title.setText(models.get(position).getTitle());
         holder.adapter_goodslist_grid_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,11 +51,14 @@ public class GoodsListGridAdapter extends RecyclerView.Adapter<GoodsListGridAdap
                 context.startActivity(intent);
             }
         });
+        ImageLoader.getInstance().displayImage(models.get(position).getImage_default_id(), holder.adapter_goodslist_grid_image, getGoodsImageOptions());
+        holder.adapter_goodslist_grid_price.setText(""+models.get(position).getPrice());
+        holder.adapter_goodslist_grid_discountdesp.setText("登录享受优惠");
     }
 
     @Override
     public int getItemCount() {
-        return strings.size();
+        return models.size();
     }
 
     public static class GoodsDetailGridViewHolder extends RecyclerView.ViewHolder {
@@ -71,5 +78,16 @@ public class GoodsListGridAdapter extends RecyclerView.Adapter<GoodsListGridAdap
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public DisplayImageOptions getGoodsImageOptions() {
+        return new DisplayImageOptions.Builder()
+                .showImageOnFail(R.mipmap.ic_launcher)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.mipmap.ic_launcher)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
     }
 }

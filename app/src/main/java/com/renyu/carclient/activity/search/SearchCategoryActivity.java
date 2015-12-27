@@ -11,9 +11,13 @@ import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.SearchCategoryAdapter;
 import com.renyu.carclient.adapter.SearchCategoryChildAdapter;
 import com.renyu.carclient.base.BaseActivity;
-import com.renyu.carclient.model.SearchCategoryModel;
+import com.renyu.carclient.commons.OKHttpHelper;
+import com.renyu.carclient.commons.ParamUtils;
+import com.renyu.carclient.model.CategoryModel;
+import com.renyu.carclient.model.JsonParse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -36,8 +40,12 @@ public class SearchCategoryActivity extends BaseActivity {
     RecyclerView searchcategory_child_rv;
     SearchCategoryChildAdapter childAdapter=null;
 
-    ArrayList<String> allModels=null;
-    ArrayList<SearchCategoryModel> childModels=null;
+    ArrayList<CategoryModel> allModels=null;
+    ArrayList<CategoryModel> childModels=null;
+
+    HashMap<String, ArrayList<CategoryModel>> tempCategory=null;
+
+    int currentChoice=-1;
 
     @Override
     public int initContentView() {
@@ -49,17 +57,8 @@ public class SearchCategoryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         allModels=new ArrayList<>();
-        allModels.add("123");
-        allModels.add("123");
-        allModels.add("123");
-        allModels.add("123");
-        allModels.add("123");
-        allModels.add("123");
-        allModels.add("123");
-        allModels.add("123");
-        allModels.add("123");
-        allModels.add("123");
         childModels=new ArrayList<>();
+        tempCategory=new HashMap<>();
 
         initViews();
     }
@@ -79,7 +78,32 @@ public class SearchCategoryActivity extends BaseActivity {
         adapter=new SearchCategoryAdapter(this, allModels, new SearchCategoryAdapter.OnCategoryChoiceListener() {
             @Override
             public void choice(int position) {
-                openChild(position);
+                httpHelper.cancel(ParamUtils.api);
+                if (currentChoice!=position) {
+                    currentChoice=position;
+                    searchcategory_child_rv.setVisibility(View.VISIBLE);
+                    if (tempCategory.containsKey(allModels.get(position).getCat_id())) {
+                        ArrayList<CategoryModel> models=tempCategory.get(allModels.get(position).getCat_id());
+                        childModels.clear();
+                        for (int i=0;i<models.size();i++) {
+                            childModels.add(models.get(i));
+                            childModels.addAll(models.get(i).getLists());
+                        }
+                        childAdapter.setChoicePosition(allModels.get(currentChoice).getCat_id());
+                        searchcategory_child_rv.setAdapter(childAdapter);
+                    }
+                    else {
+                        categorySecond(allModels.get(position).getCat_id());
+                    }
+                }
+                else {
+                    if (searchcategory_child_rv.getVisibility()==View.VISIBLE) {
+                        searchcategory_child_rv.setVisibility(View.GONE);
+                    }
+                    else {
+                        searchcategory_child_rv.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
         searchcategory_rv.setAdapter(adapter);
@@ -91,46 +115,66 @@ public class SearchCategoryActivity extends BaseActivity {
             @Override
             public void openClose(int position) {
                 boolean flag=childModels.get(position).isOpen();
-                int parentId=childModels.get(position).getId();
+                int parentId=childModels.get(position).getCat_id();
                 for (int i=0;i<childModels.size();i++) {
-                    if (childModels.get(i).getParentId()==parentId) {
-                        childModels.get(i).setIsOpen(!flag);
+                    if (childModels.get(i).getParent_id()==parentId) {
+                        childModels.get(i).setOpen(!flag);
                     }
                 }
-                childModels.get(position).setIsOpen(!flag);
+                childModels.get(position).setOpen(!flag);
                 childAdapter.notifyDataSetChanged();
+            }
+        });
+
+        category();
+    }
+
+    private void category() {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.category", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                ArrayList<CategoryModel> models=JsonParse.getCategoryListModel(string);
+                if (models!=null) {
+                    allModels.addAll(models);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onError() {
+
             }
         });
     }
 
-    private void openChild(int position) {
-        ArrayList<SearchCategoryModel> tempModels=new ArrayList<>();
-        for (int i=0;i<10;i++) {
-            SearchCategoryModel parentModel=new SearchCategoryModel();
-            parentModel.setId(i);
-            parentModel.setImageUrl("");
-            parentModel.setIsOpen(true);
-            parentModel.setParentId(-1);
-            parentModel.setText("acascas"+i);
-            ArrayList<SearchCategoryModel> temp=new ArrayList<>();
-            for (int j=0;j<5;j++) {
-                SearchCategoryModel childModel=new SearchCategoryModel();
-                childModel.setId(j);
-                childModel.setImageUrl("");
-                childModel.setIsOpen(true);
-                childModel.setParentId(i);
-                childModel.setText("acascaschild"+j);
-                temp.add(childModel);
+    private void categorySecond(final int cat_id) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.category", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("cat_id", ""+cat_id);
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                ArrayList<CategoryModel> models=JsonParse.getSecondCategoryListModel(string);
+                if (models!=null) {
+                    childModels.clear();
+                    for (int i=0;i<models.size();i++) {
+                        childModels.add(models.get(i));
+                        childModels.addAll(models.get(i).getLists());
+                    }
+                    childAdapter.setChoicePosition(allModels.get(currentChoice).getCat_id());
+                    searchcategory_child_rv.setAdapter(childAdapter);
+                    tempCategory.put(""+cat_id, models);
+                }
+                else {
+                    childModels.clear();
+                    searchcategory_child_rv.setAdapter(null);
+                }
             }
-            parentModel.setLists(temp);
-            tempModels.add(parentModel);
-        }
 
-        childModels.clear();
-        for (int i=0;i<tempModels.size();i++) {
-            childModels.add(tempModels.get(i));
-            childModels.addAll(tempModels.get(i).getLists());
-        }
-        searchcategory_child_rv.setAdapter(childAdapter);
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 }

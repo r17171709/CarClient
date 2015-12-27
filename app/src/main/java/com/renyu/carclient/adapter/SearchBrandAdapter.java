@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
 import com.renyu.carclient.model.SearchBrandModel;
 
@@ -56,13 +59,14 @@ public class SearchBrandAdapter extends RecyclerView.Adapter<SearchBrandAdapter.
             holder.searchbrand_parent_text.setText(models.get(position).toString().toUpperCase());
         }
         else if (getItemViewType(position)==ITEM_CHILD) {
-            holder.searchbrand_title.setText(((SearchBrandModel) models.get(position)).getTitle());
+            holder.searchbrand_title.setText(((SearchBrandModel) models.get(position)).getBrand_name());
             holder.searchbrand_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.positionChoice(position_);
                 }
             });
+            ImageLoader.getInstance().displayImage(((SearchBrandModel) models.get(position)).getBrand_logo(), holder.searchbrand_image, getBrandImageOptions());
         }
     }
 
@@ -101,5 +105,16 @@ public class SearchBrandAdapter extends RecyclerView.Adapter<SearchBrandAdapter.
             searchbrand_layout= (LinearLayout) itemView.findViewById(R.id.searchbrand_layout);
             searchbrand_arror= (ImageView) itemView.findViewById(R.id.searchbrand_arror);
         }
+    }
+
+    public DisplayImageOptions getBrandImageOptions() {
+        return new DisplayImageOptions.Builder()
+                .showImageOnFail(R.mipmap.ic_launcher)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.mipmap.ic_launcher)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
     }
 }

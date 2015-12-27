@@ -41,12 +41,12 @@
         android:gravity="center_vertical"
         android:background="#eaeaea">
         <LinearLayout
+            android:id="@+id/goods_list_screening"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center">
             <TextView
-                android:id="@+id/goods_list_screening"
                 android:text="筛选"
                 android:textColor="#707070"
                 android:layout_width="wrap_content"
@@ -86,10 +86,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/goods_list_rv"
+    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/goods_list_swipy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:direction="both">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/goods_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 </LinearLayout>

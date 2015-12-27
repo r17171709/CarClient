@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:textColor="#2c2c2c"
         android:textSize="17sp"
+        android:singleLine="true"
         android:text="title"/>
     <RelativeLayout
         android:layout_toRightOf="@id/adapter_goodslist_grid_image"

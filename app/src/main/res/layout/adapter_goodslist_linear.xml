@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:textColor="#2c2c2c"
             android:textSize="17sp"
+            android:maxLines="2"
             android:text="title"/>
         <TextView
             android:id="@+id/adapter_goodslist_linear_discountdesp"

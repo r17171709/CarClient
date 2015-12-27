@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.GoodsDetailActivity;
+import com.renyu.carclient.model.GoodsListModel;
 
 import java.util.ArrayList;
 
@@ -25,11 +28,11 @@ import butterknife.ButterKnife;
 public class GoodsListLinearAdapter extends RecyclerView.Adapter<GoodsListLinearAdapter.GoodsLinearHolder> {
 
     Context context=null;
-    ArrayList<String> strings=null;
+    ArrayList<GoodsListModel> models=null;
 
-    public GoodsListLinearAdapter(Context context, ArrayList<String> strings) {
+    public GoodsListLinearAdapter(Context context, ArrayList<GoodsListModel> models) {
         this.context=context;
-        this.strings=strings;
+        this.models=models;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class GoodsListLinearAdapter extends RecyclerView.Adapter<GoodsListLinear
 
     @Override
     public void onBindViewHolder(GoodsLinearHolder holder, int position) {
-        holder.adapter_goodslist_linear_title.setText(strings.get(position));
+        holder.adapter_goodslist_linear_title.setText(models.get(position).getTitle());
         holder.adapter_goodslist_linear_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,11 +51,14 @@ public class GoodsListLinearAdapter extends RecyclerView.Adapter<GoodsListLinear
                 context.startActivity(intent);
             }
         });
+        ImageLoader.getInstance().displayImage(models.get(position).getImage_default_id(), holder.adapter_goodslist_linear_image, getGoodsImageOptions());
+        holder.adapter_goodslist_linear_price.setText(""+models.get(position).getPrice());
+        holder.adapter_goodslist_linear_discountdesp.setText("登录享受优惠");
     }
 
     @Override
     public int getItemCount() {
-        return strings.size();
+        return models.size();
     }
 
     static class GoodsLinearHolder extends RecyclerView.ViewHolder {
@@ -72,5 +78,16 @@ public class GoodsListLinearAdapter extends RecyclerView.Adapter<GoodsListLinear
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public DisplayImageOptions getGoodsImageOptions() {
+        return new DisplayImageOptions.Builder()
+                .showImageOnFail(R.mipmap.ic_launcher)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.mipmap.ic_launcher)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
     }
 }

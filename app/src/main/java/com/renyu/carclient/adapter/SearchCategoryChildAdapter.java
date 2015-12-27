@@ -2,6 +2,7 @@ package com.renyu.carclient.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,8 @@ import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.GoodsListActivity;
-import com.renyu.carclient.model.SearchCategoryModel;
+import com.renyu.carclient.commons.ParamUtils;
+import com.renyu.carclient.model.CategoryModel;
 
 import java.util.ArrayList;
 
@@ -28,14 +30,16 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
     final static int CHILD=2;
 
     Context context=null;
-    ArrayList<SearchCategoryModel> models=null;
+    ArrayList<CategoryModel> models=null;
     OnMenuChoiceListener listener=null;
+
+    int currentPosition=-1;
 
     public interface OnMenuChoiceListener {
         void openClose(int position);
     }
 
-    public SearchCategoryChildAdapter(Context context, ArrayList<SearchCategoryModel> models, OnMenuChoiceListener listener) {
+    public SearchCategoryChildAdapter(Context context, ArrayList<CategoryModel> models, OnMenuChoiceListener listener) {
         this.context=context;
         this.models=models;
         this.listener=listener;
@@ -57,7 +61,7 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position)==PARENT) {
-            ((SearchCategoryChild1ViewHolder) holder).adapter_searchcategory_child_1_text.setText(models.get(position).getText());
+            ((SearchCategoryChild1ViewHolder) holder).adapter_searchcategory_child_1_text.setText(models.get(position).getCat_name());
             ((SearchCategoryChild1ViewHolder) holder).adapter_searchcategory_child_1_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -72,7 +76,7 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
             }
         }
         else if (getItemViewType(position)==CHILD) {
-            ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_text.setText(models.get(position).getText());
+            ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_text.setText(models.get(position).getCat_name());
             if (models.get(position).isOpen()) {
                 ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setVisibility(View.VISIBLE);
                 ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 70));
@@ -84,6 +88,12 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(context, GoodsListActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("type", ParamUtils.CAT);
+                    bundle.putInt("cat_id", models.get(position).getCat_id());
+                    bundle.putInt("sec_id", models.get(position).getParent_id());
+                    bundle.putInt("fir_id", currentPosition);
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             });
@@ -97,7 +107,7 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemViewType(int position) {
-        if (models.get(position).getParentId()==-1) {
+        if (models.get(position).getParent_id()==-1) {
             return PARENT;
         }
         else {
@@ -131,5 +141,9 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setChoicePosition(int currentPosition) {
+        this.currentPosition=currentPosition;
     }
 }

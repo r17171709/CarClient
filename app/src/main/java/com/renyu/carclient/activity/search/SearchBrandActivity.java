@@ -3,6 +3,7 @@ package com.renyu.carclient.activity.search;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +13,9 @@ import com.renyu.carclient.adapter.SearchBrandAdapter;
 import com.renyu.carclient.adapter.SearchBrandChildAdapter;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.commons.CommonUtils;
+import com.renyu.carclient.commons.OKHttpHelper;
+import com.renyu.carclient.commons.ParamUtils;
+import com.renyu.carclient.model.JsonParse;
 import com.renyu.carclient.model.SearchBrandModel;
 import com.renyu.carclient.myview.LetterIndicatorView;
 
@@ -60,6 +64,8 @@ public class SearchBrandActivity extends BaseActivity {
     //列表加载对象
     ArrayList<Object> tempModels=null;
 
+    int currentPosition=-1;
+
     @Override
     public int initContentView() {
         return R.layout.activity_searchbrand;
@@ -75,19 +81,7 @@ public class SearchBrandActivity extends BaseActivity {
 
         initViews();
 
-        initData();
-    }
-
-    private void initData() {
-        //未加工对象
-        ArrayList<SearchBrandModel> results=new ArrayList<>();
-        String[] names={"福斯", "红线", "昆仑润滑油", "福特润滑油", "康普顿", "AMSOIL汽油机油", "MOTUL汽油机油", "加德士汽油机油", "美孚汽油机油", "四洲汽油机油"};
-        for (int i=0;i<names.length;i++) {
-            SearchBrandModel model1=new SearchBrandModel();
-            model1.setTitle(names[i]);
-            results.add(model1);
-        }
-        letterIndicatorCompare(results);
+        getBrandList();
     }
 
     private void initViews() {
@@ -106,20 +100,19 @@ public class SearchBrandActivity extends BaseActivity {
         adapter=new SearchBrandAdapter(this, tempModels, new SearchBrandAdapter.OnOperationListener() {
             @Override
             public void positionChoice(int position) {
-                if (searchbrand_child.getVisibility()==View.VISIBLE) {
-                    searchbrand_child.setVisibility(View.GONE);
+                if (currentPosition==position) {
+                    if (searchbrand_child.getVisibility()==View.VISIBLE) {
+                        searchbrand_child.setVisibility(View.GONE);
+                    }
+                    else {
+                        searchbrand_child.setVisibility(View.VISIBLE);
+                    }
                 }
                 else {
                     searchbrand_child.setVisibility(View.VISIBLE);
-                    ArrayList<String> childModels=new ArrayList<>();
-                    childModels.add("123414124124");
-                    childModels.add("123414124124");
-                    childModels.add("123414124124");
-                    childModels.add("123414124124");
-                    childModels.add("123414124124");
-                    childAdapter=new SearchBrandChildAdapter(SearchBrandActivity.this, childModels);
-                    searchbrand_child.setAdapter(childAdapter);
+                    getBrandList(((SearchBrandModel) tempModels.get(position)).getBrand_id());
                 }
+                currentPosition=position;
             }
         });
         searchbrand_rv.setAdapter(adapter);
@@ -127,6 +120,56 @@ public class SearchBrandActivity extends BaseActivity {
         searchbrand_child.setHasFixedSize(true);
         searchbrand_child.setLayoutManager(new LinearLayoutManager(this));
     }
+
+    private void getBrandList() {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.brand.list", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                ArrayList<SearchBrandModel> models= JsonParse.getSearchBrandListModel(string);
+                initData(models);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
+    private void getBrandList(int brand_id) {
+        models.clear();
+        searchbrand_child.setAdapter(null);
+        httpHelper.cancel(ParamUtils.api);
+
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.brand.list", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("brand_id", ""+brand_id);
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                ArrayList<SearchBrandModel> models= JsonParse.getSecondSearchBrandModel(string);
+                childAdapter=new SearchBrandChildAdapter(SearchBrandActivity.this, models);
+                searchbrand_child.setAdapter(childAdapter);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
+    private void initData(ArrayList<SearchBrandModel> models) {
+        //未加工对象
+        ArrayList<SearchBrandModel> results=new ArrayList<>();
+        String[] names=new String[models.size()];
+        for (int i=0;i<models.size();i++) {
+            names[i]=models.get(i).getBrand_name();
+        }
+        results.addAll(models);
+        letterIndicatorCompare(results);
+    }
+
 
     @OnClick(R.id.view_toolbar_center_back)
     public void onClick(View view) {
@@ -142,7 +185,7 @@ public class SearchBrandActivity extends BaseActivity {
             public HashMap<String, ArrayList<SearchBrandModel>> call(ArrayList<SearchBrandModel> searchBrandModels) {
                 HashMap<String, ArrayList<SearchBrandModel>> map = new HashMap<>();
                 for (int i = 0; i < searchBrandModels.size(); i++) {
-                    String firstLetter = CommonUtils.getFirstPinyin(searchBrandModels.get(i).getTitle());
+                    String firstLetter = CommonUtils.getFirstPinyin(searchBrandModels.get(i).getBrand_name());
                     if (map.containsKey(firstLetter)) {
                         ArrayList<SearchBrandModel> arrayList = map.get(firstLetter);
                         arrayList.add(searchBrandModels.get(i));

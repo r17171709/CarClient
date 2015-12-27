@@ -1,28 +1,54 @@
 package com.renyu.carclient.model;
 
-import java.util.ArrayList;
-
 /**
  * Created by renyu on 15/10/18.
  */
 public class SearchBrandModel {
 
-    String title="";
-    String imageUrl="";
+    private String brand_logo;
+    private int brand_id;
+    private String brand_name;
 
-    public String getTitle() {
-        return title;
+    private String cat_id;
+    private String cat_name;
+
+    public void setBrand_logo(String brand_logo) {
+        this.brand_logo = brand_logo;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setBrand_id(int brand_id) {
+        this.brand_id = brand_id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public void setBrand_name(String brand_name) {
+        this.brand_name = brand_name;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public String getBrand_logo() {
+        return brand_logo;
+    }
+
+    public int getBrand_id() {
+        return brand_id;
+    }
+
+    public String getBrand_name() {
+        return brand_name;
+    }
+
+    public String getCat_id() {
+        return cat_id;
+    }
+
+    public void setCat_id(String cat_id) {
+        this.cat_id = cat_id;
+    }
+
+    public String getCat_name() {
+        return cat_name;
+    }
+
+    public void setCat_name(String cat_name) {
+        this.cat_name = cat_name;
     }
 }

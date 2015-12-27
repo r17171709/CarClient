@@ -2,6 +2,7 @@ package com.renyu.carclient.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.GoodsListActivity;
+import com.renyu.carclient.commons.ParamUtils;
+import com.renyu.carclient.model.SearchBrandModel;
 
 import java.util.ArrayList;
 
@@ -23,9 +26,9 @@ import butterknife.ButterKnife;
 public class SearchBrandChildAdapter extends RecyclerView.Adapter<SearchBrandChildAdapter.SearchBrandChildViewHolder> {
 
     Context context=null;
-    ArrayList<String> models=null;
+    ArrayList<SearchBrandModel> models=null;
 
-    public SearchBrandChildAdapter(Context context, ArrayList<String> models) {
+    public SearchBrandChildAdapter(Context context, ArrayList<SearchBrandModel> models) {
         this.context=context;
         this.models=models;
     }
@@ -38,11 +41,15 @@ public class SearchBrandChildAdapter extends RecyclerView.Adapter<SearchBrandChi
 
     @Override
     public void onBindViewHolder(SearchBrandChildViewHolder holder, final int position) {
-        holder.searchbrandchild_text.setText(models.get(position));
+        holder.searchbrandchild_text.setText(models.get(position).getCat_name());
         holder.searchbrandchild_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, GoodsListActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("type", ParamUtils.BRAND);
+                bundle.putInt("brand_id", Integer.parseInt(models.get(position).getCat_id()));
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });
