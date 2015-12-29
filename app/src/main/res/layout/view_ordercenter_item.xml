@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="60dip">
     <LinearLayout
+        android:id="@+id/view_ordercenter_item_layout"
         android:orientation="vertical"
         android:layout_centerInParent="true"
         android:gravity="center"
@@ -27,10 +28,11 @@
         android:id="@+id/view_ordercenter_item_num"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:layout_marginTop="3dip"
+        android:layout_marginTop="-7dip"
         android:layout_marginRight="3dip"
         android:textSize="11sp"
         android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/view_ordercenter_item_layout"
         android:textColor="@android:color/holo_red_dark"
         android:gravity="center"
         android:text="0"

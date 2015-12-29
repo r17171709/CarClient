@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.renyu.carclient.commons.OKHttpHelper;
+
 import butterknife.ButterKnife;
 
 /**
@@ -17,6 +19,8 @@ public abstract class BaseFragment extends Fragment {
     View contentView=null;
 
     public abstract int initContentView();
+
+    public OKHttpHelper httpHelper=null;
 
     @Nullable
     @Override
@@ -29,6 +33,7 @@ public abstract class BaseFragment extends Fragment {
         if (parent!=null) {
             parent.removeView(contentView);
         }
+        httpHelper=new OKHttpHelper();
         return contentView;
     }
 }

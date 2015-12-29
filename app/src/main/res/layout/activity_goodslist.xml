@@ -86,17 +86,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/goods_list_swipy"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:direction="both">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/goods_list_rv"
+        android:layout_height="match_parent">
+        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/goods_list_swipy"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:direction="both">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/goods_list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
-    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+            </android.support.v7.widget.RecyclerView>
+        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+        <LinearLayout
+            android:id="@+id/goods_list_choice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

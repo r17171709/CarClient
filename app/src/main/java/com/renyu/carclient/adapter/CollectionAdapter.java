@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
-import com.renyu.carclient.commons.CollectionModel;
+import com.renyu.carclient.model.CollectionModel;
 
 import java.util.ArrayList;
 

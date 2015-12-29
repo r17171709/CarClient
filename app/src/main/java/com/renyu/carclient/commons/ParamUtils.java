@@ -1,6 +1,8 @@
 package com.renyu.carclient.commons;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -10,6 +12,7 @@ public class ParamUtils {
 
     public final static String DIR="carclient";
     public final static String IMAGECACHE=DIR+ File.separator+"cache";
+    public final static String DB=DIR+File.separator+"db";
     //微信分享ID
     public final static String WEIXIN_SHAREID="";
     //QQ分享ID manifest里面也要配置
@@ -32,5 +35,33 @@ public class ParamUtils {
         params.put("sign_type", "MD5");
         params.put("sign", getSign(method, token));
         return params;
+    }
+
+    public static String converNull(String value) {
+        return (value == null || value.equals("null") ? "" : value);
+    }
+
+    public static int converInt(String value) {
+        return (value == null || value.equals("null") ? 0 : Integer.parseInt(value));
+    }
+
+    public static long converLong(String value) {
+        return (value == null || value.equals("null") ? 0 : Long.parseLong(value));
+    }
+
+    public static String getFormatTime(long time) {
+        if (time==0) {
+            return "";
+        }
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(new Date(time));
+    }
+
+    public static String getFormatTime2(long time) {
+        if (time==0) {
+            return "";
+        }
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return format.format(new Date(time));
     }
 }

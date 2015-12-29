@@ -1,4 +1,4 @@
-package com.renyu.carclient.commons;
+package com.renyu.carclient.model;
 
 /**
  * Created by renyu on 15/12/12.

@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="85dip">
+    android:layout_height="90dip">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ImageView
-            android:id="@+id/ordercentertobepaid_child_image"
+            android:id="@+id/ordercenter_child_image"
             android:layout_width="93dip"
             android:layout_height="62dip"
             android:layout_centerVertical="true"
@@ -18,11 +18,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dip"
             android:layout_marginTop="3dip"
-            android:layout_toRightOf="@id/ordercentertobepaid_child_image"
+            android:layout_toRightOf="@id/ordercenter_child_image"
             android:layout_centerVertical="true"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/ordercentertobepaid_child_title"
+                android:id="@+id/ordercenter_child_title"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
                 android:text="123123123123123123123"
@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/ordercentertobepaid_child_sec_title"
+                android:id="@+id/ordercenter_child_sec_title"
                 android:singleLine="true"
                 android:textColor="#747474"
                 android:layout_marginTop="3dip"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/ordercentertobepaid_child_num"
+                android:id="@+id/ordercenter_child_num"
                 android:singleLine="true"
                 android:text="x1"
                 android:layout_marginTop="3dip"
@@ -55,11 +55,11 @@
             android:layout_marginRight="15dip"
             android:layout_alignParentRight="true">
             <RelativeLayout
-                android:id="@+id/ordercentertobepaid_child_normalprice_layout"
+                android:id="@+id/ordercenter_child_normalprice_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
                 <TextView
-                    android:id="@+id/ordercentertobepaid_child_normalprice"
+                    android:id="@+id/ordercenter_child_normalprice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -70,17 +70,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#949494"
-                    android:layout_toLeftOf="@id/ordercentertobepaid_child_normalprice"
+                    android:layout_toLeftOf="@id/ordercenter_child_normalprice"
                     android:layout_marginRight="3dip"
                     android:layout_marginTop="3dip"
                     android:text="指导价："/>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/ordercentertobepaid_child_finalprice_layout"
+                android:id="@+id/ordercenter_child_finalprice_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
                 <TextView
-                    android:id="@+id/ordercentertobepaid_child_finalprice"
+                    android:id="@+id/ordercenter_child_finalprice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -89,7 +89,7 @@
                     android:padding="3dip"
                     android:text="100"/>
                 <TextView
-                    android:layout_toLeftOf="@id/ordercentertobepaid_child_finalprice"
+                    android:layout_toLeftOf="@id/ordercenter_child_finalprice"
                     android:textColor="#949494"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -97,18 +97,30 @@
                     android:layout_marginTop="3dip"
                     android:text="成交价："/>
             </RelativeLayout>
-            <TextView
-                android:id="@+id/ordercentertobepaid_child_changeprice"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dip"
                 android:layout_gravity="right"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip"
-                android:paddingTop="3dip"
-                android:paddingBottom="3dip"
-                android:background="@drawable/rectangle_corner_lightgray"
-                android:text="申请退货"/>
+                android:layout_marginTop="3dip">
+                <TextView
+                    android:id="@+id/ordercenter_child_applyreturn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_corner_lightgray"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="3dip"
+                    android:paddingBottom="3dip"
+                    android:text="申请退货"/>
+                <CheckBox
+                    android:id="@+id/ordercenter_child_check"
+                    style="@style/OrderCheckBox"
+                    android:visibility="gone"
+                    android:background="@null"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
     <View

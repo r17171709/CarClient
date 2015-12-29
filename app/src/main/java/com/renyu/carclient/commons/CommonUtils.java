@@ -3,6 +3,9 @@ package com.renyu.carclient.commons;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -31,6 +34,9 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 
 /**
@@ -44,7 +50,15 @@ public class CommonUtils {
     public static void loadDir() {
         String imgCacheDir = Environment.getExternalStorageDirectory()+File.separator+ParamUtils.IMAGECACHE;
         File file = new File(imgCacheDir);
-        file.mkdirs();
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        String dbDir=Environment.getExternalStorageDirectory()+File.separator+ParamUtils.DB;
+        File file_db=new File(dbDir);
+        if (!file_db.exists()) {
+            file_db.mkdirs();
+        }
     }
 
     /**
@@ -269,5 +283,51 @@ public class CommonUtils {
         DisplayMetrics dm=new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(dm);
         return dm.widthPixels;
+    }
+
+    /**
+     * 通过assets复制文件
+     * @param oldName
+     * @param newPath
+     * @param context
+     */
+    public static void copyAssetsFile(String oldName, String newPath, Context context) {
+        if (new File(Environment.getExternalStorageDirectory()+File.separator+newPath+File.separator+oldName).exists()) {
+            return;
+        }
+        AssetManager manager=context.getAssets();
+        try {
+            int byteread=0;
+            InputStream inStream=manager.open(oldName);
+            FileOutputStream fs=new FileOutputStream(Environment.getExternalStorageDirectory()+File.separator+newPath+File.separator+oldName);
+            byte[] buffer=new byte[1444];
+            while ((byteread = inStream.read(buffer))!=-1) {
+                fs.write(buffer, 0, byteread);
+            }
+            inStream.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取城市名称
+     * @param id
+     * @return
+     */
+    public static String getCityInfo(String id) {
+        File file=new File(Environment.getExternalStorageDirectory().getPath()+File.separator+ParamUtils.DB+File.separator+"area.db");
+        SQLiteDatabase db=SQLiteDatabase.openOrCreateDatabase(file.getPath(), null);
+        Cursor cs=db.rawQuery("select * from area_code where area_code.id="+id, null);
+        cs.moveToFirst();
+        String parentId="";
+        for(int i=0;i<cs.getCount();i++) {
+            cs.moveToPosition(i);
+            parentId=cs.getString(1);
+        }
+        cs.close();
+        db.close();
+        return parentId;
     }
 }

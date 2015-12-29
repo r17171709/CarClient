@@ -33,7 +33,7 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
     ArrayList<CategoryModel> models=null;
     OnMenuChoiceListener listener=null;
 
-    int currentPosition=-1;
+    int firstCatId=-1;
 
     public interface OnMenuChoiceListener {
         void openClose(int position);
@@ -91,8 +91,8 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
                     Bundle bundle=new Bundle();
                     bundle.putString("type", ParamUtils.CAT);
                     bundle.putInt("cat_id", models.get(position).getCat_id());
-                    bundle.putInt("sec_id", models.get(position).getParent_id());
-                    bundle.putInt("fir_id", currentPosition);
+                    bundle.putInt("cat_sec_id", models.get(position).getParent_id());
+                    bundle.putInt("cat_fir_id", firstCatId);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
@@ -143,7 +143,7 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    public void setChoicePosition(int currentPosition) {
-        this.currentPosition=currentPosition;
+    public void setFirstChoiceCat(int firstCatId) {
+        this.firstCatId=firstCatId;
     }
 }

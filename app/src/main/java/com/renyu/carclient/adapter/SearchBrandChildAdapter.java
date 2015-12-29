@@ -28,6 +28,8 @@ public class SearchBrandChildAdapter extends RecyclerView.Adapter<SearchBrandChi
     Context context=null;
     ArrayList<SearchBrandModel> models=null;
 
+    int brand_id;
+
     public SearchBrandChildAdapter(Context context, ArrayList<SearchBrandModel> models) {
         this.context=context;
         this.models=models;
@@ -48,7 +50,8 @@ public class SearchBrandChildAdapter extends RecyclerView.Adapter<SearchBrandChi
                 Intent intent=new Intent(context, GoodsListActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("type", ParamUtils.BRAND);
-                bundle.putInt("brand_id", Integer.parseInt(models.get(position).getCat_id()));
+                bundle.putInt("cat_id", Integer.parseInt(models.get(position).getCat_id()));
+                bundle.putInt("brand_id", brand_id);
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
@@ -58,6 +61,10 @@ public class SearchBrandChildAdapter extends RecyclerView.Adapter<SearchBrandChi
     @Override
     public int getItemCount() {
         return models.size();
+    }
+
+    public void setParentId(int brand_id) {
+        this.brand_id=brand_id;
     }
 
     public static class SearchBrandChildViewHolder extends RecyclerView.ViewHolder {

@@ -26,6 +26,8 @@ import com.renyu.carclient.commons.OKHttpHelper;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.GoodsListModel;
 import com.renyu.carclient.model.JsonParse;
+import com.renyu.carclient.myview.SearchBrandView;
+import com.renyu.carclient.myview.SearchCatogoryView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +54,8 @@ public class GoodsListActivity extends BaseActivity {
     RecyclerView goods_list_rv;
     @Bind(R.id.goods_list_changetype)
     ImageView goods_list_changetype;
+    @Bind(R.id.goods_list_choice)
+    LinearLayout goods_list_choice;
 
     PopupWindow pop=null;
 
@@ -64,6 +68,9 @@ public class GoodsListActivity extends BaseActivity {
 
     int currentChoice=-1;
     int page_no=1;
+
+    String current_cat_id="";
+    String current_brand_id="";
 
     @Override
     public int initContentView() {
@@ -96,7 +103,12 @@ public class GoodsListActivity extends BaseActivity {
                 else if (direction==SwipyRefreshLayoutDirection.TOP) {
                     page_no=1;
                 }
-                getAllLists();
+                if (getIntent().getExtras().getString("type").equals(ParamUtils.CAT)) {
+                    getAllLists(current_cat_id, "");
+                }
+                else if (getIntent().getExtras().getString("type").equals(ParamUtils.BRAND)) {
+                    getAllLists(current_cat_id, current_brand_id);
+                }
             }
         });
         goods_list_rv.setHasFixedSize(true);
@@ -135,7 +147,51 @@ public class GoodsListActivity extends BaseActivity {
         pop.setTouchable(true);
         pop.setOutsideTouchable(true);
 
-        getAllLists();
+        if (getIntent().getExtras().getString("type").equals(ParamUtils.CAT)) {
+            SearchCatogoryView view= (SearchCatogoryView) LayoutInflater.from(this).inflate(R.layout.view_search_category, null, false);
+            view.setCatSecId(getIntent().getExtras().getInt("cat_sec_id"));
+            view.setCatFirId(getIntent().getExtras().getInt("cat_fir_id"));
+            view.setCatId(getIntent().getExtras().getInt("cat_id"));
+            view.setOnFinalChoiceListener(new SearchCatogoryView.OnFinalChoiceListener() {
+                @Override
+                public void onChoicePosition(String cat_id) {
+                    current_cat_id=cat_id;
+                    page_no=1;
+                    goods_list_choice.setVisibility(View.GONE);
+                    goods_list_swipy.setRefreshing(true);
+                    getAllLists(cat_id, "");
+                }
+            });
+            goods_list_choice.addView(view);
+        }
+        else {
+            SearchBrandView view=(SearchBrandView) LayoutInflater.from(this).inflate(R.layout.view_search_brand, null, false);
+            view.setCatId(getIntent().getExtras().getInt("cat_id"));
+            view.setBrandId(getIntent().getExtras().getInt("brand_id"));
+            view.setOnFinalChoiceListener(new SearchBrandView.OnFinalChoiceListener() {
+                @Override
+                public void onChoicePosition(String cat_id, String brand_id) {
+                    current_cat_id=cat_id;
+                    current_brand_id=brand_id;
+                    page_no=1;
+                    goods_list_choice.setVisibility(View.GONE);
+                    goods_list_swipy.setRefreshing(true);
+                    getAllLists(cat_id, brand_id);
+                }
+            });
+            goods_list_choice.addView(view);
+        }
+
+        if (getIntent().getExtras().getString("type").equals(ParamUtils.CAT)) {
+            current_cat_id=""+getIntent().getExtras().getInt("cat_id");
+            getAllLists(current_cat_id, "");
+        }
+        else if (getIntent().getExtras().getString("type").equals(ParamUtils.BRAND)) {
+            current_cat_id=""+getIntent().getExtras().getInt("cat_id");
+            current_brand_id=""+getIntent().getExtras().getInt("brand_id");
+            getAllLists(current_cat_id, current_brand_id);
+        }
+
     }
 
     @OnClick({R.id.goods_list_price, R.id.goods_list_sale, R.id.goods_list_screening, R.id.goods_list_changetype})
@@ -155,6 +211,12 @@ public class GoodsListActivity extends BaseActivity {
             case R.id.goods_list_sale:
                 break;
             case R.id.goods_list_screening:
+                if (goods_list_choice.getVisibility()==View.VISIBLE) {
+                    goods_list_choice.setVisibility(View.GONE);
+                }
+                else {
+                    goods_list_choice.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.goods_list_changetype:
                 if (pop.isShowing()) {
@@ -165,13 +227,14 @@ public class GoodsListActivity extends BaseActivity {
         }
     }
 
-    private void getAllLists() {
+    private void getAllLists(String cat_id, String brand_id) {
         HashMap<String, String> params= ParamUtils.getSignParams("app.user.item.list", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
         if (getIntent().getExtras().getString("type").equals(ParamUtils.CAT)) {
-            params.put("cat_id", ""+getIntent().getExtras().getInt("cat_id"));
+            params.put("cat_id", cat_id);
         }
         else if (getIntent().getExtras().getString("type").equals(ParamUtils.BRAND)) {
-            params.put("brand_id", ""+getIntent().getExtras().getInt("brand_id"));
+            params.put("brand_id", brand_id);
+            params.put("cat_id", cat_id);
         }
         params.put("page_size", "20");
         params.put("page_no", ""+page_no);

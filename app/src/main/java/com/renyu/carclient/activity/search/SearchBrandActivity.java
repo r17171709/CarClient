@@ -137,7 +137,7 @@ public class SearchBrandActivity extends BaseActivity {
         });
     }
 
-    private void getBrandList(int brand_id) {
+    private void getBrandList(final int brand_id) {
         models.clear();
         searchbrand_child.setAdapter(null);
         httpHelper.cancel(ParamUtils.api);
@@ -149,6 +149,7 @@ public class SearchBrandActivity extends BaseActivity {
             public void onSuccess(String string) {
                 ArrayList<SearchBrandModel> models= JsonParse.getSecondSearchBrandModel(string);
                 childAdapter=new SearchBrandChildAdapter(SearchBrandActivity.this, models);
+                childAdapter.setParentId(brand_id);
                 searchbrand_child.setAdapter(childAdapter);
             }
 

@@ -16,4 +16,8 @@
         <item name="colorAccent">#000000</item>
     </style>
 
+    <style name="OrderCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/drawable_order_checkbox</item>
+    </style>
+
 </resources>

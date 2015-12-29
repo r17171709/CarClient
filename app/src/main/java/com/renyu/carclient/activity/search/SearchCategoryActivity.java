@@ -89,7 +89,7 @@ public class SearchCategoryActivity extends BaseActivity {
                             childModels.add(models.get(i));
                             childModels.addAll(models.get(i).getLists());
                         }
-                        childAdapter.setChoicePosition(allModels.get(currentChoice).getCat_id());
+                        childAdapter.setFirstChoiceCat(allModels.get(currentChoice).getCat_id());
                         searchcategory_child_rv.setAdapter(childAdapter);
                     }
                     else {
@@ -161,7 +161,7 @@ public class SearchCategoryActivity extends BaseActivity {
                         childModels.add(models.get(i));
                         childModels.addAll(models.get(i).getLists());
                     }
-                    childAdapter.setChoicePosition(allModels.get(currentChoice).getCat_id());
+                    childAdapter.setFirstChoiceCat(allModels.get(currentChoice).getCat_id());
                     searchcategory_child_rv.setAdapter(childAdapter);
                     tempCategory.put(""+cat_id, models);
                 }
