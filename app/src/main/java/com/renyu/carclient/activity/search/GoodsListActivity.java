@@ -241,7 +241,6 @@ public class GoodsListActivity extends BaseActivity {
         httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
             @Override
             public void onSuccess(String string) {
-                Log.d("GoodsListActivity", string);
                 ArrayList<GoodsListModel> tempModels= JsonParse.getGoodsListModel(string);
                 if (tempModels!=null) {
                     if (page_no==1) {

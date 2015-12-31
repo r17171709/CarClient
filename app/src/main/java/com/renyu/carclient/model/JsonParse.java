@@ -199,12 +199,38 @@ public class JsonParse {
                     model.setTitle(object1.getString("title"));
                     model.setImage_default_id(object1.getString("image_default_id"));
                     model.setPrice(object1.getString("price"));
+                    model.setItem_id(object1.getInt("item_id"));
                     models.add(model);
                 }
                 return models;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        return null;
+    }
+
+    /**
+     * 商品详情
+     * @param string
+     * @return
+     */
+    public static GoodsListModel getGoodsDetailModel(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data1=result.getJSONObject("data");
+            GoodsListModel model=new GoodsListModel();
+            model.setParams(data1.getString("params"));
+            model.setList_image(data1.getString("list_image"));
+            model.setImage_default_id(data1.getString("image_default_id"));
+            model.setTitle(data1.getString("title"));
+            model.setBrand_id(data1.getInt("brand_id"));
+            model.setItem_id(data1.getInt("item_id"));
+            model.setStore(data1.getInt("store"));
+            return model;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -231,8 +257,16 @@ public class JsonParse {
                     model.setItemnum(object1.getInt("itemnum"));
                     model.setTotal_fee(object1.getString("total_fee"));
                     model.setUser_memo(object1.getString("user_memo"));
-                    model.setAutoreceive_parameter(object1.getString("autoreceive_parameter"));
-                    model.setNeedpaytime_parameter(object1.getString("needpaytime_parameter"));
+                    try {
+                        model.setAutoreceive_parameter(object1.getString("autoreceive_parameter"));
+                    } catch (Exception e) {
+                        model.setAutoreceive_parameter("");
+                    }
+                    try {
+                        model.setNeedpaytime_parameter(object1.getString("needpaytime_parameter"));
+                    } catch (Exception e) {
+                        model.setNeedpaytime_parameter("");
+                    }
                     model.setBuyer_area(object1.getString("buyer_area"));
                     model.setCreated_time(object1.getInt("created_time"));
                     model.setConsign_time(ParamUtils.converInt(object1.getString("consign_time")));

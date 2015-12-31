@@ -85,7 +85,7 @@ public class ProductDetailView extends ViewGroup {
         settings.setDatabaseEnabled(true);
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(false);
-        bottomview.loadUrl("http://www.baidu.com");
+//        bottomview.loadUrl("http://www.baidu.com");
         this.topProductListener=topview;
         this.bottomProductListener=bottomview;
     }
@@ -103,8 +103,8 @@ public class ProductDetailView extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        topview.layout(0, 0, getScreenWidth(context), getScreenHeight(context)- CommonUtils.dip2px(context, 53));
-        bottomview.layout(0, getScreenHeight(context)- CommonUtils.dip2px(context, 53), getScreenWidth(context), getScreenHeight(context)*2- CommonUtils.dip2px(context, 53));
+        topview.layout(0, 0, getScreenWidth(context), getScreenHeight(context)- CommonUtils.dip2px(context, 53)- CommonUtils.dip2px(context, 50));
+        bottomview.layout(0, getScreenHeight(context)- CommonUtils.dip2px(context, 53)- CommonUtils.dip2px(context, 50), getScreenWidth(context), getScreenHeight(context)*2- CommonUtils.dip2px(context, 53)*2- CommonUtils.dip2px(context, 50)*2);
     }
 
     /**
@@ -188,12 +188,12 @@ public class ProductDetailView extends ViewGroup {
                 break;
             case MotionEvent.ACTION_UP:
                 if (currentPage==1) {
-                    scroller.startScroll(0, (startY-(int) event.getY()), 0, getScreenHeight(context)- CommonUtils.dip2px(context, 53)-(startY-(int) event.getY()), 1000);
+                    scroller.startScroll(0, (startY-(int) event.getY()), 0, getScreenHeight(context)- CommonUtils.dip2px(context, 53)- CommonUtils.dip2px(context, 50)-(startY-(int) event.getY()), 1000);
                     currentPage=2;
                     postInvalidate();
                 }
                 else if (currentPage==2) {
-                    scroller.startScroll(0, getScreenHeight(context)- CommonUtils.dip2px(context, 53)-((int) event.getY()-startY), 0, -(getScreenHeight(context)- CommonUtils.dip2px(context, 53)-((int) event.getY()-startY)), 1000);
+                    scroller.startScroll(0, getScreenHeight(context)- CommonUtils.dip2px(context, 53)- CommonUtils.dip2px(context, 50)-((int) event.getY()-startY), 0, -(getScreenHeight(context)- CommonUtils.dip2px(context, 53)- CommonUtils.dip2px(context, 50)-((int) event.getY()-startY)), 1000);
                     currentPage=1;
                     postInvalidate();
                 }
@@ -209,5 +209,9 @@ public class ProductDetailView extends ViewGroup {
             scrollTo(0, scroller.getCurrY());
         }
         postInvalidate();
+    }
+
+    public void setUrl(String url) {
+        bottomview.loadUrl(url);
     }
 }

@@ -31,4 +31,6 @@
 
     <item name="topview" type="id"></item>
     <item name="bottomview" type="id"></item>
+    <item name="goodsdetailview" type="id"></item>
+
 </resources>

@@ -165,6 +165,16 @@ public class OrderAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
+            TextView ordercenter_child_state= (TextView) view.findViewById(R.id.ordercenter_child_state);
+            if (models.get(position).getOrder().get(i).getAftersales_status().equals("WAIT_SELLER_AGREE")) {
+                ordercenter_child_state.setText("退货中");
+            }
+            else if (models.get(position).getOrder().get(i).getAftersales_status().equals("WAIT_BUYER_RETURN_GOODS")) {
+                ordercenter_child_state.setText("已退货");
+            }
+            else if (models.get(position).getOrder().get(i).getAftersales_status().equals("SELLER_REFUSE_BUYER")) {
+                ordercenter_child_state.setText("已驳回");
+            }
             ImageView ordercenter_child_image= (ImageView) view.findViewById(R.id.ordercenter_child_image);
             ImageLoader.getInstance().displayImage(models.get(position).getOrder().get(i).getPic_path(), ordercenter_child_image, getGoodsImageOptions());
             TextView ordercenter_child_title= (TextView) view.findViewById(R.id.ordercenter_child_title);

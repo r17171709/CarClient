@@ -2,6 +2,7 @@ package com.renyu.carclient.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,12 +43,15 @@ public class GoodsListGridAdapter extends RecyclerView.Adapter<GoodsListGridAdap
     }
 
     @Override
-    public void onBindViewHolder(GoodsDetailGridViewHolder holder, int position) {
+    public void onBindViewHolder(GoodsDetailGridViewHolder holder, final int position) {
         holder.adapter_goodslist_grid_title.setText(models.get(position).getTitle());
         holder.adapter_goodslist_grid_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, GoodsDetailActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("item_id", ""+models.get(position).getItem_id());
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });
