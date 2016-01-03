@@ -1,9 +1,11 @@
 package com.renyu.carclient.model;
 
+import java.io.Serializable;
+
 /**
  * Created by renyu on 15/12/26.
  */
-public class GoodsListModel {
+public class GoodsListModel implements Serializable {
 
     /**
      * violation : 0
@@ -98,6 +100,8 @@ public class GoodsListModel {
     private int is_timing;
     private int has_discount;
     private String params;
+    private int quantity;
+    private boolean isChecked;
 
     public String getParams() {
         return params;
@@ -457,5 +461,21 @@ public class GoodsListModel {
 
     public int getHas_discount() {
         return has_discount;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

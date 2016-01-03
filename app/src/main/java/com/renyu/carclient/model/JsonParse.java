@@ -300,4 +300,70 @@ public class JsonParse {
         }
         return null;
     }
+
+    /**
+     * 收藏列表
+     * @param string
+     * @return
+     */
+    public static ArrayList<CollectionModel> getCollectionModels(String string) {
+        if (getResultInt(string)==0) {
+            try {
+                JSONObject object=new JSONObject(string);
+                JSONObject result=object.getJSONObject("result");
+                JSONObject data1=result.getJSONObject("data");
+                JSONArray data2=data1.getJSONArray("data");
+                ArrayList<CollectionModel> models=new ArrayList<>();
+                for (int i=0;i<data2.length();i++) {
+                    JSONObject object1=data2.getJSONObject(i);
+                    CollectionModel model=new CollectionModel();
+                    model.setGoods_name(object1.getString("goods_name"));
+                    model.setCat_id(object1.getInt("cat_id"));
+                    model.setItem_id(object1.getInt("item_id"));
+                    model.setUser_id(object1.getInt("user_id"));
+                    model.setImage_default_id(object1.getString("image_default_id"));
+                    model.setGnotify_id(object1.getInt("gnotify_id"));
+                    model.setGoods_price(object1.getString("goods_price"));
+                    models.add(model);
+                }
+                return models;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 获取购物车列表
+     * @param string
+     * @return
+     */
+    public static ArrayList<ProductModel> getCartList(String string) {
+        if (getResultInt(string)==0) {
+            try {
+                JSONObject object=new JSONObject(string);
+                JSONObject result=object.getJSONObject("result");
+                JSONObject data1=result.getJSONObject("data");
+                JSONArray data2=data1.getJSONArray("data");
+                ArrayList<ProductModel> models=new ArrayList<>();
+                for (int i=0;i<data2.length();i++) {
+                    JSONObject object1=data2.getJSONObject(i);
+                    ProductModel model=new ProductModel();
+                    model.setCart_id(object1.getInt("cart_id"));
+                    model.setImage_default_id(object1.getString("image_default_id"));
+                    model.setTitle(object1.getString("title"));
+                    model.setItem_id(object1.getInt("item_id"));
+                    model.setPrice(object1.getString("price"));
+                    model.setQuantity(object1.getInt("quantity"));
+                    model.setSku_id(object1.getInt("sku_id"));
+                    models.add(model);
+                }
+                return models;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 }

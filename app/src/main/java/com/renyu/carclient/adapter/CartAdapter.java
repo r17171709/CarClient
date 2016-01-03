@@ -7,11 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
 import com.renyu.carclient.model.ProductModel;
+import com.renyu.carclient.myview.PriceView;
 
 import java.util.ArrayList;
 
@@ -26,6 +32,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
     Context context=null;
     ArrayList<ProductModel> models=null;
     OnCheckChangedListener listener=null;
+
+    boolean onBind=true;
 
     public interface OnCheckChangedListener {
         void OnCheckChanged(int position, boolean flag);
@@ -45,6 +53,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
 
     @Override
     public void onBindViewHolder(final CartHolder holder, final int position) {
+        onBind=true;
         holder.cart_checkbox.setChecked(models.get(position).isChecked());
         if (models.get(position).isEdit()) {
             holder.cart_productnum_layout.setVisibility(View.VISIBLE);
@@ -70,6 +79,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
                 listener.OnCheckChanged(position, !models.get(position).isChecked());
             }
         });
+        ImageLoader.getInstance().displayImage(models.get(position).getImage_default_id(), holder.cart_image, getAvatarDisplayImageOptions());
+        holder.cart_title.setText(models.get(position).getTitle());
+        holder.cart_num.setText("x"+models.get(position).getQuantity());
+        holder.price_layout.setCurrentNum(models.get(position).getQuantity());
+        holder.price_layout.setOnTextChangeListener(new PriceView.TextChangeListener() {
+            @Override
+            public void onTextChange(int num) {
+                if (onBind) {
+                    return;
+                }
+                models.get(position).setQuantity(num);
+                notifyDataSetChanged();
+            }
+        });
+        holder.cart_normalprice.setText(models.get(position).getPrice());
+        onBind=false;
     }
 
     @Override
@@ -87,10 +112,31 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         LinearLayout cart_price_layout;
         @Bind(R.id.cart_goods_layout)
         LinearLayout cart_goods_layout;
+        @Bind(R.id.cart_image)
+        ImageView cart_image;
+        @Bind(R.id.cart_title)
+        TextView cart_title;
+        @Bind(R.id.cart_num)
+        TextView cart_num;
+        @Bind(R.id.price_layout)
+        PriceView price_layout;
+        @Bind(R.id.cart_normalprice)
+        TextView cart_normalprice;
 
         public CartHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public DisplayImageOptions getAvatarDisplayImageOptions() {
+        return new DisplayImageOptions.Builder()
+                .showImageOnFail(R.mipmap.ic_launcher)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.mipmap.ic_launcher)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
     }
 }

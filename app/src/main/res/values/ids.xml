@@ -33,4 +33,9 @@
     <item name="bottomview" type="id"></item>
     <item name="goodsdetailview" type="id"></item>
 
+    <item name="price_add" type="id"></item>
+    <item name="price_input" type="id"></item>
+    <item name="price_min" type="id"></item>
+    <item name="price_layout" type="id"></item>
+
 </resources>

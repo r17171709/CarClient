@@ -80,43 +80,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:id="@+id/goodsdetail_productnum_delete"
-                                    android:layout_width="40dip"
-                                    android:layout_height="40dip"
-                                    android:gravity="center"
-                                    android:textSize="20sp"
-                                    android:textColor="@android:color/black"
-                                    android:background="@drawable/drawable_square"
-                                    android:text="-"/>
-                                <EditText
-                                    android:id="@+id/goodsdetail_productnum"
-                                    android:layout_width="50dip"
-                                    android:layout_height="40dip"
-                                    android:gravity="center"
-                                    android:textSize="20sp"
-                                    android:inputType="number"
-                                    android:textColor="#232829"
-                                    android:maxLength="1"
-                                    android:singleLine="true"
-                                    android:background="@drawable/drawable_square"
-                                    android:layout_marginLeft="-2dip"
-                                    android:text="1"/>
-                                <TextView
-                                    android:id="@+id/goodsdetail_productnum_add"
-                                    android:layout_width="40dip"
-                                    android:layout_height="40dip"
-                                    android:gravity="center"
-                                    android:textSize="20sp"
-                                    android:background="@drawable/drawable_square"
-                                    android:textColor="@android:color/black"
-                                    android:layout_marginLeft="-2dip"
-                                    android:text="+"/>
-                            </LinearLayout>
+                            <include layout="@layout/view_price"></include>
                             <TextView
                                 android:id="@+id/goodsdetil_store"
                                 android:text="1231jhjhj231231jhjhj23"

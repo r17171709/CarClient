@@ -247,4 +247,8 @@ public class OrderCenterDetailActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void aftersalesApply() {
+
+    }
 }

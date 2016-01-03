@@ -1,5 +1,6 @@
 package com.renyu.carclient.activity.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +11,14 @@ import android.widget.TextView;
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.CartAdapter;
 import com.renyu.carclient.base.BaseActivity;
+import com.renyu.carclient.commons.OKHttpHelper;
+import com.renyu.carclient.commons.ParamUtils;
+import com.renyu.carclient.model.GoodsListModel;
+import com.renyu.carclient.model.JsonParse;
 import com.renyu.carclient.model.ProductModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnCheckedChanged;
@@ -45,16 +51,6 @@ public class CartActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         models=new ArrayList<>();
-        models.add(new ProductModel());
-        models.add(new ProductModel());
-        models.add(new ProductModel());
-        models.add(new ProductModel());
-        models.add(new ProductModel());
-        models.add(new ProductModel());
-        models.add(new ProductModel());
-        models.add(new ProductModel());
-        models.add(new ProductModel());
-        models.add(new ProductModel());
 
         initViews();
     }
@@ -87,9 +83,11 @@ public class CartActivity extends BaseActivity {
             }
         });
         cart_content_rv.setAdapter(adapter);
+
+        cartList();
     }
 
-    @OnClick({R.id.view_toolbar_center_text_next, R.id.view_toolbar_center_image})
+    @OnClick({R.id.view_toolbar_center_text_next, R.id.view_toolbar_center_image, R.id.cart_cal})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.view_toolbar_center_text_next:
@@ -99,6 +97,26 @@ public class CartActivity extends BaseActivity {
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.view_toolbar_center_image:
+                break;
+            case R.id.cart_cal:
+                ArrayList<GoodsListModel> listModels=new ArrayList<>();
+                for (int i=0;i<models.size();i++) {
+                    GoodsListModel model=new GoodsListModel();
+                    model.setQuantity(models.get(i).getQuantity());
+                    model.setImage_default_id(models.get(i).getImage_default_id());
+                    model.setTitle(models.get(i).getTitle());
+                    model.setPrice(models.get(i).getPrice());
+                    model.setCat_id(models.get(i).getCart_id());
+                    model.setItem_id(models.get(i).getItem_id());
+                    model.setChecked(models.get(i).isChecked());
+                    listModels.add(model);
+                }
+                Intent intent=new Intent(CartActivity.this, PayOrderActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("payorder", listModels);
+                bundle.putBoolean("isCart", true);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }
@@ -113,5 +131,25 @@ public class CartActivity extends BaseActivity {
             models.get(i).setChecked(flag);
         }
         adapter.notifyDataSetChanged();
+    }
+
+    private void cartList() {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.cart", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", "57");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                ArrayList<ProductModel> temp=JsonParse.getCartList(string);
+                if (temp!=null) {
+                    models.addAll(temp);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 }

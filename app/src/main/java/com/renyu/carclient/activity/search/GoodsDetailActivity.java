@@ -30,6 +30,7 @@ import com.renyu.carclient.commons.OKHttpHelper;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.GoodsListModel;
 import com.renyu.carclient.model.JsonParse;
+import com.renyu.carclient.myview.PriceView;
 import com.renyu.carclient.myview.ProductDetailView;
 
 import org.json.JSONException;
@@ -61,10 +62,8 @@ public class GoodsDetailActivity extends BaseActivity {
     TextView goodsdetil_title;
     @Bind(R.id.goodsdetil_store)
     TextView goodsdetil_store;
-    @Bind(R.id.goodsdetail_productnum_delete)
-    TextView goodsdetail_productnum_delete;
-    @Bind(R.id.goodsdetail_productnum_add)
-    TextView goodsdetail_productnum_add;
+    @Bind(R.id.price_layout)
+    PriceView price_layout;
 
     ArrayList<ImageView> imageViews=null;
     ArrayList<String> urls=null;
@@ -156,9 +155,17 @@ public class GoodsDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.goodsdetail_addcart:
+                addCart();
                 break;
             case R.id.goodsdetail_paynow:
+                ArrayList<GoodsListModel> listModels=new ArrayList<>();
+                model.setQuantity(price_layout.getPriceNum());
+                listModels.add(model);
                 Intent intent=new Intent(GoodsDetailActivity.this, PayOrderActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("payorder", listModels);
+                bundle.putBoolean("isCart", false);
+                intent.putExtras(bundle);
                 startActivity(intent);
                 break;
             case R.id.goodsdetail_service:
@@ -353,10 +360,35 @@ public class GoodsDetailActivity extends BaseActivity {
                 goodsdetil_vp.setCycle(true);
                 goodsdetil_vp.startAutoScroll();
 
+                price_layout.setMaxNum(model.getStore());
+
                 goodsdetil_title.setText(model.getTitle());
                 goodsdetil_store.setText("库存："+model.getStore());
 
                 goodsdetailview.setUrl("http://www.baidu.com");
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
+    private void addCart() {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.check.add", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("quantity", ""+price_layout.getPriceNum());
+        params.put("item_id", ""+model.getItem_id());
+        params.put("user_id", "57");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                if (JsonParse.getResultValue(string)!=null) {
+                    showToast(JsonParse.getResultValue(string));
+                }
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
