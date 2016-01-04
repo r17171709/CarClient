@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.SearchViewAdapter;
+import com.renyu.carclient.adapter.SearchViewTwoAdapter;
 import com.renyu.carclient.commons.OKHttpHelper;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.CategoryModel;
@@ -27,15 +28,11 @@ public class SearchCatogoryView extends LinearLayout {
 
     ArrayList<CategoryModel> firstModels=null;
     ArrayList<CategoryModel> secondModels=null;
-    ArrayList<CategoryModel> thirdModels=null;
-    HashMap<String, ArrayList<CategoryModel>> childModels=null;
 
     RecyclerView goods_catogory_grandparent;
     SearchViewAdapter goods_catogory_adapter_grandparent;
     RecyclerView goods_catogory_parent;
-    SearchViewAdapter goods_catogory_adapter_parent;
-    RecyclerView goods_catogory_child;
-    SearchViewAdapter goods_catogory_adapter_child;
+    SearchViewTwoAdapter goods_catogory_adapter_parent;
 
     OnFinalChoiceListener listener;
 
@@ -83,8 +80,6 @@ public class SearchCatogoryView extends LinearLayout {
 
         firstModels=new ArrayList<>();
         secondModels=new ArrayList<>();
-        thirdModels=new ArrayList<>();
-        childModels=new HashMap<>();
 
         setOrientation(HORIZONTAL);
     }
@@ -107,26 +102,26 @@ public class SearchCatogoryView extends LinearLayout {
         goods_catogory_parent= (RecyclerView) findViewById(R.id.goods_catogory_parent);
         goods_catogory_parent.setHasFixedSize(true);
         goods_catogory_parent.setLayoutManager(new LinearLayoutManager(context));
-        goods_catogory_adapter_parent=new SearchViewAdapter(context, secondModels, new SearchViewAdapter.OnItemClickListener() {
+        goods_catogory_adapter_parent=new SearchViewTwoAdapter(context, secondModels, new SearchViewTwoAdapter.OnMenuChoiceListener() {
+            @Override
+            public void openClose(int position) {
+                boolean flag=secondModels.get(position).isOpen();
+                int parentId=secondModels.get(position).getCat_id();
+                for (int i=0;i<secondModels.size();i++) {
+                    if (secondModels.get(i).getParent_id()==parentId) {
+                        secondModels.get(i).setOpen(!flag);
+                    }
+                }
+                secondModels.get(position).setOpen(!flag);
+                goods_catogory_adapter_parent.notifyDataSetChanged();
+            }
+        }, new SearchViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                thirdModels.clear();
-                thirdModels.addAll(childModels.get(""+secondModels.get(position).getCat_id()));
-                goods_catogory_child.setAdapter(goods_catogory_adapter_child);
+                listener.onChoicePosition(""+secondModels.get(position).getCat_id());
             }
         });
         goods_catogory_parent.setAdapter(goods_catogory_adapter_parent);
-
-        goods_catogory_child= (RecyclerView) findViewById(R.id.goods_catogory_child);
-        goods_catogory_child.setHasFixedSize(true);
-        goods_catogory_child.setLayoutManager(new LinearLayoutManager(context));
-        goods_catogory_adapter_child=new SearchViewAdapter(context, thirdModels, new SearchViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                listener.onChoicePosition(""+thirdModels.get(position).getCat_id());
-            }
-        });
-        goods_catogory_child.setAdapter(goods_catogory_adapter_child);
 
         category();
     }
@@ -141,9 +136,8 @@ public class SearchCatogoryView extends LinearLayout {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        goods_catogory_grandparent.layout(0, 0, width/3, height);
-        goods_catogory_parent.layout(width/3, 0, width*2/3, height);
-        goods_catogory_child.layout(width*2/3, 0, width, height);
+        goods_catogory_grandparent.layout(0, 0, width/2, height);
+        goods_catogory_parent.layout(width/2, 0, width, height);
     }
 
     private void category() {
@@ -172,23 +166,16 @@ public class SearchCatogoryView extends LinearLayout {
             @Override
             public void onSuccess(String string) {
                 secondModels.clear();
-                thirdModels.clear();
                 ArrayList<CategoryModel> models=JsonParse.getSecondCategoryListModel(string);
                 if (models!=null) {
-                    childModels.clear();
                     for (int i=0;i<models.size();i++) {
-                        childModels.put(""+models.get(i).getCat_id(), models.get(i).getLists());
                         secondModels.add(models.get(i));
-                        if (i==0) {
-                            thirdModels.addAll(models.get(i).getLists());
-                        }
+                        secondModels.addAll(models.get(i).getLists());
                     }
                     goods_catogory_parent.setAdapter(goods_catogory_adapter_parent);
-                    goods_catogory_child.setAdapter(goods_catogory_adapter_child);
                 }
                 else {
                     goods_catogory_adapter_parent.notifyDataSetChanged();
-                    goods_catogory_adapter_child.notifyDataSetChanged();
                 }
             }
 
