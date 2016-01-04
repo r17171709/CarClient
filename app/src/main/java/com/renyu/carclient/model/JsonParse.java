@@ -228,6 +228,8 @@ public class JsonParse {
             model.setBrand_id(data1.getInt("brand_id"));
             model.setItem_id(data1.getInt("item_id"));
             model.setStore(data1.getInt("store"));
+            model.setPrice(data1.getString("price"));
+            model.setReal_price(data1.getString("real_price"));
             return model;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -357,12 +359,68 @@ public class JsonParse {
                     model.setPrice(object1.getString("price"));
                     model.setQuantity(object1.getInt("quantity"));
                     model.setSku_id(object1.getInt("sku_id"));
+                    model.setReal_price(object1.getString("real_price"));
                     models.add(model);
                 }
                 return models;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        return null;
+    }
+
+    /**
+     * 获取登录信息
+     * @param string
+     * @return
+     */
+    public static UserModel getLoginModel(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data=result.getJSONObject("data");
+            UserModel model=new UserModel();
+            model.setInit_amount(data.getInt("init_amount"));
+            model.setAmount(data.getInt("amount"));
+            model.setUser_id(data.getInt("user_id"));
+            model.setRepairdepot_name(data.getString("repairdepot_name"));
+            return model;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取收货地址
+     * @param string
+     * @return
+     */
+    public static ArrayList<AddressModel> getAddressModels(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data1=result.getJSONObject("data");
+            JSONArray data2=data1.getJSONArray("data");
+            ArrayList<AddressModel> models=new ArrayList<>();
+            for (int i=0;i<data2.length();i++) {
+                JSONObject object1=data2.getJSONObject(i);
+                AddressModel model=new AddressModel();
+                model.setAddr(object1.getString("addr"));
+                model.setAddr_id(object1.getInt("addr_id"));
+                model.setArea(object1.getString("area"));
+                model.setDef_addr(object1.getInt("def_addr"));
+                model.setMobile(object1.getString("mobile"));
+                model.setName(object1.getString("name"));
+                model.setTel(ParamUtils.converNull(object1.getString("tel")));
+                model.setUser_id(object1.getInt("user_id"));
+                model.setZip(object1.getString("zip"));
+                models.add(model);
+            }
+            return models;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return null;
     }

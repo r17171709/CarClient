@@ -11,11 +11,13 @@ import android.widget.TextView;
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.CartAdapter;
 import com.renyu.carclient.base.BaseActivity;
+import com.renyu.carclient.commons.ACache;
 import com.renyu.carclient.commons.OKHttpHelper;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.GoodsListModel;
 import com.renyu.carclient.model.JsonParse;
 import com.renyu.carclient.model.ProductModel;
+import com.renyu.carclient.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +43,8 @@ public class CartActivity extends BaseActivity {
 
     boolean isPermitChecked=false;
 
+    UserModel userModel=null;
+
     @Override
     public int initContentView() {
         return R.layout.activity_cart;
@@ -49,6 +53,8 @@ public class CartActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
 
         models=new ArrayList<>();
 
@@ -83,8 +89,6 @@ public class CartActivity extends BaseActivity {
             }
         });
         cart_content_rv.setAdapter(adapter);
-
-        cartList();
     }
 
     @OnClick({R.id.view_toolbar_center_text_next, R.id.view_toolbar_center_image, R.id.cart_cal})
@@ -99,6 +103,16 @@ public class CartActivity extends BaseActivity {
             case R.id.view_toolbar_center_image:
                 break;
             case R.id.cart_cal:
+                int num=0;
+                for (int i=0;i<models.size();i++) {
+                    if (models.get(i).isChecked()) {
+                        num++;
+                    }
+                }
+                if (num==0) {
+                    showToast("请至少选择一个商品");
+                    return;
+                }
                 ArrayList<GoodsListModel> listModels=new ArrayList<>();
                 for (int i=0;i<models.size();i++) {
                     GoodsListModel model=new GoodsListModel();
@@ -109,6 +123,7 @@ public class CartActivity extends BaseActivity {
                     model.setCat_id(models.get(i).getCart_id());
                     model.setItem_id(models.get(i).getItem_id());
                     model.setChecked(models.get(i).isChecked());
+                    model.setReal_price(models.get(i).getReal_price());
                     listModels.add(model);
                 }
                 Intent intent=new Intent(CartActivity.this, PayOrderActivity.class);
@@ -135,10 +150,11 @@ public class CartActivity extends BaseActivity {
 
     private void cartList() {
         HashMap<String, String> params= ParamUtils.getSignParams("app.user.cart", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
-        params.put("user_id", "57");
+        params.put("user_id", ""+userModel.getUser_id());
         httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
             @Override
             public void onSuccess(String string) {
+                models.clear();
                 ArrayList<ProductModel> temp=JsonParse.getCartList(string);
                 if (temp!=null) {
                     models.addAll(temp);
@@ -151,5 +167,12 @@ public class CartActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        cartList();
     }
 }

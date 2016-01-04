@@ -25,6 +25,7 @@ public class ProductModel {
     private String price;
     private int cart_id;
     private int item_id;
+    private String real_price;
 
     public void setSku_id(int sku_id) {
         this.sku_id = sku_id;
@@ -96,5 +97,13 @@ public class ProductModel {
 
     public void setEdit(boolean edit) {
         isEdit = edit;
+    }
+
+    public String getReal_price() {
+        return real_price;
+    }
+
+    public void setReal_price(String real_price) {
+        this.real_price = real_price;
     }
 }

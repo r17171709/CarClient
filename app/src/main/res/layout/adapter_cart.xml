@@ -48,6 +48,7 @@
                     android:text="100"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/cart_finalprice_layout"
                 android:orientation="horizontal"
                 android:gravity="right"
                 android:layout_width="wrap_content"

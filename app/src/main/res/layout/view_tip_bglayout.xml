@@ -3,19 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:id="@+id/tip_bglayout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="服务说明"/>
+        android:text="适配车型"/>
     <LinearLayout
-        android:id="@+id/goodsdetail_service_layout"
+        android:id="@+id/tip_bglayout_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
     </LinearLayout>
     <TextView
-        android:id="@+id/goodsdetail_service_close"
+        android:id="@+id/tip_bglayout_close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

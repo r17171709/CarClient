@@ -1,5 +1,6 @@
 package com.renyu.carclient.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,12 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.login.LoginActivity;
 import com.renyu.carclient.base.BaseActivity;
+import com.renyu.carclient.commons.ACache;
+import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.fragment.CollectionFragment;
 import com.renyu.carclient.fragment.IndexFragment;
 import com.renyu.carclient.fragment.MyFragment;
 import com.renyu.carclient.fragment.OrderFragment;
 import com.renyu.carclient.fragment.SearchFragment;
+import com.renyu.carclient.model.UserModel;
 
 import java.util.List;
 
@@ -63,6 +68,8 @@ public class MainActivity extends BaseActivity {
     //当前选中的fragment副本
     Fragment currentFragment=null;
 
+    UserModel userModel=null;
+
     @Override
     public int initContentView() {
         return R.layout.activity_main;
@@ -72,6 +79,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+
+        userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
 
         initViews(savedInstanceState);
 
@@ -174,13 +183,31 @@ public class MainActivity extends BaseActivity {
                 switchFragment("two");
                 break;
             case R.id.main_collection:
-                switchFragment("three");
+                if (userModel==null) {
+                    Intent intent=new Intent(MainActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, ParamUtils.RESULT_LOGIN);
+                }
+                else {
+                    switchFragment("three");
+                }
                 break;
             case R.id.main_order:
-                switchFragment("four");
+                if (userModel==null) {
+                    Intent intent=new Intent(MainActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, ParamUtils.RESULT_LOGIN);
+                }
+                else {
+                    switchFragment("four");
+                }
                 break;
             case R.id.main_my:
-                switchFragment("five");
+                if (userModel==null) {
+                    Intent intent=new Intent(MainActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, ParamUtils.RESULT_LOGIN);
+                }
+                else {
+                    switchFragment("five");
+                }
                 break;
         }
     }
@@ -202,6 +229,16 @@ public class MainActivity extends BaseActivity {
         }
         else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_OK) {
+            if (requestCode==ParamUtils.RESULT_LOGIN) {
+                userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
+            }
         }
     }
 }

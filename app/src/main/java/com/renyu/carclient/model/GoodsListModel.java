@@ -78,6 +78,7 @@ public class GoodsListModel implements Serializable {
     private String match_id;
     private String shop_cat_id;
     private String price;
+    private String real_price;
     private String barcode;
     private String approve_status;
     private int rate_count;
@@ -477,5 +478,13 @@ public class GoodsListModel implements Serializable {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public String getReal_price() {
+        return real_price;
+    }
+
+    public void setReal_price(String real_price) {
+        this.real_price = real_price;
     }
 }

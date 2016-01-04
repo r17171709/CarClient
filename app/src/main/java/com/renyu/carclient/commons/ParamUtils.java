@@ -19,8 +19,12 @@ public class ParamUtils {
     public final static String QQ_SHAREID="";
 
     public final static String api="http://120.26.139.82/b2b2c/public/index.php/api";
+
     public final static String CAT="cat_type";
     public final static String BRAND="brand_type";
+
+    public final static int RESULT_LOGIN=1000;
+    public final static int RESULT_ADDRESS=1001;
 
     private static String getSign(String method, String token) {
         return CommonUtils.MD5(CommonUtils.MD5(method).toUpperCase() + token).toUpperCase();

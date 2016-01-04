@@ -94,6 +94,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
             }
         });
         holder.cart_normalprice.setText(models.get(position).getPrice());
+        if (models.get(position).getReal_price().equals("-1")) {
+            holder.cart_finalprice_layout.setVisibility(View.GONE);
+        }
+        else {
+            holder.cart_finalprice_layout.setVisibility(View.VISIBLE);
+            holder.cart_finalprice.setText(models.get(position).getReal_price());
+        }
         onBind=false;
     }
 
@@ -122,6 +129,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         PriceView price_layout;
         @Bind(R.id.cart_normalprice)
         TextView cart_normalprice;
+        @Bind(R.id.cart_finalprice)
+        TextView cart_finalprice;
+        @Bind(R.id.cart_finalprice_layout)
+        LinearLayout cart_finalprice_layout;
 
         public CartHolder(View itemView) {
             super(itemView);

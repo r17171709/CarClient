@@ -51,6 +51,7 @@
         <activity android:name=".activity.my.MyAddressAddActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.my.MyStatementActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.my.MyFeedBackActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.my.AddressActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="com.zbar.lib.CaptureActivity" android:screenOrientation="portrait"></activity>
 
         <!--微信分享相关-->
