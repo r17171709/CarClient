@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.MyAddressAdapter;
@@ -23,10 +24,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * Created by renyu on 15/12/14.
+ * Created by renyu on 16/1/5.
  */
-public class MyAddressActivity extends BaseActivity {
+public class MyAddressChoiceActivity extends BaseActivity {
 
+    @Bind(R.id.my_address_add)
+    TextView my_address_add;
     @Bind(R.id.my_address_rv)
     RecyclerView my_address_rv;
     MyAddressAdapter adapter=null;
@@ -34,6 +37,8 @@ public class MyAddressActivity extends BaseActivity {
     ArrayList<AddressModel> models;
 
     UserModel userModel=null;
+
+    int addr_id=-1;
 
     @Override
     public int initContentView() {
@@ -45,6 +50,7 @@ public class MyAddressActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
+        addr_id=getIntent().getExtras().getInt("addr_id");
 
         models=new ArrayList<>();
 
@@ -57,21 +63,23 @@ public class MyAddressActivity extends BaseActivity {
         adapter=new MyAddressAdapter(this, models, new MyAddressAdapter.OnItemClickListener() {
             @Override
             public void itemClick(int position) {
-                Intent intent=new Intent(MyAddressActivity.this, MyAddressAddActivity.class);
+                Intent intent=new Intent();
                 Bundle bundle=new Bundle();
-                bundle.putSerializable("address", models.get(position));
+                bundle.putSerializable("addr_id", models.get(position));
                 intent.putExtras(bundle);
-                startActivity(intent);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
         my_address_rv.setAdapter(adapter);
+        my_address_add.setText("管理我的收货地址");
     }
 
     @OnClick({R.id.my_address_add})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.my_address_add:
-                Intent intent=new Intent(MyAddressActivity.this, MyAddressAddActivity.class);
+                Intent intent=new Intent(MyAddressChoiceActivity.this, MyAddressActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -103,5 +111,17 @@ public class MyAddressActivity extends BaseActivity {
         super.onResume();
 
         getAddressList();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent=new Intent();
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("addr_id", null);
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

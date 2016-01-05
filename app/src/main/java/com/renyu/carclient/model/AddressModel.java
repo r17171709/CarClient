@@ -1,9 +1,11 @@
 package com.renyu.carclient.model;
 
+import java.io.Serializable;
+
 /**
  * Created by renyu on 16/1/4.
  */
-public class AddressModel {
+public class AddressModel implements Serializable {
 
     /**
      * addr_id : 8

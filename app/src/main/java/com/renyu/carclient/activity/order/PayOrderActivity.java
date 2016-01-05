@@ -24,7 +24,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
-import com.renyu.carclient.activity.my.AddressActivity;
+import com.renyu.carclient.activity.my.MyAddressChoiceActivity;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.commons.ACache;
 import com.renyu.carclient.commons.CommonUtils;
@@ -272,7 +272,16 @@ public class PayOrderActivity extends BaseActivity {
                 openLayout(payorder_tip_layout);
                 break;
             case R.id.payorder_address_layout:
-                Intent intent=new Intent(PayOrderActivity.this, AddressActivity.class);
+                Intent intent=new Intent(PayOrderActivity.this, MyAddressChoiceActivity.class);
+                Bundle bundle=new Bundle();
+                //区分有收货地址和没有收货地址的情况
+                if (addressModel==null) {
+                    bundle.putInt("addr_id", -1);
+                }
+                else {
+                    bundle.putInt("addr_id", addressModel.getAddr_id());
+                }
+                intent.putExtras(bundle);
                 startActivityForResult(intent, ParamUtils.RESULT_ADDRESS);
                 break;
         }
@@ -460,7 +469,12 @@ public class PayOrderActivity extends BaseActivity {
                 }
                 if (addressModel!=null) {
                     payorder_userinfo.setText(addressModel.getName()+" "+addressModel.getMobile());
-                    payorder_address.setText(addressModel.getArea().split(":")[0]+" "+addressModel.getAddr());
+                    String address="";
+                    for (int i=0;i<addressModel.getArea().split("/").length;i++) {
+                        address+= CommonUtils.getCityInfo(addressModel.getArea().split("/")[i])+" ";
+                    }
+                    address+=" "+addressModel.getAddr();
+                    payorder_address.setText(address);
                 }
             }
 
@@ -476,7 +490,17 @@ public class PayOrderActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==RESULT_OK) {
             if (requestCode==ParamUtils.RESULT_ADDRESS) {
+                if (data.getExtras().getSerializable("addr_id")!=null) {
+                    addressModel= (AddressModel) data.getExtras().getSerializable("addr_id");
 
+                    payorder_userinfo.setText(addressModel.getName()+" "+addressModel.getMobile());
+                    String address="";
+                    for (int i=0;i<addressModel.getArea().split("/").length;i++) {
+                        address+= CommonUtils.getCityInfo(addressModel.getArea().split("/")[i])+" ";
+                    }
+                    address+=" "+addressModel.getAddr();
+                    payorder_address.setText(address);
+                }
             }
         }
     }

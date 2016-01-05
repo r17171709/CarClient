@@ -1,6 +1,8 @@
 package com.renyu.carclient.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.search.GoodsDetailActivity;
 import com.renyu.carclient.model.ProductModel;
 import com.renyu.carclient.myview.PriceView;
 
@@ -101,6 +104,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
             holder.cart_finalprice_layout.setVisibility(View.VISIBLE);
             holder.cart_finalprice.setText(models.get(position).getReal_price());
         }
+        holder.cart_info_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, GoodsDetailActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("item_id", ""+models.get(position).getItem_id());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
         onBind=false;
     }
 
@@ -133,6 +146,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         TextView cart_finalprice;
         @Bind(R.id.cart_finalprice_layout)
         LinearLayout cart_finalprice_layout;
+        @Bind(R.id.cart_info_layout)
+        RelativeLayout cart_info_layout;
 
         public CartHolder(View itemView) {
             super(itemView);

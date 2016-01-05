@@ -3,6 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/myaddress_layout"
         android:orientation="vertical"
         android:layout_weight="1"
         android:layout_width="match_parent"
@@ -11,10 +12,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/myaddress_name"
                 android:text="张三"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/myaddress_mobile"
                 android:text="123123123"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
@@ -24,10 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/myaddress_default"
                 android:text="默认"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/myaddress_address"
                 android:text="123121231231231231231231231231231231231233123"
                 android:layout_alignParentRight="true"
                 android:maxWidth="200dip"

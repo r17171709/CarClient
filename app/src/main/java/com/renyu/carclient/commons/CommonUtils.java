@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.renyu.carclient.R;
+import com.renyu.carclient.model.AreaModel;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
@@ -38,6 +39,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 
 /**
  * Created by renyu on 15/10/17.
@@ -330,4 +332,72 @@ public class CommonUtils {
         db.close();
         return parentId;
     }
+
+
+    /**
+     * 获取省份信息
+     */
+    public static ArrayList<AreaModel> getProvice() {
+        File file=new File(Environment.getExternalStorageDirectory().getPath()+File.separator+ParamUtils.DB+File.separator+"area.db");
+        SQLiteDatabase db=SQLiteDatabase.openOrCreateDatabase(file.getPath(), null);
+        Cursor cs=db.rawQuery("select * from area_code where area_code.parentId=310000 OR area_code.parentId=110000 OR area_code.parentId=120000 OR area_code.parentId=500000 union all select * from area_code where area_code.parentId=1", null);
+        cs.moveToFirst();
+        ArrayList<AreaModel> models=new ArrayList<>();
+        for(int i=0;i<cs.getCount();i++) {
+            cs.moveToPosition(i);
+            AreaModel model=new AreaModel();
+            model.setId(cs.getString(0));
+            model.setValue(cs.getString(1));
+            model.setParentid(cs.getString(2));
+            models.add(model);
+        }
+        cs.close();
+        db.close();
+        return models;
+    }
+
+    /**
+     * 获取城区信息
+     * @param id
+     * @return
+     */
+    public static ArrayList<AreaModel> getCity(String id) {
+        File file=new File(Environment.getExternalStorageDirectory().getPath()+File.separator+ParamUtils.DB+File.separator+"area.db");
+        SQLiteDatabase db=SQLiteDatabase.openOrCreateDatabase(file.getPath(), null);
+        Cursor cs=db.rawQuery("select * from area_code where area_code.parentId="+id, null);
+        cs.moveToFirst();
+        ArrayList<AreaModel> models=new ArrayList<>();
+        for(int i=0;i<cs.getCount();i++) {
+            cs.moveToPosition(i);
+            AreaModel model=new AreaModel();
+            model.setId(cs.getString(0));
+            model.setValue(cs.getString(1));
+            model.setParentid(cs.getString(2));
+            models.add(model);
+        }
+        cs.close();
+        db.close();
+        return models;
+    }
+
+    /**
+     * 获取省份ID
+     * @param id
+     * @return
+     */
+    public static String getProvinceId(String id) {
+        File file=new File(Environment.getExternalStorageDirectory().getPath()+File.separator+ParamUtils.DB+File.separator+"area.db");
+        SQLiteDatabase db=SQLiteDatabase.openOrCreateDatabase(file.getPath(), null);
+        Cursor cs=db.rawQuery("select * from area_code where area_code.id="+id, null);
+        cs.moveToFirst();
+        String parentId="";
+        for(int i=0;i<cs.getCount();i++) {
+            cs.moveToPosition(i);
+            parentId=cs.getString(2);
+        }
+        cs.close();
+        db.close();
+        return parentId;
+    }
+
 }

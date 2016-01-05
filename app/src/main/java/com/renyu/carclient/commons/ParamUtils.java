@@ -25,6 +25,7 @@ public class ParamUtils {
 
     public final static int RESULT_LOGIN=1000;
     public final static int RESULT_ADDRESS=1001;
+    public final static int RESULT_AREA=1002;
 
     private static String getSign(String method, String token) {
         return CommonUtils.MD5(CommonUtils.MD5(method).toUpperCase() + token).toUpperCase();
