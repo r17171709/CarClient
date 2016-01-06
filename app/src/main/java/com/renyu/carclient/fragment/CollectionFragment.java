@@ -1,6 +1,5 @@
 package com.renyu.carclient.fragment;
 
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.CollectionAdapter;
@@ -35,15 +32,9 @@ public class CollectionFragment extends BaseFragment {
 
     @Bind(R.id.view_toolbar_center_next)
     ImageView view_toolbar_center_next;
-    @Bind(R.id.collection_my)
-    TextView collection_my;
-    @Bind(R.id.collection_recommend)
-    TextView collection_recommend;
     @Bind(R.id.cartype_rv)
     RecyclerView cartype_rv;
     CollectionAdapter adapter=null;
-    @Bind(R.id.collection_layout)
-    LinearLayout collection_layout;
 
     ArrayList<CollectionModel> leftModels;
 
@@ -78,26 +69,11 @@ public class CollectionFragment extends BaseFragment {
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
-
-        collection_my.setTextColor(Color.RED);
-        collection_recommend.setTextColor(Color.BLACK);
-        getCollectList();
     }
 
-    @OnClick({R.id.collection_my, R.id.collection_recommend, R.id.view_toolbar_center_next})
+    @OnClick({R.id.view_toolbar_center_next})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.collection_my:
-                collection_my.setTextColor(Color.RED);
-                collection_recommend.setTextColor(Color.BLACK);
-
-                popupWindow.showAsDropDown(collection_layout, 0, 0);
-
-                break;
-            case R.id.collection_recommend:
-                collection_recommend.setTextColor(Color.RED);
-                collection_my.setTextColor(Color.BLACK);
-                break;
             case R.id.view_toolbar_center_next:
                 isChecked=!isChecked;
                 for (int i=0;i<leftModels.size();i++) {
@@ -116,6 +92,7 @@ public class CollectionFragment extends BaseFragment {
             public void onSuccess(String string) {
                 ArrayList<CollectionModel> temp=JsonParse.getCollectionModels(string);
                 if (temp!=null) {
+                    leftModels.clear();
                     leftModels.addAll(temp);
                     adapter.notifyDataSetChanged();
                 }
@@ -127,5 +104,12 @@ public class CollectionFragment extends BaseFragment {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getCollectList();
     }
 }

@@ -20,6 +20,7 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_me_logo"/>
                 <TextView
+                    android:id="@+id/my_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dip"
@@ -31,7 +32,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_marginBottom="10dip"
-                android:layout_height="105dip">
+                android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -45,37 +46,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
-                <android.support.v7.widget.GridLayout
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:columnCount="2"
-                    app:rowCount="2">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/my_all_money"
                         android:text="平台授信"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_columnWeight="1"
-                        app:layout_rowWeight="1"/>
+                        android:layout_weight="1"/>
                     <TextView
+                        android:id="@+id/my_last_money"
                         android:text="余额"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_columnWeight="1"
-                        app:layout_rowWeight="1"/>
-                    <TextView
-                        android:text="银行授信"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_columnWeight="1"
-                        app:layout_rowWeight="1"/>
-                    <TextView
-                        android:text="余额"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_columnWeight="1"
-                        app:layout_rowWeight="1"/>
-                </android.support.v7.widget.GridLayout>
+                        android:layout_weight="1"/>
+                </LinearLayout>
             </LinearLayout>
             <View
                 android:background="#ececec"
@@ -181,6 +168,7 @@
 
             </View>
             <LinearLayout
+                android:id="@+id/my_repayment"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"

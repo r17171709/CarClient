@@ -789,6 +789,7 @@ public class OrderModel implements Serializable {
         private int service_id;
         private String pic_path;
         private String settle_price;
+        private boolean isChecked;
 
         public void setSpec_nature_info(String spec_nature_info) {
             this.spec_nature_info = spec_nature_info;
@@ -1164,6 +1165,14 @@ public class OrderModel implements Serializable {
 
         public String getSettle_price() {
             return settle_price;
+        }
+
+        public boolean isChecked() {
+            return isChecked;
+        }
+
+        public void setChecked(boolean checked) {
+            isChecked = checked;
         }
     }
 }

@@ -424,4 +424,35 @@ public class JsonParse {
         }
         return null;
     }
+
+    /**
+     * 获取基本信息
+     * @param string
+     * @return
+     */
+    public static MyInfoModel getMyInfo(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data1=result.getJSONObject("data");
+            MyInfoModel model=new MyInfoModel();
+            model.setAccount_name(data1.getString("account_name"));
+            model.setBank_account(data1.getString("bank_account"));
+            model.setBank_name(data1.getString("bank_name"));
+            model.setBusiness_encoding(data1.getString("business_encoding"));
+            model.setContact_person(data1.getString("contact_person"));
+            model.setContact_phone(data1.getString("contact_phone"));
+            model.setContact_tel(data1.getString("contact_tel"));
+            model.setCorporation(data1.getString("corporation"));
+            model.setEmail(data1.getString("email"));
+            model.setLogin_account(data1.getString("login_account"));
+            model.setReg_address(data1.getString("reg_address"));
+            model.setRepairdepot_name(data1.getString("repairdepot_name"));
+            model.setRevenues_code(data1.getString("revenues_code"));
+            return model;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

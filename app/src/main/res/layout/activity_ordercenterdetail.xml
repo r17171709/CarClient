@@ -200,6 +200,7 @@
                         android:layout_height="wrap_content"
                         android:text="请输入退货原因"/>
                     <EditText
+                        android:id="@+id/ordercenter_reason"
                         android:layout_width="match_parent"
                         android:layout_height="100dip" />
                 </LinearLayout>

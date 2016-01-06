@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -67,6 +68,10 @@ public class GoodsDetailActivity extends BaseActivity {
     TextView goodsdetil_store;
     @Bind(R.id.price_layout)
     PriceView price_layout;
+    @Bind(R.id.goodsdetil_fav)
+    ImageView goodsdetil_fav;
+    @Bind(R.id.goodsdetil_isLogin)
+    Button goodsdetil_isLogin;
 
     ArrayList<ImageView> imageViews=null;
     ArrayList<String> urls=null;
@@ -102,10 +107,15 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
     private void initViews() {
-
+        if (userModel==null) {
+            goodsdetil_isLogin.setVisibility(View.VISIBLE);
+        }
+        else {
+            goodsdetil_isLogin.setVisibility(View.GONE);
+        }
     }
 
-    @OnClick({R.id.goodsdetail_params, R.id.goodsdetail_cartype, R.id.goodsdetail_paytype, R.id.goodsdetail_tip_bglayout, R.id.goodsdetail_addcart, R.id.goodsdetail_paynow, R.id.goodsdetail_service})
+    @OnClick({R.id.goodsdetail_params, R.id.goodsdetail_cartype, R.id.goodsdetail_paytype, R.id.goodsdetail_tip_bglayout, R.id.goodsdetail_addcart, R.id.goodsdetail_paynow, R.id.goodsdetail_service, R.id.goodsdetil_fav})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.goodsdetail_params:
@@ -164,6 +174,11 @@ public class GoodsDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.goodsdetail_addcart:
+                if (userModel==null) {
+                    Intent intent=new Intent(GoodsDetailActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, ParamUtils.RESULT_LOGIN);
+                    return;
+                }
                 addCart();
                 break;
             case R.id.goodsdetail_paynow:
@@ -213,6 +228,14 @@ public class GoodsDetailActivity extends BaseActivity {
                 });
                 goodsdetail_tip_layout.addView(view2);
                 openLayout(goodsdetail_tip_layout);
+                break;
+            case R.id.goodsdetil_fav:
+                if (userModel==null) {
+                    Intent intent_fav=new Intent(GoodsDetailActivity.this, LoginActivity.class);
+                    startActivityForResult(intent_fav, ParamUtils.RESULT_LOGIN);
+                    return;
+                }
+                addFav(true);
                 break;
         }
     }
@@ -403,23 +426,67 @@ public class GoodsDetailActivity extends BaseActivity {
         HashMap<String, String> params= ParamUtils.getSignParams("app.user.check.add", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
         params.put("quantity", ""+price_layout.getPriceNum());
         params.put("item_id", ""+model.getItem_id());
-        if (userModel!=null) {
-            params.put("user_id", ""+userModel.getUser_id());
-        }
-        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+        params.put("user_id", ""+userModel.getUser_id());
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                showDialog("提示", "正在添加购物车");
+            }
+        }, new OKHttpHelper.RequestListener() {
             @Override
             public void onSuccess(String string) {
-                if (JsonParse.getResultValue(string)!=null) {
+                dismissDialog();
+                if (JsonParse.getResultValue(string) != null) {
                     showToast(JsonParse.getResultValue(string));
-                }
-                else {
+                    if (JsonParse.getResultInt(string) == 0) {
+
+                    }
+                } else {
                     showToast("未知错误");
                 }
             }
 
             @Override
             public void onError() {
+                dismissDialog();
+            }
+        });
+    }
 
+    private void addFav(final boolean isAdd) {
+        HashMap<String, String> params;
+        if (isAdd) {
+            params= ParamUtils.getSignParams("app.itemcollect.cancel", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        }
+        else {
+            params= ParamUtils.getSignParams("app.itemcollect.add", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        }
+        params.put("user_id", ""+userModel.getUser_id());
+        params.put("item_id", ""+model.getItem_id());
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                showDialog("提示", "正在添加收藏");
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                dismissDialog();
+                if (JsonParse.getResultValue(string) != null) {
+                    showToast(JsonParse.getResultValue(string));
+                    if (JsonParse.getResultInt(string) == 0) {
+                        if (isAdd) {
+
+                        }
+                    }
+                } else {
+                    showToast("未知错误");
+                }
+            }
+
+            @Override
+            public void onError() {
+                dismissDialog();
             }
         });
     }
@@ -431,6 +498,8 @@ public class GoodsDetailActivity extends BaseActivity {
             if (requestCode==ParamUtils.RESULT_LOGIN) {
                 userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
                 getDetail();
+
+                initViews();
             }
         }
     }

@@ -3,17 +3,20 @@ package com.renyu.carclient.activity.order;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.OrderAdapter;
 import com.renyu.carclient.base.BaseActivity;
+import com.renyu.carclient.commons.ACache;
 import com.renyu.carclient.commons.CommonUtils;
 import com.renyu.carclient.commons.OKHttpHelper;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.JsonParse;
 import com.renyu.carclient.model.OrderModel;
+import com.renyu.carclient.model.UserModel;
 import com.renyu.carclient.myview.NoScrollListview;
 
 import java.util.ArrayList;
@@ -62,9 +65,13 @@ public class OrderCenterDetailActivity extends BaseActivity {
     LinearLayout ordercenter_timeinfo;
     @Bind(R.id.ordercenter_return)
     LinearLayout ordercenter_return;
+    @Bind(R.id.ordercenter_reason)
+    EditText ordercenter_reason;
 
     String status;
     String tid;
+
+    UserModel userModel=null;
 
     OrderModel model=null;
 
@@ -84,6 +91,8 @@ public class OrderCenterDetailActivity extends BaseActivity {
         status=getIntent().getExtras().getString("status");
         tid=getIntent().getExtras().getString("tid");
 
+        userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
+
         initViews();
 
         getOrderDetail();
@@ -101,8 +110,13 @@ public class OrderCenterDetailActivity extends BaseActivity {
         else {
             ordercenter_state_layout.setVisibility(View.GONE);
         }
-        adapter=new OrderAdapter(this, models, true);
+        adapter=new OrderAdapter(this, models, true, getIntent().getExtras().getBoolean("isEdit"), null, null);
         ordercenter_slv.setAdapter(adapter);
+        if (getIntent().getExtras().getBoolean("isEdit")) {
+            ordercenter_oper.setVisibility(View.GONE);
+            ordercenter_timeinfo.setVisibility(View.GONE);
+            ordercenter_return.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getOrderDetail() {
@@ -111,15 +125,17 @@ public class OrderCenterDetailActivity extends BaseActivity {
         if (status.equals("aftersaleslist")) {
             params= ParamUtils.getSignParams("app.xiulichang.aftersaleslist", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
         }
-        params.put("user_id", "57");
+        params.put("user_id", "" + userModel.getUser_id());
         params.put("tid", tid);
         httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
             @Override
             public void onSuccess(String string) {
-                Log.d("OrderCenterDetailActivi", string);
                 ArrayList<OrderModel> tempModels= JsonParse.getOrderListModel(string);
                 if (tempModels!=null) {
                     model=tempModels.get(0);
+                }
+                else {
+                    return;
                 }
                 ordercenter_userinfo.setText(model.getReceiver_name()+" "+model.getReceiver_mobile());
                 String address="";
@@ -170,6 +186,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
                     }
                     ordercenter_state_receivegoodstime.setText("订单已签收，请于"+time+"内付款");
                 }
+                models.clear();
                 models.addAll(tempModels);
                 adapter.notifyDataSetChanged();
                 if (status.equals("WAIT_CONFRIM")) {
@@ -190,7 +207,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
                 else if (status.equals("RECEIVE_GOODS")) {
                     ordercenter_commit.setVisibility(View.VISIBLE);
                     ordercenter_commit.setText("付款");
-                    ordercenter_applyreturn.setVisibility(View.VISIBLE);
+                    ordercenter_applyreturn.setVisibility(View.GONE);
                 }
                 else if (status.equals("TRADE_FINISHED")) {
                     ordercenter_commit.setVisibility(View.GONE);
@@ -207,7 +224,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
                 else if (status.equals("AFTERSALES")) {
                     ordercenter_commit.setVisibility(View.GONE);
                     ordercenter_applyreturn.setText("取消退货");
-                    ordercenter_applyreturn.setVisibility(View.VISIBLE);
+                    ordercenter_applyreturn.setVisibility(View.GONE);
                 }
                 ordercenter_applyreturn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -228,7 +245,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.ordercenter_return_back, R.id.ordercenter_return_commit})
+    @OnClick({R.id.ordercenter_return_back, R.id.ordercenter_return_commit, R.id.ordercenter_applyreturn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ordercenter_return_back:
@@ -241,14 +258,79 @@ public class OrderCenterDetailActivity extends BaseActivity {
             case R.id.ordercenter_return_commit:
                 adapter.setEdit(false);
 
+                String oid="";
+                for (int i=0;i<model.getOrder().size();i++) {
+                    if (model.getOrder().get(i).isChecked()) {
+                        oid+=""+model.getOrder().get(i).getOid()+",";
+                    }
+                }
+                returnSales(model, oid.substring(0, oid.length()-1));
+
                 ordercenter_oper.setVisibility(View.VISIBLE);
                 ordercenter_timeinfo.setVisibility(View.VISIBLE);
                 ordercenter_return.setVisibility(View.GONE);
                 break;
+            case R.id.ordercenter_applyreturn:
+                cancelSales(model);
+                break;
         }
     }
 
-    private void aftersalesApply() {
+    private void returnSales(OrderModel model, String oid) {
+        HashMap<String, String> params = ParamUtils.getSignParams("app.xiulichang.aftersales.apply", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", "" + userModel.getUser_id());
+        params.put("tid", "" + model.getTid());
+        params.put("oids", oid);
+        params.put("description", ordercenter_reason.getText().toString());
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                showDialog("提示", "正在申请退货");
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                dismissDialog();
+                if (JsonParse.getResultValue(string)!=null) {
+                    showToast(JsonParse.getResultValue(string));
+                    if (JsonParse.getResultInt(string) == 0) {
+                        getOrderDetail();
+                    }
+                }
+            }
 
+            @Override
+            public void onError() {
+                dismissDialog();
+            }
+        });
+    }
+
+    private void cancelSales(OrderModel model) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.xiulichang.order.cancel", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("tid", ""+model.getTid());
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                showDialog("提示", "正在提交");
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                dismissDialog();
+
+                if (JsonParse.getResultValue(string)!=null) {
+                    showToast(JsonParse.getResultValue(string));
+                    if (JsonParse.getResultInt(string) == 0) {
+                        getOrderDetail();
+                    }
+                }
+            }
+
+            @Override
+            public void onError() {
+                dismissDialog();
+            }
+        });
     }
 }

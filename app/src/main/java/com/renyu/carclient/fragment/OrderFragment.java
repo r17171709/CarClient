@@ -14,13 +14,16 @@ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.order.CartActivity;
+import com.renyu.carclient.activity.order.OrderCenterDetailActivity;
 import com.renyu.carclient.adapter.OrderAdapter;
 import com.renyu.carclient.base.BaseFragment;
+import com.renyu.carclient.commons.ACache;
 import com.renyu.carclient.commons.CommonUtils;
 import com.renyu.carclient.commons.OKHttpHelper;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.JsonParse;
 import com.renyu.carclient.model.OrderModel;
+import com.renyu.carclient.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +50,8 @@ public class OrderFragment extends BaseFragment {
 
     ArrayList<OrderModel> models=null;
 
+    UserModel userModel=null;
+
     int page_no=1;
 
     //当前选中的条件
@@ -60,6 +65,8 @@ public class OrderFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        userModel= ACache.get(getActivity()).getAsObject("user")!=null?(UserModel) ACache.get(getActivity()).getAsObject("user"):null;
 
         views=new ArrayList<>();
         numTextViews=new ArrayList<>();
@@ -160,7 +167,17 @@ public class OrderFragment extends BaseFragment {
             ordercenter_gridlayout.addView(itemView, param);
         }
         ordercenter_lv.addHeaderView(headview);
-        adapter=new OrderAdapter(getActivity(), models, false);
+        adapter=new OrderAdapter(getActivity(), models, false, false, new OrderAdapter.OnReturnListener() {
+            @Override
+            public void returnValue(OrderModel model, int position) {
+                returnSales(model, position);
+            }
+        }, new OrderAdapter.OnCancelListener() {
+            @Override
+            public void cancelValue(int position) {
+                cancelSales(models.get(position));
+            }
+        });
         ordercenter_lv.setAdapter(adapter);
         ordercenter_swipy.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         ordercenter_swipy.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
@@ -217,12 +234,16 @@ public class OrderFragment extends BaseFragment {
     }
 
     private void getOrderLists(String status) {
+        if (page_no==1) {
+            models.clear();
+            adapter.notifyDataSetChanged();
+        }
         HashMap<String, String> params= ParamUtils.getSignParams("app.xiulichang.order.list", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
         //退货单独处理
         if (status.equals("aftersaleslist")) {
             params= ParamUtils.getSignParams("app.xiulichang.aftersaleslist", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
         }
-        params.put("user_id", "57");
+        params.put("user_id", ""+userModel.getUser_id());
         params.put("page_size", "20");
         params.put("page_no", ""+page_no);
         if (!status.equals("") && !status.equals("aftersaleslist")) {
@@ -250,6 +271,74 @@ public class OrderFragment extends BaseFragment {
                     models.clear();
                 }
                 adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void returnSales(OrderModel model, int position) {
+        Intent intent=new Intent(getActivity(), OrderCenterDetailActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putString("tid", ""+model.getTid());
+        bundle.putString("status", model.getStatus());
+        bundle.putBoolean("isEdit", true);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    private void cancelSales(OrderModel model) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.xiulichang.order.cancel", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("tid", ""+model.getTid());
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                showDialog("提示", "正在提交");
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                dismissDialog();
+
+                if (JsonParse.getResultValue(string)!=null) {
+                    showToast(JsonParse.getResultValue(string));
+                    if (JsonParse.getResultInt(string) == 0) {
+                        ordercenter_swipy.setRefreshing(true);
+                        page_no=1;
+                        switch (current_choice) {
+                            case 0:
+                                getOrderLists("");
+                                break;
+                            case 1:
+                                getOrderLists("WAIT_CONFRIM");
+                                break;
+                            case 2:
+                                getOrderLists("DELIVER_GOODS");
+                                break;
+                            case 3:
+                                getOrderLists("WAIT_GOODS");
+                                break;
+                            case 4:
+                                getOrderLists("RECEIVE_GOODS");
+                                break;
+                            case 5:
+                                getOrderLists("TRADE_FINISHED");
+                                break;
+                            case 6:
+                                getOrderLists("TRADE_CLOSED");
+                                break;
+                            case 7:
+                                getOrderLists("TRADE_CANCEL");
+                                break;
+                            case 8:
+                                getOrderLists("aftersaleslist");
+                                break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError() {
+                dismissDialog();
             }
         });
     }

@@ -21,6 +21,7 @@
                     android:layout_height="wrap_content"
                     android:text="账号"/>
                 <TextView
+                    android:id="@+id/myinfo_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123123"/>
@@ -34,12 +35,14 @@
                     android:layout_height="wrap_content"
                     android:text="用户名"/>
                 <TextView
+                    android:id="@+id/myinfo_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123123"/>
             </LinearLayout>
         </LinearLayout>
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/myinfo_avatar"
             android:src="@mipmap/ic_launcher"
             android:layout_width="80dip"
             android:layout_height="80dip" />
@@ -53,6 +56,7 @@
             android:layout_height="wrap_content"
             android:text="联系人"/>
         <TextView
+            android:id="@+id/myinfo_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="123123"/>
@@ -66,6 +70,7 @@
             android:layout_height="wrap_content"
             android:text="绑定手机"/>
         <TextView
+            android:id="@+id/myinfo_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -80,15 +85,19 @@
             android:layout_height="wrap_content"
             android:text="邮箱"/>
         <TextView
+            android:id="@+id/myinfo_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="123123"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/myinfo_bussiness_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="开票信息"/>
     <LinearLayout
+        android:id="@+id/myinfo_bussiness_layout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -101,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:text="单位全称"/>
             <TextView
+                android:id="@+id/myinfo_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123123"/>
@@ -114,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:text="税务登记号"/>
             <TextView
+                android:id="@+id/myinfo_revenues_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -128,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:text="负责人"/>
             <TextView
+                android:id="@+id/myinfo_contact_person"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123123"/>
@@ -141,6 +153,7 @@
                 android:layout_height="wrap_content"
                 android:text="联系人电话"/>
             <TextView
+                android:id="@+id/myinfo_contact_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -155,6 +168,7 @@
                 android:layout_height="wrap_content"
                 android:text="开户银行"/>
             <TextView
+                android:id="@+id/myinfo_bank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123123"/>
@@ -168,6 +182,7 @@
                 android:layout_height="wrap_content"
                 android:text="账号"/>
             <TextView
+                android:id="@+id/myinfo_bank_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -175,12 +190,15 @@
         </LinearLayout>
     </LinearLayout>
     <TextView
+        android:id="@+id/myinfo_comp_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="企业信息"/>
     <LinearLayout
+        android:id="@+id/myinfo_comp_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -191,6 +209,7 @@
                 android:layout_height="wrap_content"
                 android:text="营业执照号"/>
             <TextView
+                android:id="@+id/myinfo_business_encoding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -205,6 +224,7 @@
                 android:layout_height="wrap_content"
                 android:text="法人/经营者"/>
             <TextView
+                android:id="@+id/myinfo_corporation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123123"/>
@@ -218,6 +238,7 @@
                 android:layout_height="wrap_content"
                 android:text="经营地址"/>
             <TextView
+                android:id="@+id/myinfo_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123123"/>

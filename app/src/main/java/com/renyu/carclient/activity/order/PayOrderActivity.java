@@ -296,8 +296,14 @@ public class PayOrderActivity extends BaseActivity {
         params.put("need_invoice", payorder_invoice_check.isChecked()?"1":"0");
         if (payorder_invoice_check.isChecked()) {
             params.put("invoice_type", invoice_type);
-            params.put("invoice_content", payorder_invoice_title_edit.getText().toString());
-            params.put("invoice_title", invoice_title);
+            if (invoice_type.equals("normal")) {
+                params.put("invoice_content", payorder_invoice_title_edit.getText().toString());
+                params.put("invoice_title", invoice_title);
+            }
+            else {
+                params.put("invoice_content", userModel.getRepairdepot_name());
+                params.put("invoice_title", "unit");
+            }
         }
         if (!payorder_invoice_message.getText().toString().equals("")) {
             params.put("user_mark", payorder_invoice_message.getText().toString());
@@ -348,8 +354,14 @@ public class PayOrderActivity extends BaseActivity {
         params.put("need_invoice", payorder_invoice_check.isChecked()?"1":"0");
         if (payorder_invoice_check.isChecked()) {
             params.put("invoice_type", invoice_type);
-            params.put("invoice_content", payorder_invoice_title_edit.getText().toString());
-            params.put("invoice_title", invoice_title);
+            if (invoice_type.equals("normal")) {
+                params.put("invoice_content", payorder_invoice_title_edit.getText().toString());
+                params.put("invoice_title", invoice_title);
+            }
+            else {
+                params.put("invoice_content", userModel.getRepairdepot_name());
+                params.put("invoice_title", "unit");
+            }
         }
         if (!payorder_invoice_message.getText().toString().equals("")) {
             params.put("user_mark", payorder_invoice_message.getText().toString());

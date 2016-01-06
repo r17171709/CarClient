@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.order.OrderCenterDetailActivity;
+import com.renyu.carclient.commons.ACache;
 import com.renyu.carclient.model.OrderModel;
+import com.renyu.carclient.model.UserModel;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -37,14 +40,32 @@ public class OrderAdapter extends BaseAdapter {
     boolean isDetail=false;
     boolean isEdit=false;
 
+    UserModel userModel=null;
+
     DecimalFormat df = null;
 
-    public OrderAdapter(Context context, ArrayList<OrderModel> models, boolean isDetail) {
+    OnReturnListener listener;
+    OnCancelListener cancelListener;
+
+    public interface OnReturnListener {
+        void returnValue(OrderModel model, int position);
+    }
+
+    public interface OnCancelListener {
+        void cancelValue(int position);
+    }
+
+    public OrderAdapter(Context context, ArrayList<OrderModel> models, boolean isDetail, boolean isEdit, OnReturnListener listener, OnCancelListener cancelListener) {
         this.context = context;
         this.models = models;
         this.isDetail=isDetail;
+        this.listener=listener;
+        this.cancelListener=cancelListener;
+        this.isEdit=isEdit;
 
         df = new DecimalFormat("###.00");
+
+        userModel= ACache.get(context).getAsObject("user")!=null?(UserModel) ACache.get(context).getAsObject("user"):null;
     }
 
     public void setEdit(boolean isEdit) {
@@ -93,6 +114,35 @@ public class OrderAdapter extends BaseAdapter {
             holder= (OrderHolder) convertView.getTag();
         }
         holder.ordercenter_tid.setText(""+models.get(position).getTid());
+        holder.adapter_ordercenter_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (models.get(position_).getStatus().equals("WAIT_CONFRIM")) {
+                    cancelListener.cancelValue(position_);
+                }
+                else if (models.get(position_).getStatus().equals("DELIVER_GOODS")) {
+                    cancelListener.cancelValue(position_);
+                }
+                else if (models.get(position_).getStatus().equals("WAIT_GOODS")) {
+
+                }
+                else if (models.get(position_).getStatus().equals("RECEIVE_GOODS")) {
+
+                }
+                else if (models.get(position_).getStatus().equals("TRADE_FINISHED")) {
+
+                }
+                else if (models.get(position_).getStatus().equals("TRADE_CLOSED")) {
+
+                }
+                else if (models.get(position_).getStatus().equals("TRADE_CANCEL")) {
+
+                }
+                else if (models.get(position_).getStatus().equals("AFTERSALES")) {
+
+                }
+            }
+        });
         if (isDetail) {
             holder.adapter_ordercenter_cancel.setVisibility(View.GONE);
         }
@@ -157,12 +207,15 @@ public class OrderAdapter extends BaseAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(context, OrderCenterDetailActivity.class);
-                    Bundle bundle=new Bundle();
-                    bundle.putString("tid", ""+models.get(position_).getTid());
-                    bundle.putString("status", models.get(position_).getStatus());
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
+                    if (!isDetail) {
+                        Intent intent=new Intent(context, OrderCenterDetailActivity.class);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("tid", ""+models.get(position_).getTid());
+                        bundle.putString("status", models.get(position_).getStatus());
+                        bundle.putBoolean("isEdit", false);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    }
                 }
             });
             TextView ordercenter_child_state= (TextView) view.findViewById(R.id.ordercenter_child_state);
@@ -188,6 +241,7 @@ public class OrderAdapter extends BaseAdapter {
             paint.setColor(Color.RED);
             paint.setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
             ordercenter_child_normalprice.setPaintFlags(paint.getFlags());
+            RelativeLayout ordercenter_child_finalprice_layout= (RelativeLayout) view.findViewById(R.id.ordercenter_child_finalprice_layout);
             if (Double.parseDouble(models.get(position).getOrder().get(i).getOld_price())<1) {
                 ordercenter_child_normalprice.setText(models.get(position).getOrder().get(i).getOld_price());
             }
@@ -201,8 +255,28 @@ public class OrderAdapter extends BaseAdapter {
             else {
                 ordercenter_child_finalprice.setText(""+df.format(Double.parseDouble(models.get(position).getOrder().get(i).getPrice())));
             }
+            if (models.get(position).getOrder().get(i).getPrice().equals("-1")) {
+                ordercenter_child_finalprice_layout.setVisibility(View.GONE);
+            }
+            else {
+                ordercenter_child_finalprice_layout.setVisibility(View.VISIBLE);
+            }
             TextView ordercenter_child_applyreturn= (TextView) view.findViewById(R.id.ordercenter_child_applyreturn);
-            CheckBox ordercenter_child_check= (CheckBox) view.findViewById(R.id.ordercenter_child_check);
+            ordercenter_child_applyreturn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener!=null) {
+                        listener.returnValue(models.get(position_), i_);
+                    }
+                }
+            });
+            final CheckBox ordercenter_child_check= (CheckBox) view.findViewById(R.id.ordercenter_child_check);
+            ordercenter_child_check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    models.get(position_).getOrder().get(i_).setChecked(ordercenter_child_check.isChecked());
+                }
+            });
             if (isDetail) {
                 ordercenter_child_applyreturn.setVisibility(View.GONE);
                 if (isEdit) {
@@ -225,8 +299,7 @@ public class OrderAdapter extends BaseAdapter {
                     ordercenter_child_applyreturn.setText("申请退货");
                 }
                 else if (models.get(position).getStatus().equals("RECEIVE_GOODS")) {
-                    ordercenter_child_applyreturn.setVisibility(View.VISIBLE);
-                    ordercenter_child_applyreturn.setText("申请退货");
+                    ordercenter_child_applyreturn.setVisibility(View.GONE);
                 }
                 else if (models.get(position).getStatus().equals("TRADE_FINISHED")) {
                     ordercenter_child_applyreturn.setVisibility(View.GONE);
@@ -238,16 +311,9 @@ public class OrderAdapter extends BaseAdapter {
                     ordercenter_child_applyreturn.setVisibility(View.GONE);
                 }
                 else if (models.get(position).getStatus().equals("AFTERSALES")) {
-                    ordercenter_child_applyreturn.setVisibility(View.VISIBLE);
-                    ordercenter_child_applyreturn.setText("取消退货");
+                    ordercenter_child_applyreturn.setVisibility(View.GONE);
                 }
             }
-            ordercenter_child_applyreturn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
             holder.adapter_ordercenter_detail.addView(view);
         }
         return convertView;
