@@ -230,6 +230,7 @@ public class JsonParse {
             model.setStore(data1.getInt("store"));
             model.setPrice(data1.getString("price"));
             model.setReal_price(data1.getString("real_price"));
+            model.setChoucang(data1.getInt("isShoucang")==1?true:false);
             return model;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -385,6 +386,7 @@ public class JsonParse {
             model.setAmount(data.getInt("amount"));
             model.setUser_id(data.getInt("user_id"));
             model.setRepairdepot_name(data.getString("repairdepot_name"));
+            model.setHead_photo(ParamUtils.converNull(data.getString("head_photo")));
             return model;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -454,5 +456,22 @@ public class JsonParse {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 获取头像
+     * @param string
+     * @return
+     */
+    public static String getAvatar(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data1=result.getJSONObject("data");
+            return data1.getString("head_photo");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

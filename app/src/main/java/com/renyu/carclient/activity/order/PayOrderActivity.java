@@ -9,6 +9,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.AddressModel;
 import com.renyu.carclient.model.GoodsListModel;
 import com.renyu.carclient.model.JsonParse;
+import com.renyu.carclient.model.OrderModel;
 import com.renyu.carclient.model.UserModel;
 import com.renyu.carclient.myview.PriceView;
 
@@ -42,6 +44,7 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by renyu on 15/12/10.
@@ -128,6 +131,7 @@ public class PayOrderActivity extends BaseActivity {
             price_layout.setOnTextChangeListener(new PriceView.TextChangeListener() {
                 @Override
                 public void onTextChange(int num) {
+                    Log.d("PayOrderActivity", "onTextChange");
                     if (isBind) {
                         return;
                     }
@@ -138,20 +142,16 @@ public class PayOrderActivity extends BaseActivity {
                             continue;
                         }
                         total+=models.get(i).getQuantity();
-                        money+=Double.parseDouble(models.get(i).getReal_price().equals("-1")?models.get(i).getPrice():models.get(i).getReal_price());
+                        money+=models.get(i).getReal_price().equals("-1")?Double.parseDouble(models.get(i).getPrice())*num:Double.parseDouble(models.get(i).getReal_price())*num;
                     }
                     payorder_all_price.setText("共"+total+"件商品  合计："+money+"元");
-                }
-            });
-            price_layout.setCurrentNum(models.get(i).getQuantity());
-            price_layout.setMaxNum(models.get(i).getStore());
-            price_layout.setOnTextChangeListener(new PriceView.TextChangeListener() {
-                @Override
-                public void onTextChange(int num) {
+
                     adapter_ordercenter_payorder_sec_title.setText("x"+num);
                     models.get(i_).setQuantity(num);
                 }
             });
+            price_layout.setCurrentNum(models.get(i).getQuantity());
+            price_layout.setMaxNum(models.get(i).getStore());
             ImageView adapter_ordercenter_payorder_image= (ImageView) view.findViewById(R.id.adapter_ordercenter_payorder_image);
             ImageLoader.getInstance().displayImage(models.get(i).getImage_default_id(), adapter_ordercenter_payorder_image, getAvatarDisplayImageOptions());
             payorder_lists.addView(view);
@@ -314,6 +314,7 @@ public class PayOrderActivity extends BaseActivity {
                 if (JsonParse.getResultValue(string)!=null) {
                     showToast(JsonParse.getResultValue(string));
                     if (JsonParse.getResultInt(string)==0) {
+                        EventBus.getDefault().post(new OrderModel());
                         finish();
                     }
                 }
@@ -372,6 +373,7 @@ public class PayOrderActivity extends BaseActivity {
                 if (JsonParse.getResultValue(string)!=null) {
                     showToast(JsonParse.getResultValue(string));
                     if (JsonParse.getResultInt(string)==0) {
+                        EventBus.getDefault().post(new OrderModel());
                         finish();
                     }
                 }

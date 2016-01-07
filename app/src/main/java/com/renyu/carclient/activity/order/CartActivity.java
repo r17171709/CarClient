@@ -68,30 +68,33 @@ public class CartActivity extends BaseActivity {
         cart_content_rv.setLayoutManager(new LinearLayoutManager(this));
         adapter=new CartAdapter(this, models, new CartAdapter.OnCheckChangedListener() {
             @Override
-            public void OnCheckChanged(int position, boolean flag) {
-                int checkedCount=0;
-                for (int i=0;i<models.size();i++) {
+            public void onCheckChanged(int position, boolean flag) {
+                int checkedCount = 0;
+                for (int i = 0; i < models.size(); i++) {
                     if (models.get(i).isChecked()) {
                         checkedCount++;
                     }
                 }
-                if (checkedCount==models.size() && !cart_choice_all.isChecked()) {
-                    isPermitChecked=true;
+                if (checkedCount == models.size() && !cart_choice_all.isChecked()) {
+                    isPermitChecked = true;
                     cart_choice_all.setChecked(true);
-                }
-                else if (checkedCount!=models.size() && cart_choice_all.isChecked()) {
-                    isPermitChecked=true;
+                } else if (checkedCount != models.size() && cart_choice_all.isChecked()) {
+                    isPermitChecked = true;
+                    cart_choice_all.setChecked(false);
+                } else {
                     cart_choice_all.setChecked(false);
                 }
-                else {
-                    cart_choice_all.setChecked(false);
-                }
+            }
+        }, new CartAdapter.OnDeleteListener() {
+            @Override
+            public void onDeleteValue(int position) {
+                delete(models.get(position).getItem_id());
             }
         });
         cart_content_rv.setAdapter(adapter);
     }
 
-    @OnClick({R.id.view_toolbar_center_text_next, R.id.view_toolbar_center_image, R.id.cart_cal})
+    @OnClick({R.id.view_toolbar_center_text_next, R.id.view_toolbar_center_image, R.id.cart_cal, R.id.cart_collection})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.view_toolbar_center_text_next:
@@ -133,6 +136,24 @@ public class CartActivity extends BaseActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
+            case R.id.cart_collection:
+                String items="";
+                for (int i=0;i<models.size();i++) {
+                    if (models.get(i).isChecked()) {
+                        if (i==models.size()-1) {
+                            items+=models.get(i).getItem_id();
+                        }
+                        else {
+                            items+=models.get(i).getItem_id()+",";
+                        }
+                    }
+                }
+                if (items.equals("")) {
+                    showToast("请至少选择一个商品");
+                    return;
+                }
+                moveToFav(items);
+                break;
         }
     }
 
@@ -165,6 +186,68 @@ public class CartActivity extends BaseActivity {
             @Override
             public void onError() {
 
+            }
+        });
+    }
+
+    private void moveToFav(String item_id) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.itemcollect.move", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", ""+userModel.getUser_id());
+        params.put("item_id", item_id);
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                showDialog("提示", "正在添加中");
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                dismissDialog();
+                if (JsonParse.getResultValue(string)!=null) {
+                    showToast(JsonParse.getResultValue(string));
+                    if (JsonParse.getResultInt(string)==0) {
+                        cartList();
+                    }
+                }
+                else {
+                    showToast("未知错误");
+                }
+            }
+
+            @Override
+            public void onError() {
+                dismissDialog();
+            }
+        });
+    }
+
+    private void delete(int item_id) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.check.delete", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", ""+userModel.getUser_id());
+        params.put("item_id", ""+item_id);
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                showDialog("提示", "正在添加中");
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                dismissDialog();
+                if (JsonParse.getResultValue(string)!=null) {
+                    showToast(JsonParse.getResultValue(string));
+                    if (JsonParse.getResultInt(string)==0) {
+                        cartList();
+                    }
+                }
+                else {
+                    showToast("未知错误");
+                }
+            }
+
+            @Override
+            public void onError() {
+                dismissDialog();
             }
         });
     }

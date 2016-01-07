@@ -1,5 +1,6 @@
 package com.renyu.carclient.activity.my;
 
+import com.renyu.carclient.R;
 import com.renyu.carclient.base.BaseActivity;
 
 /**
@@ -8,6 +9,6 @@ import com.renyu.carclient.base.BaseActivity;
 public class MyRepaymentActivity extends BaseActivity {
     @Override
     public int initContentView() {
-        return 0;
+        return R.layout.activity_myrepayment;
     }
 }

@@ -15,9 +15,10 @@
                 android:layout_height="wrap_content"
                 android:background="@mipmap/me_bg"
                 android:orientation="vertical">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/my_avatar"
+                    android:layout_width="80dip"
+                    android:layout_height="80dip"
                     android:src="@mipmap/ic_me_logo"/>
                 <TextView
                     android:id="@+id/my_name"

@@ -22,6 +22,7 @@
                 android:text="输入修理厂名称"
                 android:layout_weight="1"/>
             <EditText
+                android:id="@+id/join_name"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,6 +38,7 @@
                 android:text="选择所属区域"
                 android:layout_weight="1"/>
             <TextView
+                android:id="@+id/join_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
@@ -50,7 +52,8 @@
                 android:layout_height="wrap_content"
                 android:text="输入常用联系人"
                 android:layout_weight="1"/>
-            <TextView
+            <EditText
+                android:id="@+id/join_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
@@ -64,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:text="输入详细地址"
                 android:layout_weight="1"/>
-            <TextView
+            <EditText
+                android:id="@+id/join_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
@@ -76,23 +80,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="输入密码"
+                android:text="输入手机号"
                 android:layout_weight="1"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="确认密码"
-                android:layout_weight="1"/>
-            <TextView
+            <EditText
+                android:id="@+id/join_tel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
@@ -103,10 +94,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <CheckBox
+            android:id="@+id/join_check"
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我同意“快准车服服务协议”"/>
         <TextView
+            android:id="@+id/join_commit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

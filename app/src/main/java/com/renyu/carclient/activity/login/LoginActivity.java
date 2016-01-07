@@ -75,6 +75,8 @@ public class LoginActivity extends BaseActivity {
                 login();
                 break;
             case R.id.login_join:
+                Intent intent=new Intent(LoginActivity.this, JoinActivity.class);
+                startActivity(intent);
                 break;
         }
     }

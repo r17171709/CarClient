@@ -1,5 +1,7 @@
 package com.renyu.carclient.commons;
 
+import android.os.Environment;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +12,7 @@ import java.util.HashMap;
  */
 public class ParamUtils {
 
-    public final static String DIR="carclient";
+    public final static String DIR= Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"carclient";
     public final static String IMAGECACHE=DIR+ File.separator+"cache";
     public final static String DB=DIR+File.separator+"db";
     //微信分享ID
@@ -26,6 +28,9 @@ public class ParamUtils {
     public final static int RESULT_LOGIN=1000;
     public final static int RESULT_ADDRESS=1001;
     public final static int RESULT_AREA=1002;
+    public final static int takecamera_result=10003;
+    public final static int choicePic_result=10008;
+    public final static int crop_result=10021;
 
     private static String getSign(String method, String token) {
         return CommonUtils.MD5(CommonUtils.MD5(method).toUpperCase() + token).toUpperCase();

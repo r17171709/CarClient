@@ -18,6 +18,7 @@ public class UserModel implements Serializable {
     private int amount;
     private int user_id;
     private String repairdepot_name;
+    private String head_photo;
 
     public void setInit_amount(int init_amount) {
         this.init_amount = init_amount;
@@ -49,5 +50,13 @@ public class UserModel implements Serializable {
 
     public String getRepairdepot_name() {
         return repairdepot_name;
+    }
+
+    public String getHead_photo() {
+        return head_photo;
+    }
+
+    public void setHead_photo(String head_photo) {
+        this.head_photo = head_photo;
     }
 }

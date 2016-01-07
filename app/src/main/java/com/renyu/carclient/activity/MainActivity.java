@@ -1,18 +1,23 @@
 package com.renyu.carclient.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.login.LoginActivity;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.commons.ACache;
+import com.renyu.carclient.commons.CommonUtils;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.fragment.CollectionFragment;
 import com.renyu.carclient.fragment.IndexFragment;
@@ -26,6 +31,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by renyu on 15/10/17.
@@ -238,6 +248,48 @@ public class MainActivity extends BaseActivity {
         if (resultCode==RESULT_OK) {
             if (requestCode==ParamUtils.RESULT_LOGIN) {
                 userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
+            }
+            else if(requestCode==ParamUtils.takecamera_result) {
+                String filePath=data.getExtras().getString("path");
+                cropImage(filePath);
+            }
+            else if(requestCode==ParamUtils.choicePic_result) {
+                Uri uri=data.getData();
+                String filePath;
+                if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.KITKAT) {
+                    filePath= CommonUtils.getPath(uri, this);
+                }
+                else {
+                    String[] projection={MediaStore.Images.Media.DATA};
+                    Cursor cs=managedQuery(uri, projection, null, null, null);
+                    int columnNumber=cs.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cs.moveToFirst();
+                    filePath=cs.getString(columnNumber);
+                    filePath.replaceAll("file:///", "/");
+                }
+                Observable.just(filePath).map(new Func1<String, String>() {
+                    @Override
+                    public String call(String s) {
+                        return CommonUtils.getScalePicturePathName(s);
+                    }
+                }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        if(s.equals("")) {
+                            showToast("图片过小，请重新选择");
+                        }
+                        else {
+                            cropImage(s);
+                        }
+                    }
+                });
+            }
+            else if(requestCode==ParamUtils.crop_result) {
+                String filePath=data.getExtras().getString("path");
+                if (myFragment==null) {
+                    return;
+                }
+                myFragment.refreshAvatar(filePath);
             }
         }
     }

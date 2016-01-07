@@ -55,7 +55,10 @@
         <activity android:name=".activity.my.MyFeedBackActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.my.MyRepaymentActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="com.zbar.lib.CaptureActivity" android:screenOrientation="portrait"></activity>
-
+        <activity android:name=".imageUtils.CameraActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".imageUtils.CameraBeforeActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".imageUtils.CropActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".imageUtils.ImagePreviewActivity" android:screenOrientation="portrait"></activity>
         <!--微信分享相关-->
         <activity
             android:name=".wxapi.WXEntryActivity"

@@ -36,6 +36,7 @@
         android:textColor="@android:color/holo_red_dark"
         android:gravity="center"
         android:text="0"
+        android:visibility="invisible"
         android:background="@drawable/circle_corner_red_point"/>
     <View
         android:layout_width="match_parent"

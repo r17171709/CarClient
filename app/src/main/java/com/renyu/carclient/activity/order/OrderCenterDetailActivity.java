@@ -24,6 +24,7 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by renyu on 15/12/28.
@@ -110,7 +111,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
         else {
             ordercenter_state_layout.setVisibility(View.GONE);
         }
-        adapter=new OrderAdapter(this, models, true, getIntent().getExtras().getBoolean("isEdit"), null, null);
+        adapter=new OrderAdapter(this, models, true, getIntent().getExtras().getBoolean("isEdit"), null, null, null);
         ordercenter_slv.setAdapter(adapter);
         if (getIntent().getExtras().getBoolean("isEdit")) {
             ordercenter_oper.setVisibility(View.GONE);
@@ -245,7 +246,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.ordercenter_return_back, R.id.ordercenter_return_commit, R.id.ordercenter_applyreturn})
+    @OnClick({R.id.ordercenter_return_back, R.id.ordercenter_return_commit, R.id.ordercenter_applyreturn, R.id.ordercenter_commit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ordercenter_return_back:
@@ -273,6 +274,9 @@ public class OrderCenterDetailActivity extends BaseActivity {
             case R.id.ordercenter_applyreturn:
                 cancelSales(model);
                 break;
+            case R.id.ordercenter_commit:
+                commitReceive(model);
+                break;
         }
     }
 
@@ -295,6 +299,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
                     showToast(JsonParse.getResultValue(string));
                     if (JsonParse.getResultInt(string) == 0) {
                         getOrderDetail();
+                        EventBus.getDefault().post(new OrderModel());
                     }
                 }
             }
@@ -323,6 +328,37 @@ public class OrderCenterDetailActivity extends BaseActivity {
                     showToast(JsonParse.getResultValue(string));
                     if (JsonParse.getResultInt(string) == 0) {
                         getOrderDetail();
+                        EventBus.getDefault().post(new OrderModel());
+                    }
+                }
+            }
+
+            @Override
+            public void onError() {
+                dismissDialog();
+            }
+        });
+    }
+
+    private void commitReceive(OrderModel model) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.xiulichang.order.confirm", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", ""+userModel.getUser_id());
+        params.put("tid", ""+model.getTid());
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                showDialog("提示", "正在提交");
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                dismissDialog();
+
+                if (JsonParse.getResultValue(string)!=null) {
+                    showToast(JsonParse.getResultValue(string));
+                    if (JsonParse.getResultInt(string) == 0) {
+                        getOrderDetail();
+                        EventBus.getDefault().post(new OrderModel());
                     }
                 }
             }

@@ -113,7 +113,7 @@ public class MyInfoActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.myinfo_comp_text, R.id.myinfo_bussiness_text})
+    @OnClick({R.id.myinfo_comp_text, R.id.myinfo_bussiness_text, R.id.myinfo_avatar})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.myinfo_comp_text:
@@ -132,6 +132,10 @@ public class MyInfoActivity extends BaseActivity {
                     myinfo_bussiness_layout.setVisibility(View.VISIBLE);
                 }
                 break;
+            case R.id.myinfo_avatar:
+                break;
         }
     }
+
+
 }

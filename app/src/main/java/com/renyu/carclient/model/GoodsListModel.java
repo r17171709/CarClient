@@ -103,6 +103,7 @@ public class GoodsListModel implements Serializable {
     private String params;
     private int quantity;
     private boolean isChecked;
+    private boolean isChoucang;
 
     public String getParams() {
         return params;
@@ -486,5 +487,13 @@ public class GoodsListModel implements Serializable {
 
     public void setReal_price(String real_price) {
         this.real_price = real_price;
+    }
+
+    public boolean isChoucang() {
+        return isChoucang;
+    }
+
+    public void setChoucang(boolean choucang) {
+        isChoucang = choucang;
     }
 }

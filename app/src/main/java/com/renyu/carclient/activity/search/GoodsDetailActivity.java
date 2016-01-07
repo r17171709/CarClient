@@ -235,7 +235,7 @@ public class GoodsDetailActivity extends BaseActivity {
                     startActivityForResult(intent_fav, ParamUtils.RESULT_LOGIN);
                     return;
                 }
-                addFav(true);
+                addFav(model.isChoucang());
                 break;
         }
     }
@@ -413,6 +413,13 @@ public class GoodsDetailActivity extends BaseActivity {
                 goodsdetil_store.setText("库存：" + model.getStore());
 
                 goodsdetailview.setUrl("http://www.baidu.com");
+
+                if (model.isChoucang()) {
+                    goodsdetil_fav.setImageResource(R.mipmap.ic_launcher);
+                }
+                else {
+                    goodsdetil_fav.setImageResource(R.mipmap.ic_launcher);
+                }
             }
 
             @Override
@@ -475,8 +482,12 @@ public class GoodsDetailActivity extends BaseActivity {
                 if (JsonParse.getResultValue(string) != null) {
                     showToast(JsonParse.getResultValue(string));
                     if (JsonParse.getResultInt(string) == 0) {
+                        model.setChoucang(!model.isChoucang());
                         if (isAdd) {
-
+                            goodsdetil_fav.setImageResource(R.mipmap.ic_launcher);
+                        }
+                        else {
+                            goodsdetil_fav.setImageResource(R.mipmap.ic_launcher);
                         }
                     }
                 } else {

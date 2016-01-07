@@ -35,4 +35,6 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.github.orangegangsters:swipy:1.2.0@aar'
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.edmodo:cropper:1.0.1'
+    compile project(':module_photoview')
 }

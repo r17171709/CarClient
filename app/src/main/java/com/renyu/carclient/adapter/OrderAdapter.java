@@ -46,6 +46,7 @@ public class OrderAdapter extends BaseAdapter {
 
     OnReturnListener listener;
     OnCancelListener cancelListener;
+    OnReceiveListener receiveListener;
 
     public interface OnReturnListener {
         void returnValue(OrderModel model, int position);
@@ -55,13 +56,18 @@ public class OrderAdapter extends BaseAdapter {
         void cancelValue(int position);
     }
 
-    public OrderAdapter(Context context, ArrayList<OrderModel> models, boolean isDetail, boolean isEdit, OnReturnListener listener, OnCancelListener cancelListener) {
+    public interface OnReceiveListener {
+        void receiveValue(int position);
+    }
+
+    public OrderAdapter(Context context, ArrayList<OrderModel> models, boolean isDetail, boolean isEdit, OnReturnListener listener, OnCancelListener cancelListener, OnReceiveListener receiveListener) {
         this.context = context;
         this.models = models;
         this.isDetail=isDetail;
         this.listener=listener;
         this.cancelListener=cancelListener;
         this.isEdit=isEdit;
+        this.receiveListener=receiveListener;
 
         df = new DecimalFormat("###.00");
 
@@ -124,7 +130,7 @@ public class OrderAdapter extends BaseAdapter {
                     cancelListener.cancelValue(position_);
                 }
                 else if (models.get(position_).getStatus().equals("WAIT_GOODS")) {
-
+                    receiveListener.receiveValue(position_);
                 }
                 else if (models.get(position_).getStatus().equals("RECEIVE_GOODS")) {
 

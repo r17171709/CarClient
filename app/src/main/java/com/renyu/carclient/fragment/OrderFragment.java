@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by renyu on 15/12/10.
@@ -60,6 +63,19 @@ public class OrderFragment extends BaseFragment {
     @Override
     public int initContentView() {
         return R.layout.fragment_order;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -177,6 +193,11 @@ public class OrderFragment extends BaseFragment {
             public void cancelValue(int position) {
                 cancelSales(models.get(position));
             }
+        }, new OrderAdapter.OnReceiveListener() {
+            @Override
+            public void receiveValue(int position) {
+                commitReceive(models.get(position));
+            }
         });
         ordercenter_lv.setAdapter(adapter);
         ordercenter_swipy.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
@@ -235,6 +256,7 @@ public class OrderFragment extends BaseFragment {
 
     private void getOrderLists(String status) {
         if (page_no==1) {
+            getCount();
             models.clear();
             adapter.notifyDataSetChanged();
         }
@@ -287,6 +309,7 @@ public class OrderFragment extends BaseFragment {
 
     private void cancelSales(OrderModel model) {
         HashMap<String, String> params= ParamUtils.getSignParams("app.xiulichang.order.cancel", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", ""+userModel.getUser_id());
         params.put("tid", ""+model.getTid());
         httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
             @Override
@@ -341,5 +364,127 @@ public class OrderFragment extends BaseFragment {
                 dismissDialog();
             }
         });
+    }
+
+    private void commitReceive(OrderModel model) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.xiulichang.order.confirm", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", ""+userModel.getUser_id());
+        params.put("tid", ""+model.getTid());
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                showDialog("提示", "正在提交");
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                dismissDialog();
+
+                if (JsonParse.getResultValue(string)!=null) {
+                    showToast(JsonParse.getResultValue(string));
+                    if (JsonParse.getResultInt(string) == 0) {
+                        ordercenter_swipy.setRefreshing(true);
+                        page_no=1;
+                        switch (current_choice) {
+                            case 0:
+                                getOrderLists("");
+                                break;
+                            case 1:
+                                getOrderLists("WAIT_CONFRIM");
+                                break;
+                            case 2:
+                                getOrderLists("DELIVER_GOODS");
+                                break;
+                            case 3:
+                                getOrderLists("WAIT_GOODS");
+                                break;
+                            case 4:
+                                getOrderLists("RECEIVE_GOODS");
+                                break;
+                            case 5:
+                                getOrderLists("TRADE_FINISHED");
+                                break;
+                            case 6:
+                                getOrderLists("TRADE_CLOSED");
+                                break;
+                            case 7:
+                                getOrderLists("TRADE_CANCEL");
+                                break;
+                            case 8:
+                                getOrderLists("aftersaleslist");
+                                break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError() {
+                dismissDialog();
+            }
+        });
+    }
+
+    private void getCount() {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.xiulichang.order.count", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", ""+userModel.getUser_id());
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                Log.d("OrderFragment", string);
+                for (int i=0;i<numTextViews.size();i++) {
+                    if (numTextViews.get(i).getText().toString().equals("0")) {
+                        numTextViews.get(i).setVisibility(View.INVISIBLE);
+                    }
+                    else {
+                        numTextViews.get(i).setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
+    public void onEventMainThread(OrderModel model) {
+        ordercenter_swipy.setRefreshing(true);
+        page_no=1;
+        switch (current_choice) {
+            case 0:
+                getOrderLists("");
+                break;
+            case 1:
+                getOrderLists("WAIT_CONFRIM");
+                break;
+            case 2:
+                getOrderLists("DELIVER_GOODS");
+                break;
+            case 3:
+                getOrderLists("WAIT_GOODS");
+                break;
+            case 4:
+                getOrderLists("RECEIVE_GOODS");
+                break;
+            case 5:
+                getOrderLists("TRADE_FINISHED");
+                break;
+            case 6:
+                getOrderLists("TRADE_CLOSED");
+                break;
+            case 7:
+                getOrderLists("TRADE_CANCEL");
+                break;
+            case 8:
+                getOrderLists("aftersaleslist");
+                break;
+        }
     }
 }

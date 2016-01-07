@@ -35,17 +35,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
     Context context=null;
     ArrayList<ProductModel> models=null;
     OnCheckChangedListener listener=null;
+    OnDeleteListener deleteListener=null;
 
     boolean onBind=true;
 
     public interface OnCheckChangedListener {
-        void OnCheckChanged(int position, boolean flag);
+        void onCheckChanged(int position, boolean flag);
     }
 
-    public CartAdapter(Context context, ArrayList<ProductModel> models, OnCheckChangedListener listener) {
+    public interface OnDeleteListener {
+        void onDeleteValue(int position);
+    }
+
+    public CartAdapter(Context context, ArrayList<ProductModel> models, OnCheckChangedListener listener, OnDeleteListener deleteListener) {
         this.context = context;
         this.models = models;
         this.listener=listener;
+        this.deleteListener=deleteListener;
     }
 
     @Override
@@ -79,7 +85,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
             public void onClick(View v) {
                 holder.cart_checkbox.setChecked(!models.get(position).isChecked());
                 models.get(position).setChecked(!models.get(position).isChecked());
-                listener.OnCheckChanged(position, !models.get(position).isChecked());
+                listener.onCheckChanged(position, !models.get(position).isChecked());
             }
         });
         ImageLoader.getInstance().displayImage(models.get(position).getImage_default_id(), holder.cart_image, getAvatarDisplayImageOptions());
@@ -112,6 +118,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
                 bundle.putString("item_id", ""+models.get(position).getItem_id());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
+            }
+        });
+        holder.cart_productnum_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteListener.onDeleteValue(position);
             }
         });
         onBind=false;
