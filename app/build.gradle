@@ -11,11 +11,27 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        myConfig{
+            storeFile file("android.keystore")
+            storePassword KEYSTORE_PASSWORD
+            keyAlias "android.keystore"
+            keyPassword KEY_PASSWORD
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.myConfig
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
         }
+    }
+    dexOptions {
+        incremental true
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 

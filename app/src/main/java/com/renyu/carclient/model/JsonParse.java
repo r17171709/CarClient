@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by renyu on 15/12/25.
@@ -473,5 +474,29 @@ public class JsonParse {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static HashMap<String, String> getNum(String string) {
+        HashMap<String, String> map=null;
+        try {
+            map=new HashMap<>();
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data1=result.getJSONObject("data");
+            JSONObject data2=data1.getJSONObject("data");
+            map.put("TRADE_FINISHED", data2.getString("TRADE_FINISHED"));
+            map.put("TRADE_CANCEL", data2.getString("TRADE_CANCEL"));
+            map.put("WAIT_APPROVE", data2.getString("WAIT_APPROVE"));
+            map.put("AFTERSALES", data2.getString("AFTERSALES"));
+            map.put("DELIVER_GOODS", data2.getString("DELIVER_GOODS"));
+            map.put("WAIT_GOODS", data2.getString("WAIT_GOODS"));
+            map.put("TRADE_CLOSED", data2.getString("TRADE_CLOSED"));
+            map.put("WAIT_CONFRIM", data2.getString("WAIT_CONFRIM"));
+            map.put("RECEIVE_GOODS", data2.getString("RECEIVE_GOODS"));
+            return map;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -33,7 +33,7 @@
         android:textSize="11sp"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/view_ordercenter_item_layout"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@android:color/white"
         android:gravity="center"
         android:text="0"
         android:visibility="invisible"

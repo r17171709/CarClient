@@ -3,6 +3,7 @@ package com.renyu.carclient.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.support.v7.widget.GridLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -437,7 +438,35 @@ public class OrderFragment extends BaseFragment {
             @Override
             public void onSuccess(String string) {
                 Log.d("OrderFragment", string);
+                HashMap<String, String> map=JsonParse.getNum(string);
                 for (int i=0;i<numTextViews.size();i++) {
+                    if (i==0) {
+
+                    }
+                    else if (i==1) {
+                        numTextViews.get(i).setText(map.get("WAIT_CONFRIM"));
+                    }
+                    else if (i==2) {
+                        numTextViews.get(i).setText(map.get("DELIVER_GOODS"));
+                    }
+                    else if (i==3) {
+                        numTextViews.get(i).setText(map.get("WAIT_GOODS"));
+                    }
+                    else if (i==4) {
+                        numTextViews.get(i).setText(map.get("RECEIVE_GOODS"));
+                    }
+                    else if (i==5) {
+                        numTextViews.get(i).setText(map.get("TRADE_FINISHED"));
+                    }
+                    else if (i==6) {
+                        numTextViews.get(i).setText(map.get("TRADE_CLOSED"));
+                    }
+                    else if (i==7) {
+                        numTextViews.get(i).setText(map.get("TRADE_CANCEL"));
+                    }
+                    else if (i==8) {
+                        numTextViews.get(i).setText(map.get("AFTERSALES"));
+                    }
                     if (numTextViews.get(i).getText().toString().equals("0")) {
                         numTextViews.get(i).setVisibility(View.INVISIBLE);
                     }
