@@ -147,6 +147,9 @@ public class SearchCatogoryView extends LinearLayout {
             public void onSuccess(String string) {
                 ArrayList<CategoryModel> models= JsonParse.getCategoryListModel(string);
                 if (models!=null) {
+                    for (int i=0;i<models.size();i++) {
+                        models.get(i).setOpen(false);
+                    }
                     firstModels.addAll(models);
                     goods_catogory_adapter_grandparent.notifyDataSetChanged();
                 }

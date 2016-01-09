@@ -8,6 +8,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -72,6 +73,8 @@ public class GoodsDetailActivity extends BaseActivity {
     ImageView goodsdetil_fav;
     @Bind(R.id.goodsdetil_isLogin)
     Button goodsdetil_isLogin;
+    @Bind(R.id.goodsdetil_price)
+    TextView goodsdetil_price;
 
     ArrayList<ImageView> imageViews=null;
     ArrayList<String> urls=null;
@@ -412,14 +415,17 @@ public class GoodsDetailActivity extends BaseActivity {
                 goodsdetil_title.setText(model.getTitle());
                 goodsdetil_store.setText("库存：" + model.getStore());
 
-                goodsdetailview.setUrl("http://www.baidu.com");
+                goodsdetailview.setUrl("http://www.kzmall.cn/wap/itempic.html?item_id="+model.getItem_id());
 
                 if (model.isChoucang()) {
-                    goodsdetil_fav.setImageResource(R.mipmap.ic_launcher);
+                    goodsdetil_fav.setImageResource(R.mipmap.ic_fav);
                 }
                 else {
-                    goodsdetil_fav.setImageResource(R.mipmap.ic_launcher);
+                    goodsdetil_fav.setImageResource(R.mipmap.ic_fav);
                 }
+
+                goodsdetil_price.setText("￥"+model.getPrice());
+                goodsdetil_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             }
 
             @Override
@@ -484,10 +490,10 @@ public class GoodsDetailActivity extends BaseActivity {
                     if (JsonParse.getResultInt(string) == 0) {
                         model.setChoucang(!model.isChoucang());
                         if (isAdd) {
-                            goodsdetil_fav.setImageResource(R.mipmap.ic_launcher);
+                            goodsdetil_fav.setImageResource(R.mipmap.ic_fav);
                         }
                         else {
-                            goodsdetil_fav.setImageResource(R.mipmap.ic_launcher);
+                            goodsdetil_fav.setImageResource(R.mipmap.ic_fav);
                         }
                     }
                 } else {

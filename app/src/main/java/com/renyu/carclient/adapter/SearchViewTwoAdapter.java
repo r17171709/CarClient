@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.GoodsListActivity;
+import com.renyu.carclient.commons.CommonUtils;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.CategoryModel;
 
@@ -64,12 +66,15 @@ public class SearchViewTwoAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position)==PARENT) {
             ((SearchCategoryChild1ViewHolder) holder).adapter_searchcategory_child_1_text.setText(models.get(position).getCat_name());
+            ((SearchCategoryChild1ViewHolder) holder).adapter_searchcategory_child_1_text.setTextSize(13);
             ((SearchCategoryChild1ViewHolder) holder).adapter_searchcategory_child_1_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.openClose(position);
                 }
             });
+            ((SearchCategoryChild1ViewHolder) holder).adapter_searchcategory_child_1_layout.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(context, 31)));
+
             if (models.get(position).isOpen()) {
                 ((SearchCategoryChild1ViewHolder) holder).adapter_searchcategory_child_1_image.setImageResource(R.mipmap.ic_arr_down_red);
             }
@@ -79,9 +84,11 @@ public class SearchViewTwoAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
         else if (getItemViewType(position)==CHILD) {
             ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_text.setText(models.get(position).getCat_name());
+            ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_text.setTextSize(13);
+            ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(context, 31)));
             if (models.get(position).isOpen()) {
                 ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setVisibility(View.VISIBLE);
-                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 70));
+                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(context, 31)));
             }
             else {
                 ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
@@ -113,7 +120,7 @@ public class SearchViewTwoAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static class SearchCategoryChild1ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.adapter_searchcategory_child_1_layout)
-        RelativeLayout adapter_searchcategory_child_1_layout;
+        LinearLayout adapter_searchcategory_child_1_layout;
         @Bind(R.id.adapter_searchcategory_child_1_text)
         TextView adapter_searchcategory_child_1_text;
         @Bind(R.id.adapter_searchcategory_child_1_image)
@@ -128,7 +135,7 @@ public class SearchViewTwoAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static class SearchCategoryChild2ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.adapter_searchcategory_child_2_layout)
-        RelativeLayout adapter_searchcategory_child_2_layout;
+        LinearLayout adapter_searchcategory_child_2_layout;
         @Bind(R.id.adapter_searchcategory_child_2_text)
         TextView adapter_searchcategory_child_2_text;
 

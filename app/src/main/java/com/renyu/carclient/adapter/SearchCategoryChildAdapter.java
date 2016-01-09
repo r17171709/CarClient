@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.GoodsListActivity;
+import com.renyu.carclient.commons.CommonUtils;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.CategoryModel;
 
@@ -79,10 +81,10 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
             ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_text.setText(models.get(position).getCat_name());
             if (models.get(position).isOpen()) {
                 ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setVisibility(View.VISIBLE);
-                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 70));
+                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(context, 45)));
             }
             else {
-                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
+                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
             }
             ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -118,7 +120,7 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
     public static class SearchCategoryChild1ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.adapter_searchcategory_child_1_layout)
-        RelativeLayout adapter_searchcategory_child_1_layout;
+        LinearLayout adapter_searchcategory_child_1_layout;
         @Bind(R.id.adapter_searchcategory_child_1_text)
         TextView adapter_searchcategory_child_1_text;
         @Bind(R.id.adapter_searchcategory_child_1_image)
@@ -133,7 +135,7 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
     public static class SearchCategoryChild2ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.adapter_searchcategory_child_2_layout)
-        RelativeLayout adapter_searchcategory_child_2_layout;
+        LinearLayout adapter_searchcategory_child_2_layout;
         @Bind(R.id.adapter_searchcategory_child_2_text)
         TextView adapter_searchcategory_child_2_text;
 

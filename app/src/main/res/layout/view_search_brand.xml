@@ -7,14 +7,14 @@
         android:id="@+id/goods_brand_parent"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="250dip">
 
     </android.support.v7.widget.RecyclerView>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/goods_brand_child"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="250dip">
 
     </android.support.v7.widget.RecyclerView>
 </com.renyu.carclient.myview.SearchBrandView>

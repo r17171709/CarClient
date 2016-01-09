@@ -67,7 +67,7 @@
                 android:id="@+id/main_collection_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/tab_main_cartype_nor"/>
+                android:src="@mipmap/tab_main_fav_nor"/>
             <TextView
                 android:id="@+id/main_collection_text"
                 android:layout_width="wrap_content"

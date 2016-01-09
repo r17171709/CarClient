@@ -22,38 +22,56 @@
                     <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
                         android:id="@+id/goodsdetil_vp"
                         android:layout_width="match_parent"
-                        android:layout_height="200dip" />
+                        android:layout_height="250dip" />
                     <LinearLayout
                         android:orientation="horizontal"
+                        android:background="#b6b6b6"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="40dip">
                         <TextView
                             android:id="@+id/goodsdetil_title"
                             android:text="asdasdasd"
                             android:layout_weight="1"
+                            android:layout_marginLeft="15dip"
+                            android:layout_marginRight="15dip"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="13sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
+                        <View
+                            android:layout_width="0.5dip"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/white"/>
                         <ImageView
-                            android:layout_width="wrap_content"
+                            android:layout_width="62dip"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/ic_launcher"/>
+                            android:layout_gravity="center"
+                            android:src="@mipmap/ic_share"/>
                     </LinearLayout>
+
                     <RelativeLayout
-                        android:layout_marginTop="10dip"
+                        android:paddingRight="15dip"
+                        android:paddingLeft="15dip"
+                        android:background="#eeeeee"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <LinearLayout
+                            android:layout_marginTop="10dip"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/goodsdetil_price"
                                 android:text="100.0"
+                                android:textColor="#828282"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <Button
                                 android:id="@+id/goodsdetil_isLogin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="130dip"
+                                android:layout_height="30dip"
+                                android:layout_marginTop="8dip"
+                                android:textSize="13sp"
                                 android:text="登录即享受优惠"
                                 android:background="@android:color/holo_red_dark"
                                 android:textColor="@android:color/white"/>
@@ -67,15 +85,16 @@
                             android:layout_height="wrap_content">
                             <ImageView
                                 android:id="@+id/goodsdetil_fav"
-                                android:src="@mipmap/ic_launcher"
+                                android:src="@mipmap/ic_fav"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="13sp"
+                                android:layout_marginTop="3dip"
                                 android:text="收藏"/>
                         </LinearLayout>
-
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_marginTop="10dip"

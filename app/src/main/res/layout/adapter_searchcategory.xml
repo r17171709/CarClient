@@ -6,17 +6,18 @@
     <RelativeLayout
         android:id="@+id/searchcategory_parent_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dip"
         android:background="#e3e3e3" >
         <ImageView
             android:id="@+id/searchcategory_parent_image"
             android:layout_width="80dip"
             android:layout_height="74dip"
-            android:layout_marginLeft="15dip"
-            android:layout_marginRight="15dip"
-            android:layout_marginTop="5dip"
-            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
             android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
             android:src="@mipmap/ic_category_default"/>
         <TextView
             android:id="@+id/searchcategory_parent_text"
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="20dip"
             android:src="@mipmap/ic_arr_right_black"/>
     </RelativeLayout>
     <View

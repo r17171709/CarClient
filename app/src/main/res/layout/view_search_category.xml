@@ -6,15 +6,17 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/goods_catogory_grandparent"
         android:layout_weight="1"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="250dip">
 
     </android.support.v7.widget.RecyclerView>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/goods_catogory_parent"
         android:layout_weight="1"
+        android:background="#dadada"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="250dip">
 
     </android.support.v7.widget.RecyclerView>
 </com.renyu.carclient.myview.SearchCatogoryView>

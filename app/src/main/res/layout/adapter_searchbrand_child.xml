@@ -21,17 +21,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_arr_down_black"/>
+            android:layout_marginRight="20dip"
+            android:src="@mipmap/ic_arr_right_black"/>
         <TextView
             android:id="@+id/searchbrand_title"
             android:layout_toRightOf="@id/searchbrand_image"
             android:layout_toLeftOf="@id/searchbrand_arror"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
+            android:layout_marginLeft="50dip"
             android:layout_marginRight="10dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#202020"
+            android:textSize="16sp"
             android:text="123"/>
     </RelativeLayout>
     <View

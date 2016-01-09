@@ -51,7 +51,7 @@ public class IndexFragment extends BaseFragment {
         settings.setDatabaseEnabled(true);
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(false);
-        main_wv.loadUrl("http://www.baidu.com");
+        main_wv.loadUrl("http://www.kzmall.cn/wap");
     }
 
     @OnClick({R.id.toolbar_main_right_button})

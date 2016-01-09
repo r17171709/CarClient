@@ -1,10 +1,12 @@
 package com.renyu.carclient.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
@@ -47,8 +49,19 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
             @Override
             public void onClick(View v) {
                 listener.onItemClick(position);
+                for (int i=0;i<models.size();i++) {
+                    models.get(i).setOpen(false);
+                }
+                models.get(position).setOpen(true);
+                notifyDataSetChanged();
             }
         });
+        if (models.get(position).isOpen()) {
+            holder.adapter_searchview_layout.setBackgroundColor(Color.parseColor("#ececec"));
+        }
+        else {
+            holder.adapter_searchview_layout.setBackgroundColor(Color.WHITE);
+        }
     }
 
     @Override
@@ -58,6 +71,8 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
 
     public static class SearchViewHolder extends RecyclerView.ViewHolder {
 
+        @Bind(R.id.adapter_searchview_layout)
+        RelativeLayout adapter_searchview_layout;
         @Bind(R.id.adapter_searchview_title)
         TextView adapter_searchview_title;
 

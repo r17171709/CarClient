@@ -1,31 +1,33 @@
 package com.renyu.carclient.activity.search;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.login.LoginActivity;
+import com.renyu.carclient.activity.order.CartActivity;
 import com.renyu.carclient.adapter.GoodsListGridAdapter;
 import com.renyu.carclient.adapter.GoodsListLinearAdapter;
 import com.renyu.carclient.base.BaseActivity;
+import com.renyu.carclient.commons.ACache;
 import com.renyu.carclient.commons.OKHttpHelper;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.GoodsListModel;
 import com.renyu.carclient.model.JsonParse;
+import com.renyu.carclient.model.UserModel;
 import com.renyu.carclient.myview.SearchBrandView;
 import com.renyu.carclient.myview.SearchCatogoryView;
 
@@ -40,14 +42,12 @@ import butterknife.OnClick;
  */
 public class GoodsListActivity extends BaseActivity {
 
-    @Bind(R.id.view_toolbar_center_layout)
-    RelativeLayout view_toolbar_center_layout;
-    @Bind(R.id.view_toolbar_center_image)
-    ImageView view_toolbar_center_image;
-    @Bind(R.id.view_toolbar_center_title)
-    TextView view_toolbar_center_title;
     @Bind(R.id.view_toolbar_center_back)
     ImageView view_toolbar_center_back;
+    @Bind(R.id.view_toolbar_center_next)
+    ImageView view_toolbar_center_next;
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
     @Bind(R.id.goods_list_swipy)
     SwipyRefreshLayout goods_list_swipy;
     @Bind(R.id.goods_list_rv)
@@ -72,6 +72,8 @@ public class GoodsListActivity extends BaseActivity {
     String current_cat_id="";
     String current_brand_id="";
 
+    UserModel userModel=null;
+
     @Override
     public int initContentView() {
         return R.layout.activity_goodslist;
@@ -81,17 +83,18 @@ public class GoodsListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
+
         models=new ArrayList<>();
 
         initViews();
     }
 
     private void initViews() {
-        view_toolbar_center_layout.setBackgroundColor(Color.WHITE);
-        view_toolbar_center_image.setImageResource(R.mipmap.ic_search_logo_null);
         view_toolbar_center_title.setText("商品列表");
-        view_toolbar_center_title.setTextColor(Color.parseColor("#181818"));
-        view_toolbar_center_back.setImageResource(R.mipmap.ic_back_red);
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
+        view_toolbar_center_next.setVisibility(View.VISIBLE);
+        view_toolbar_center_next.setImageResource(R.mipmap.ic_goodslist_cart);
 
         goods_list_swipy.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         goods_list_swipy.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
@@ -194,7 +197,7 @@ public class GoodsListActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.goods_list_price, R.id.goods_list_sale, R.id.goods_list_screening, R.id.goods_list_changetype})
+    @OnClick({R.id.goods_list_price, R.id.goods_list_sale, R.id.goods_list_screening, R.id.goods_list_changetype, R.id.view_toolbar_center_back, R.id.view_toolbar_center_next})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.goods_list_price:
@@ -224,6 +227,18 @@ public class GoodsListActivity extends BaseActivity {
                     return;
                 }
                 pop.showAsDropDown(goods_list_changetype, 0, 0);
+                break;
+            case R.id.view_toolbar_center_back:
+                finish();
+                break;
+            case R.id.view_toolbar_center_next:
+                if (userModel==null) {
+                    Intent intent=new Intent(GoodsListActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, ParamUtils.RESULT_LOGIN);
+                    return;
+                }
+                Intent intent=new Intent(GoodsListActivity.this, CartActivity.class);
+                startActivity(intent);
         }
     }
 
@@ -263,5 +278,20 @@ public class GoodsListActivity extends BaseActivity {
                 goods_list_swipy.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_OK) {
+            if (requestCode==ParamUtils.RESULT_LOGIN) {
+                if (isLinearMode) {
+                    linearAdapter.notifyDataSetChanged();
+                }
+                else {
+                    gridAdapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 }

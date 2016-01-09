@@ -132,6 +132,7 @@ public class SearchBrandView extends LinearLayout {
                     CategoryModel model=new CategoryModel();
                     model.setCat_name(models.get(i).getBrand_name());
                     model.setCat_id(models.get(i).getBrand_id());
+                    model.setOpen(false);
                     firstModels.add(model);
                 }
                 goods_brand_parent_adapter.notifyDataSetChanged();
@@ -159,6 +160,7 @@ public class SearchBrandView extends LinearLayout {
                     CategoryModel model=new CategoryModel();
                     model.setCat_name(models.get(i).getCat_name());
                     model.setCat_id(Integer.parseInt(models.get(i).getCat_id()));
+                    model.setOpen(false);
                     secondModels.add(model);
                 }
                 goods_brand_child.setAdapter(goods_brand_child_adapter);

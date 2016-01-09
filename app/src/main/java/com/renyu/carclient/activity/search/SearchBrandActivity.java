@@ -3,7 +3,6 @@ package com.renyu.carclient.activity.search;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -85,8 +84,7 @@ public class SearchBrandActivity extends BaseActivity {
     }
 
     private void initViews() {
-        view_toolbar_center_image.setImageResource(R.mipmap.ic_brand_logo);
-        view_toolbar_center_title.setText("");
+        view_toolbar_center_title.setText("品牌");
         view_toolbar_center_back.setVisibility(View.VISIBLE);
         searchbrand_letterindicator.setOnLetterChangedListener(new LetterIndicatorView.OnLetterChangedListener() {
             @Override

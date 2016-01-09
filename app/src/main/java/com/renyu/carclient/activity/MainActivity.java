@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity {
         main_main_text.setTextColor(Color.parseColor("#fbfbfb"));
         main_search_image.setImageResource(R.mipmap.tab_main_search_nor);
         main_search_text.setTextColor(Color.parseColor("#fbfbfb"));
-        main_collection_image.setImageResource(R.mipmap.tab_main_cartype_nor);
+        main_collection_image.setImageResource(R.mipmap.tab_main_fav_nor);
         main_collection_text.setTextColor(Color.parseColor("#fbfbfb"));
         main_order_image.setImageResource(R.mipmap.tab_main_cart_nor);
         main_order_text.setTextColor(Color.parseColor("#fbfbfb"));
@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity {
             main_search_text.setTextColor(Color.parseColor("#eb0201"));
         }
         else if (title.equals("three")) {
-            main_collection_image.setImageResource(R.mipmap.tab_main_cartype_sel);
+            main_collection_image.setImageResource(R.mipmap.tab_main_fav_sel);
             main_collection_text.setTextColor(Color.parseColor("#eb0201"));
         }
         else if (title.equals("four")) {

@@ -2,6 +2,7 @@ package com.renyu.carclient.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.GoodsDetailActivity;
+import com.renyu.carclient.commons.ACache;
 import com.renyu.carclient.model.GoodsListModel;
+import com.renyu.carclient.model.UserModel;
 
 import java.util.ArrayList;
 
@@ -31,9 +34,13 @@ public class GoodsListLinearAdapter extends RecyclerView.Adapter<GoodsListLinear
     Context context=null;
     ArrayList<GoodsListModel> models=null;
 
+    UserModel userModel=null;
+
     public GoodsListLinearAdapter(Context context, ArrayList<GoodsListModel> models) {
         this.context=context;
         this.models=models;
+
+        userModel= ACache.get(context).getAsObject("user")!=null?(UserModel) ACache.get(context).getAsObject("user"):null;
     }
 
     @Override
@@ -57,7 +64,14 @@ public class GoodsListLinearAdapter extends RecyclerView.Adapter<GoodsListLinear
         });
         ImageLoader.getInstance().displayImage(models.get(position).getImage_default_id(), holder.adapter_goodslist_linear_image, getGoodsImageOptions());
         holder.adapter_goodslist_linear_price.setText(""+models.get(position).getPrice());
-        holder.adapter_goodslist_linear_discountdesp.setText("登录享受优惠");
+        holder.adapter_goodslist_linear_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        if (userModel==null) {
+            holder.adapter_goodslist_linear_discountdesp.setVisibility(View.VISIBLE);
+            holder.adapter_goodslist_linear_discountdesp.setText("登录享受优惠");
+        }
+        else {
+            holder.adapter_goodslist_linear_discountdesp.setVisibility(View.GONE);
+        }
     }
 
     @Override

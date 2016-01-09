@@ -27,8 +27,6 @@ import butterknife.OnClick;
  */
 public class SearchCategoryActivity extends BaseActivity {
 
-    @Bind(R.id.view_toolbar_center_image)
-    ImageView view_toolbar_center_image;
     @Bind(R.id.view_toolbar_center_title)
     TextView view_toolbar_center_title;
     @Bind(R.id.view_toolbar_center_back)
@@ -69,8 +67,7 @@ public class SearchCategoryActivity extends BaseActivity {
     }
 
     private void initViews() {
-        view_toolbar_center_image.setImageResource(R.mipmap.ic_category_logo);
-        view_toolbar_center_title.setText("");
+        view_toolbar_center_title.setText("分类");
         view_toolbar_center_back.setVisibility(View.VISIBLE);
         searchcategory_rv.setHasFixedSize(true);
         RecyclerView.LayoutManager manager= new LinearLayoutManager(this);
