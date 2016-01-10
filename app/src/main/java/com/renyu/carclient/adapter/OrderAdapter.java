@@ -306,6 +306,8 @@ public class OrderAdapter extends BaseAdapter {
                 }
                 else if (models.get(position).getStatus().equals("RECEIVE_GOODS")) {
                     ordercenter_child_applyreturn.setVisibility(View.GONE);
+                    ordercenter_child_applyreturn.setVisibility(View.VISIBLE);
+                    ordercenter_child_applyreturn.setText("申请退货");
                 }
                 else if (models.get(position).getStatus().equals("TRADE_FINISHED")) {
                     ordercenter_child_applyreturn.setVisibility(View.GONE);

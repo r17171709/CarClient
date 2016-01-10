@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include layout="@layout/view_toolbar_normal"></include>
+    android:layout_height="match_parent"
+    android:background="#efefef">
+    <include layout="@layout/view_toolbar_center"></include>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="售后申请说明"
+        android:textSize="15sp"
+        android:layout_marginTop="50dip"
+        android:layout_marginLeft="30dip"
         android:textColor="@android:color/black"/>
     <EditText
         android:id="@+id/myfeedback_edit"
         android:layout_width="match_parent"
         android:background="@android:color/white"
-        android:layout_height="200dip"
+        android:gravity="top|left"
+        android:hint="请输入需要申请售后的产品和原因"
+        android:padding="5dip"
+        android:layout_height="150dip"
         android:layout_margin="20dip"/>
     <Button
         android:id="@+id/myfeedback_commit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dip"
+        android:textSize="16sp"
+        android:background="@android:color/white"
         android:text="提交"/>
 </LinearLayout>

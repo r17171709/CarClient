@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/view_toolbar_normal"></include>
+    <include layout="@layout/view_toolbar_center"></include>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_address_rv"
         android:layout_weight="1"
@@ -13,7 +13,9 @@
     <TextView
         android:id="@+id/my_address_add"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dip"
+        android:gravity="center"
+        android:textSize="15sp"
         android:textColor="@android:color/white"
         android:background="@android:color/holo_red_dark"
         android:text="新增收货地址"/>

@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -90,7 +90,7 @@ public class GoodsListLinearAdapter extends RecyclerView.Adapter<GoodsListLinear
         @Bind(R.id.adapter_goodslist_linear_price)
         TextView adapter_goodslist_linear_price;
         @Bind(R.id.adapter_goodslist_linear_layout)
-        RelativeLayout adapter_goodslist_linear_layout;
+        LinearLayout adapter_goodslist_linear_layout;
 
         public GoodsLinearHolder(View itemView) {
             super(itemView);

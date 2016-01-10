@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
@@ -28,6 +29,10 @@ import butterknife.OnClick;
  */
 public class MyAddressAddActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
     @Bind(R.id.addcustomer_area)
     TextView addcustomer_area;
     @Bind(R.id.addcustomer_address)
@@ -63,7 +68,10 @@ public class MyAddressAddActivity extends BaseActivity {
     }
 
     private void initViews() {
+
         if (addressModel!=null) {
+            view_toolbar_center_back.setVisibility(View.VISIBLE);
+            view_toolbar_center_title.setText("编辑收货地址");
             String address="";
             for (int i=0;i<addressModel.getArea().split("/").length;i++) {
                 address+= CommonUtils.getCityInfo(addressModel.getArea().split("/")[i]);
@@ -82,9 +90,13 @@ public class MyAddressAddActivity extends BaseActivity {
             addcustomer_zip.setText(addressModel.getZip());
             addcustomer_default.setChecked(addressModel.getDef_addr()==1?true:false);
         }
+        else {
+            view_toolbar_center_back.setVisibility(View.VISIBLE);
+            view_toolbar_center_title.setText("新增收货地址");
+        }
     }
 
-    @OnClick({R.id.addcustomer_area, R.id.addcustomer_add})
+    @OnClick({R.id.addcustomer_area, R.id.addcustomer_add, R.id.view_toolbar_center_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addcustomer_area:
@@ -93,6 +105,9 @@ public class MyAddressAddActivity extends BaseActivity {
                 break;
             case R.id.addcustomer_add:
                 addAddress();
+                break;
+            case R.id.view_toolbar_center_back:
+                finish();
                 break;
         }
     }

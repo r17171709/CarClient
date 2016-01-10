@@ -15,7 +15,8 @@
         android:layout_toRightOf="@id/adapter_collection_image"
         android:layout_centerVertical="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dip">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,15 +27,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#2c2c2c"
-                android:textSize="17sp"
+                android:textSize="16sp"
                 android:maxLines="2"
                 android:text="title"/>
             <TextView
                 android:id="@+id/adapter_collection_price"
+                android:layout_below="@id/adapter_collection_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#b6403b"
-                android:layout_marginTop="2dip"
+                android:textColor="#c40000"
+                android:textSize="16sp"
+                android:layout_marginTop="3dip"
                 android:text="title"/>
         </LinearLayout>
         <TextView
@@ -42,14 +45,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="删除"
-            android:layout_alignParentBottom="true"
+            android:background="@drawable/rectangle_corner_red"
+            android:textColor="@android:color/holo_red_dark"
+            android:padding="5dip"
+            android:layout_marginTop="50dip"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
     <View
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="1dip"
-        android:background="#e7e7e7">
+        android:background="#747474">
 
     </View>
 </RelativeLayout>

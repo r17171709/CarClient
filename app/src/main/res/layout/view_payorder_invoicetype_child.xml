@@ -2,26 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <TextView
+        android:id="@+id/payorder_invoicetype_normal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/payorder_invoicetype_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="普通发票"/>
-    </LinearLayout>
-    <LinearLayout
+        android:layout_height="43dip"
+        android:layout_marginLeft="28dip"
+        android:gravity="center_vertical"
+        android:text="普通发票"/>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/payorder_invoicetype_special"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="专用发票"/>
-    </LinearLayout>
+        android:layout_height="0.5dip"
+        android:background="#999999"></View>
+    <TextView
+        android:id="@+id/payorder_invoicetype_special"
+        android:layout_width="match_parent"
+        android:layout_height="43dip"
+        android:layout_marginLeft="28dip"
+        android:gravity="center_vertical"
+        android:text="专用发票"/>
 </LinearLayout>

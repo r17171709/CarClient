@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
@@ -31,6 +32,10 @@ import butterknife.OnClick;
  */
 public class CartActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
     @Bind(R.id.view_toolbar_center_text_next)
     TextView view_toolbar_center_text_next;
     @Bind(R.id.cart_content_rv)
@@ -38,6 +43,8 @@ public class CartActivity extends BaseActivity {
     CartAdapter adapter=null;
     @Bind(R.id.cart_choice_all)
     CheckBox cart_choice_all;
+    @Bind(R.id.cart_allmoney)
+    TextView cart_allmoney;
 
     ArrayList<ProductModel> models=null;
 
@@ -62,6 +69,8 @@ public class CartActivity extends BaseActivity {
     }
 
     private void initViews() {
+        view_toolbar_center_title.setText("购物车");
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
         view_toolbar_center_text_next.setVisibility(View.VISIBLE);
         view_toolbar_center_text_next.setText("编辑");
         cart_content_rv.setHasFixedSize(true);
@@ -84,6 +93,14 @@ public class CartActivity extends BaseActivity {
                 } else {
                     cart_choice_all.setChecked(false);
                 }
+
+                double totalPrice=0;
+                for (int i=0;i<models.size();i++) {
+                    String price=models.get(i).getReal_price().equals("-1")?models.get(i).getPrice():models.get(i).getReal_price();
+                    if (models.get(i).isChecked())
+                    totalPrice+=Double.parseDouble(price)*models.get(i).getQuantity();
+                }
+                cart_allmoney.setText("合计："+totalPrice+"元");
             }
         }, new CartAdapter.OnDeleteListener() {
             @Override
@@ -94,7 +111,7 @@ public class CartActivity extends BaseActivity {
         cart_content_rv.setAdapter(adapter);
     }
 
-    @OnClick({R.id.view_toolbar_center_text_next, R.id.view_toolbar_center_image, R.id.cart_cal, R.id.cart_collection})
+    @OnClick({R.id.view_toolbar_center_text_next, R.id.view_toolbar_center_back, R.id.cart_cal, R.id.cart_collection, R.id.cart_choice_all})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.view_toolbar_center_text_next:
@@ -102,8 +119,6 @@ public class CartActivity extends BaseActivity {
                     models.get(i).setEdit(!models.get(i).isEdit());
                 }
                 adapter.notifyDataSetChanged();
-                break;
-            case R.id.view_toolbar_center_image:
                 break;
             case R.id.cart_cal:
                 int num=0;
@@ -153,6 +168,18 @@ public class CartActivity extends BaseActivity {
                     return;
                 }
                 moveToFav(items);
+                break;
+            case R.id.view_toolbar_center_back:
+                finish();
+                break;
+            case R.id.cart_choice_all:
+                double totalPrice=0;
+                for (int i=0;i<models.size();i++) {
+                    String price=models.get(i).getReal_price().equals("-1")?models.get(i).getPrice():models.get(i).getReal_price();
+                    if (models.get(i).isChecked())
+                        totalPrice+=Double.parseDouble(price)*models.get(i).getQuantity();
+                }
+                cart_allmoney.setText("合计："+totalPrice+"元");
                 break;
         }
     }

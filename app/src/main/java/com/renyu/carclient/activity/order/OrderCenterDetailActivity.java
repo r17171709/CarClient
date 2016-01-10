@@ -1,10 +1,13 @@
 package com.renyu.carclient.activity.order;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
@@ -31,6 +34,14 @@ import de.greenrobot.event.EventBus;
  */
 public class OrderCenterDetailActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_layout)
+    RelativeLayout view_toolbar_center_layout;
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
+    @Bind(R.id.view_toolbar_center_image)
+    ImageView view_toolbar_center_image;
     @Bind(R.id.ordercenter_userinfo)
     TextView ordercenter_userinfo;
     @Bind(R.id.ordercenter_address)
@@ -100,6 +111,10 @@ public class OrderCenterDetailActivity extends BaseActivity {
     }
 
     private void initViews() {
+        view_toolbar_center_layout.setBackgroundColor(Color.parseColor("#717171"));
+        view_toolbar_center_title.setText("订单详情");
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
+        view_toolbar_center_image.setImageResource(R.mipmap.logo_white);
         if (status.equals("WAIT_GOODS")) {
             ordercenter_state_layout.setVisibility(View.VISIBLE);
             ordercenter_state_waitgoods.setVisibility(View.VISIBLE);
@@ -146,7 +161,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
                 address+=model.getReceiver_address();
                 ordercenter_address.setText(address);
                 ordercenter_createtime.setText(model.getCreated_time()==0?"订单创建：":"订单创建："+ParamUtils.getFormatTime(Long.parseLong(model.getCreated_time()+"000")));
-                ordercenter_sendtime.setText(model.getConsign_time()==0?"订单发货":"订单发货"+ParamUtils.getFormatTime(Long.parseLong(model.getConsign_time()+"000")));
+                ordercenter_sendtime.setText(model.getConsign_time()==0?"订单发货：":"订单发货"+ParamUtils.getFormatTime(Long.parseLong(model.getConsign_time()+"000")));
                 ordercenter_receivetime.setText(model.getCreated_time()==0?"确认收货：":"确认收货："+ParamUtils.getFormatTime(Long.parseLong(model.getReceiver_time()+"000")));
                 ordercenter_paytime.setText(model.getCreated_time()==0?"订单付款：":"订单付款："+ParamUtils.getFormatTime(Long.parseLong(model.getPay_time()+"000")));
                 if (status.equals("WAIT_GOODS")) {
@@ -193,22 +208,60 @@ public class OrderCenterDetailActivity extends BaseActivity {
                 if (status.equals("WAIT_CONFRIM")) {
                     ordercenter_commit.setVisibility(View.VISIBLE);
                     ordercenter_commit.setText("取消订单");
+                    ordercenter_commit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            cancelSales(model);
+                        }
+                    });
                     ordercenter_applyreturn.setVisibility(View.GONE);
                 }
                 else if (status.equals("DELIVER_GOODS")) {
                     ordercenter_commit.setVisibility(View.VISIBLE);
                     ordercenter_commit.setText("取消订单");
+                    ordercenter_commit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            cancelSales(model);
+                        }
+                    });
                     ordercenter_applyreturn.setVisibility(View.GONE);
                 }
                 else if (status.equals("WAIT_GOODS")) {
                     ordercenter_commit.setVisibility(View.VISIBLE);
                     ordercenter_commit.setText("确认收货");
+                    ordercenter_commit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            commitReceive(model);
+                        }
+                    });
                     ordercenter_applyreturn.setVisibility(View.VISIBLE);
+                    ordercenter_applyreturn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            adapter.setEdit(!adapter.isEdit());
+
+                            ordercenter_oper.setVisibility(View.GONE);
+                            ordercenter_timeinfo.setVisibility(View.GONE);
+                            ordercenter_return.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
                 else if (status.equals("RECEIVE_GOODS")) {
                     ordercenter_commit.setVisibility(View.VISIBLE);
                     ordercenter_commit.setText("付款");
-                    ordercenter_applyreturn.setVisibility(View.GONE);
+                    ordercenter_applyreturn.setVisibility(View.VISIBLE);
+                    ordercenter_applyreturn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            adapter.setEdit(!adapter.isEdit());
+
+                            ordercenter_oper.setVisibility(View.GONE);
+                            ordercenter_timeinfo.setVisibility(View.GONE);
+                            ordercenter_return.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
                 else if (status.equals("TRADE_FINISHED")) {
                     ordercenter_commit.setVisibility(View.GONE);
@@ -227,16 +280,6 @@ public class OrderCenterDetailActivity extends BaseActivity {
                     ordercenter_applyreturn.setText("取消退货");
                     ordercenter_applyreturn.setVisibility(View.GONE);
                 }
-                ordercenter_applyreturn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        adapter.setEdit(!adapter.isEdit());
-
-                        ordercenter_oper.setVisibility(View.GONE);
-                        ordercenter_timeinfo.setVisibility(View.GONE);
-                        ordercenter_return.setVisibility(View.VISIBLE);
-                    }
-                });
             }
 
             @Override
@@ -246,12 +289,11 @@ public class OrderCenterDetailActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.ordercenter_return_back, R.id.ordercenter_return_commit, R.id.ordercenter_applyreturn, R.id.ordercenter_commit})
+    @OnClick({R.id.ordercenter_return_back, R.id.ordercenter_return_commit, R.id.view_toolbar_center_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ordercenter_return_back:
                 adapter.setEdit(false);
-
                 ordercenter_oper.setVisibility(View.VISIBLE);
                 ordercenter_timeinfo.setVisibility(View.VISIBLE);
                 ordercenter_return.setVisibility(View.GONE);
@@ -271,11 +313,8 @@ public class OrderCenterDetailActivity extends BaseActivity {
                 ordercenter_timeinfo.setVisibility(View.VISIBLE);
                 ordercenter_return.setVisibility(View.GONE);
                 break;
-            case R.id.ordercenter_applyreturn:
-                cancelSales(model);
-                break;
-            case R.id.ordercenter_commit:
-                commitReceive(model);
+            case R.id.view_toolbar_center_back:
+                finish();
                 break;
         }
     }

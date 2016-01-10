@@ -2,6 +2,7 @@ package com.renyu.carclient.activity.my;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class MyInfoActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
     @Bind(R.id.myinfo_id)
     TextView myinfo_id;
     @Bind(R.id.myinfo_name)
@@ -74,6 +79,9 @@ public class MyInfoActivity extends BaseActivity {
 
         userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
 
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
+        view_toolbar_center_title.setText("基本信息");
+
         getMyData();
     }
 
@@ -113,7 +121,7 @@ public class MyInfoActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.myinfo_comp_text, R.id.myinfo_bussiness_text, R.id.myinfo_avatar})
+    @OnClick({R.id.myinfo_comp_text, R.id.myinfo_bussiness_text, R.id.myinfo_avatar, R.id.view_toolbar_center_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.myinfo_comp_text:
@@ -133,6 +141,9 @@ public class MyInfoActivity extends BaseActivity {
                 }
                 break;
             case R.id.myinfo_avatar:
+                break;
+            case R.id.view_toolbar_center_back:
+                finish();
                 break;
         }
     }

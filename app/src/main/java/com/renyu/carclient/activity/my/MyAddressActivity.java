@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.MyAddressAdapter;
@@ -27,6 +29,10 @@ import butterknife.OnClick;
  */
 public class MyAddressActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
     @Bind(R.id.my_address_rv)
     RecyclerView my_address_rv;
     MyAddressAdapter adapter=null;
@@ -52,6 +58,8 @@ public class MyAddressActivity extends BaseActivity {
     }
 
     private void initViews() {
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
+        view_toolbar_center_title.setText("管理收货地址");
         my_address_rv.setHasFixedSize(true);
         my_address_rv.setLayoutManager(new LinearLayoutManager(this));
         adapter=new MyAddressAdapter(this, models, new MyAddressAdapter.OnItemClickListener() {
@@ -67,12 +75,15 @@ public class MyAddressActivity extends BaseActivity {
         my_address_rv.setAdapter(adapter);
     }
 
-    @OnClick({R.id.my_address_add})
+    @OnClick({R.id.my_address_add, R.id.view_toolbar_center_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.my_address_add:
                 Intent intent=new Intent(MyAddressActivity.this, MyAddressAddActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.view_toolbar_center_back:
+                finish();
                 break;
         }
     }

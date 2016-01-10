@@ -427,8 +427,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 goodsdetil_title.setText(model.getTitle());
                 goodsdetil_store.setText("库存：" + model.getStore());
 
-//                goodsdetailview.setUrl("http://www.kzmall.cn/wap/itempic.html?item_id="+model.getItem_id());
-                goodsdetailview.setUrl("http://www.baidu.com");
+                goodsdetailview.setUrl("http://www.kzmall.cn/wap/itempic.html?item_id="+model.getItem_id());
 
                 if (model.isChoucang()) {
                     goodsdetil_fav.setImageResource(R.mipmap.ic_fav_sel);

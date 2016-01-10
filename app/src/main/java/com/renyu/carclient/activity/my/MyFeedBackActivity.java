@@ -3,6 +3,8 @@ package com.renyu.carclient.activity.my;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.base.BaseActivity;
@@ -22,6 +24,10 @@ import butterknife.OnClick;
  */
 public class MyFeedBackActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
     @Bind(R.id.myfeedback_edit)
     EditText myfeedback_edit;
 
@@ -37,13 +43,23 @@ public class MyFeedBackActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
+
+        initViews();
     }
 
-    @OnClick({R.id.myfeedback_commit})
+    private void initViews() {
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
+        view_toolbar_center_title.setText("售后申请");
+    }
+
+    @OnClick({R.id.myfeedback_commit, R.id.view_toolbar_center_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.myfeedback_commit:
                 sendFeedBack();
+                break;
+            case R.id.view_toolbar_center_back:
+                finish();
                 break;
         }
     }

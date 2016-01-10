@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.CollectionAdapter;
@@ -30,8 +31,10 @@ import butterknife.OnClick;
  */
 public class CollectionFragment extends BaseFragment {
 
-    @Bind(R.id.view_toolbar_center_next)
-    ImageView view_toolbar_center_next;
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
+    @Bind(R.id.view_toolbar_center_text_next)
+    TextView view_toolbar_center_text_next;
     @Bind(R.id.cartype_rv)
     RecyclerView cartype_rv;
     CollectionAdapter adapter=null;
@@ -57,7 +60,9 @@ public class CollectionFragment extends BaseFragment {
     }
 
     private void initViews() {
-        view_toolbar_center_next.setVisibility(View.VISIBLE);
+        view_toolbar_center_title.setText("收藏");
+        view_toolbar_center_text_next.setVisibility(View.VISIBLE);
+        view_toolbar_center_text_next.setText("编辑");
         cartype_rv.setHasFixedSize(true);
         cartype_rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter=new CollectionAdapter(getActivity(), leftModels);
@@ -71,11 +76,17 @@ public class CollectionFragment extends BaseFragment {
         popupWindow.setTouchable(true);
     }
 
-    @OnClick({R.id.view_toolbar_center_next})
+    @OnClick({R.id.view_toolbar_center_text_next})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.view_toolbar_center_next:
+            case R.id.view_toolbar_center_text_next:
                 isChecked=!isChecked;
+                if (isChecked) {
+                    view_toolbar_center_text_next.setText("完成");
+                }
+                else {
+                    view_toolbar_center_text_next.setText("编辑");
+                }
                 for (int i=0;i<leftModels.size();i++) {
                     leftModels.get(i).setFlag(isChecked);
                 }

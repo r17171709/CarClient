@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/view_toolbar_normal"></include>
+    <include layout="@layout/view_toolbar_center"></include>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
         <LinearLayout
             android:orientation="vertical"
@@ -17,84 +18,149 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dip"
                     android:layout_height="wrap_content"
-                    android:text="账号"/>
+                    android:layout_marginLeft="33dip"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:text="账号："/>
                 <TextView
                     android:id="@+id/myinfo_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
                     android:text="123123"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dip"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dip"
                     android:layout_height="wrap_content"
-                    android:text="用户名"/>
+                    android:layout_marginLeft="33dip"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:text="用户名："/>
                 <TextView
                     android:id="@+id/myinfo_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
                     android:text="123123"/>
             </LinearLayout>
         </LinearLayout>
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/myinfo_avatar"
             android:src="@mipmap/ic_launcher"
-            android:layout_width="80dip"
-            android:layout_height="80dip" />
+            android:layout_margin="20dip"
+            android:layout_width="60dip"
+            android:layout_height="60dip" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="#999999"></View>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="49dip"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dip"
             android:layout_height="wrap_content"
-            android:text="联系人"/>
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginLeft="33dip"
+            android:text="联系人："/>
         <TextView
             android:id="@+id/myinfo_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
             android:text="123123"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="#999999"></View>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="49dip"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dip"
             android:layout_height="wrap_content"
-            android:text="绑定手机"/>
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginLeft="33dip"
+            android:text="绑定手机："/>
         <TextView
             android:id="@+id/myinfo_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
             android:inputType="number"
             android:text="123123"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="#999999"></View>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="49dip"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dip"
             android:layout_height="wrap_content"
-            android:text="邮箱"/>
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginLeft="33dip"
+            android:text="邮箱："/>
         <TextView
             android:id="@+id/myinfo_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
             android:text="123123"/>
     </LinearLayout>
-    <TextView
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="#999999"></View>
+    <LinearLayout
         android:id="@+id/myinfo_bussiness_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="开票信息"/>
+        android:layout_height="49dip"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginLeft="33dip"
+            android:text="开票信息"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dip"
+            android:src="@mipmap/ic_arr_down_black"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="#999999"></View>
     <LinearLayout
         android:id="@+id/myinfo_bussiness_layout"
         android:visibility="gone"
@@ -103,97 +169,168 @@
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="wrap_content"
-                android:text="单位全称"/>
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_marginLeft="33dip"
+                android:text="单位全称："/>
             <TextView
                 android:id="@+id/myinfo_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:text="123123"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="#999999"></View>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="wrap_content"
-                android:text="税务登记号"/>
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_marginLeft="33dip"
+                android:text="税务登记号："/>
             <TextView
                 android:id="@+id/myinfo_revenues_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:inputType="number"
                 android:text="123123"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="#999999"></View>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="wrap_content"
-                android:text="负责人"/>
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_marginLeft="33dip"
+                android:text="负责人："/>
             <TextView
                 android:id="@+id/myinfo_contact_person"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:text="123123"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="#999999"></View>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="wrap_content"
-                android:text="联系人电话"/>
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_marginLeft="33dip"
+                android:text="联系人电话："/>
             <TextView
                 android:id="@+id/myinfo_contact_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:inputType="number"
                 android:text="123123"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="#999999"></View>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="wrap_content"
-                android:text="开户银行"/>
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_marginLeft="33dip"
+                android:text="开户银行："/>
             <TextView
                 android:id="@+id/myinfo_bank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:text="123123"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="#999999"></View>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="wrap_content"
-                android:text="账号"/>
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_marginLeft="33dip"
+                android:text="账号："/>
             <TextView
                 android:id="@+id/myinfo_bank_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:inputType="number"
                 android:text="123123"/>
         </LinearLayout>
     </LinearLayout>
-    <TextView
+    <LinearLayout
         android:id="@+id/myinfo_comp_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="企业信息"/>
+        android:layout_height="49dip"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginLeft="33dip"
+            android:text="企业信息"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dip"
+            android:src="@mipmap/ic_arr_down_black"/>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/myinfo_comp_layout"
         android:layout_width="match_parent"
@@ -202,45 +339,71 @@
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="wrap_content"
-                android:text="营业执照号"/>
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_marginLeft="33dip"
+                android:text="营业执照号："/>
             <TextView
                 android:id="@+id/myinfo_business_encoding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:inputType="number"
                 android:text="123123"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="#999999"></View>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="wrap_content"
-                android:text="法人/经营者"/>
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_marginLeft="33dip"
+                android:text="法人/经营者："/>
             <TextView
                 android:id="@+id/myinfo_corporation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:text="123123"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="#999999"></View>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dip"
                 android:layout_height="wrap_content"
-                android:text="经营地址"/>
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:layout_marginLeft="33dip"
+                android:text="经营地址："/>
             <TextView
                 android:id="@+id/myinfo_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:text="123123"/>
         </LinearLayout>
     </LinearLayout>

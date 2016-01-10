@@ -1,52 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="100dip"
     android:id="@+id/adapter_goodslist_linear_layout">
-    <ImageView
-        android:id="@+id/adapter_goodslist_linear_image"
-        android:layout_width="100dip"
-        android:layout_height="90dip"
-        android:layout_margin="15dip"
-        android:layout_centerVertical="true"
-        android:src="@mipmap/ic_launcher"
-        android:scaleType="centerCrop"/>
-    <RelativeLayout
-        android:layout_toRightOf="@id/adapter_goodslist_linear_image"
-        android:layout_centerVertical="true"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dip">
-        <TextView
-            android:id="@+id/adapter_goodslist_linear_title"
+        android:layout_height="100dip" >
+        <ImageView
+            android:id="@+id/adapter_goodslist_linear_image"
+            android:layout_width="100dip"
+            android:layout_height="90dip"
+            android:layout_margin="15dip"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"/>
+        <RelativeLayout
+            android:layout_toRightOf="@id/adapter_goodslist_linear_image"
+            android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#2c2c2c"
-            android:textSize="16sp"
-            android:maxLines="2"
-            android:text="title"/>
-        <TextView
-            android:id="@+id/adapter_goodslist_linear_discountdesp"
-            android:layout_below="@id/adapter_goodslist_linear_title"
+            android:layout_marginRight="10dip">
+            <TextView
+                android:id="@+id/adapter_goodslist_linear_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2c2c2c"
+                android:textSize="16sp"
+                android:maxLines="2"
+                android:text="title"/>
+            <TextView
+                android:id="@+id/adapter_goodslist_linear_discountdesp"
+                android:layout_below="@id/adapter_goodslist_linear_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#c40000"
+                android:layout_marginTop="3dip"
+                android:text="title"/>
+            <TextView
+                android:id="@+id/adapter_goodslist_linear_price"
+                android:layout_below="@id/adapter_goodslist_linear_discountdesp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#7d7d7d"
+                android:layout_marginTop="3dip"
+                android:text="title"/>
+        </RelativeLayout>
+        <View
+            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#c40000"
-            android:layout_marginTop="3dip"
-            android:text="title"/>
-        <TextView
-            android:id="@+id/adapter_goodslist_linear_price"
-            android:layout_below="@id/adapter_goodslist_linear_discountdesp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#7d7d7d"
-            android:layout_marginTop="3dip"
-            android:text="title"/>
-    </RelativeLayout>
-    <View
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="#999999">
+            android:layout_height="1dip"
+            android:background="#999999">
 
-    </View>
-</RelativeLayout>
+        </View>
+    </RelativeLayout>
+</LinearLayout>

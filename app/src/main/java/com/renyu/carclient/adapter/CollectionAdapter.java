@@ -53,7 +53,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         }
         ImageLoader.getInstance().displayImage(models.get(position).getImage_default_id(), holder.adapter_collection_image, getAvatarDisplayImageOptions());
         holder.adapter_collection_title.setText(models.get(position).getGoods_name());
-        holder.adapter_collection_price.setText(models.get(position).getGoods_price());
+        holder.adapter_collection_price.setText("￥"+models.get(position).getGoods_price());
         holder.adapter_collection_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

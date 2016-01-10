@@ -1,9 +1,9 @@
 package com.renyu.carclient.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.support.v7.widget.GridLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +40,8 @@ import de.greenrobot.event.EventBus;
  */
 public class OrderFragment extends BaseFragment {
 
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
     @Bind(R.id.view_toolbar_center_next)
     ImageView view_toolbar_center_next;
     @Bind(R.id.ordercenter_swipy)
@@ -51,6 +53,8 @@ public class OrderFragment extends BaseFragment {
     ArrayList<View> views=null;
 
     ArrayList<TextView> numTextViews=null;
+    ArrayList<TextView> textViews=null;
+    ArrayList<ImageView> imageViews=null;
 
     ArrayList<OrderModel> models=null;
 
@@ -87,13 +91,17 @@ public class OrderFragment extends BaseFragment {
 
         views=new ArrayList<>();
         numTextViews=new ArrayList<>();
+        textViews=new ArrayList<>();
+        imageViews=new ArrayList<>();
         models=new ArrayList<>();
 
         initViews();
     }
 
     private void initViews() {
+        view_toolbar_center_title.setText("订单");
         view_toolbar_center_next.setVisibility(View.VISIBLE);
+        view_toolbar_center_next.setImageResource(R.mipmap.ic_goodslist_cart);
         View headview= LayoutInflater.from(getActivity()).inflate(R.layout.view_ordercenterheadview, null, false);
         GridLayout ordercenter_gridlayout= (GridLayout) headview.findViewById(R.id.ordercenter_gridlayout);
         int width= CommonUtils.getScreenWidth(getActivity())/5;
@@ -104,70 +112,135 @@ public class OrderFragment extends BaseFragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    for (int j=0;j<textViews.size();j++) {
+                        textViews.get(j).setTextColor(Color.BLACK);
+                    }
+                    for (int k=0;k<imageViews.size();k++) {
+                        switch (k) {
+                            case 0:
+                                imageViews.get(k).setImageResource(R.mipmap.order_icon1_black);
+                                break;
+                            case 1:
+                                imageViews.get(k).setImageResource(R.mipmap.order_icon2_black);
+                                break;
+                            case 2:
+                                imageViews.get(k).setImageResource(R.mipmap.order_icon3_black);
+                                break;
+                            case 3:
+                                imageViews.get(k).setImageResource(R.mipmap.order_icon4_black);
+                                break;
+                            case 4:
+                                imageViews.get(k).setImageResource(R.mipmap.order_icon5_black);
+                                break;
+                            case 5:
+                                imageViews.get(k).setImageResource(R.mipmap.order_icon6_black);
+                                break;
+                            case 6:
+                                imageViews.get(k).setImageResource(R.mipmap.order_icon7_black);
+                                break;
+                            case 7:
+                                imageViews.get(k).setImageResource(R.mipmap.order_icon8_black);
+                                break;
+                            case 8:
+                                imageViews.get(k).setImageResource(R.mipmap.order_icon9_black);
+                                break;
+                        }
+                    }
                     page_no=1;
                     current_choice=i_;
+                    textViews.get(i_).setTextColor(Color.parseColor("#c40000"));
                     switch (i_) {
                         case 0:
                             getOrderLists("");
+                            imageViews.get(i_).setImageResource(R.mipmap.order_icon1_red);
                             break;
                         case 1:
                             getOrderLists("WAIT_CONFRIM");
+                            imageViews.get(i_).setImageResource(R.mipmap.order_icon2_red);
                             break;
                         case 2:
                             getOrderLists("DELIVER_GOODS");
+                            imageViews.get(i_).setImageResource(R.mipmap.order_icon3_red);
                             break;
                         case 3:
                             getOrderLists("WAIT_GOODS");
+                            imageViews.get(i_).setImageResource(R.mipmap.order_icon4_red);
                             break;
                         case 4:
                             getOrderLists("RECEIVE_GOODS");
+                            imageViews.get(i_).setImageResource(R.mipmap.order_icon5_red);
                             break;
                         case 5:
                             getOrderLists("TRADE_FINISHED");
+                            imageViews.get(i_).setImageResource(R.mipmap.order_icon6_red);
                             break;
                         case 6:
                             getOrderLists("TRADE_CLOSED");
+                            imageViews.get(i_).setImageResource(R.mipmap.order_icon7_red);
                             break;
                         case 7:
                             getOrderLists("TRADE_CANCEL");
+                            imageViews.get(i_).setImageResource(R.mipmap.order_icon8_red);
                             break;
                         case 8:
                             getOrderLists("aftersaleslist");
+                            imageViews.get(i_).setImageResource(R.mipmap.order_icon9_red);
                             break;
                     }
                     ordercenter_swipy.setRefreshing(true);
                 }
             });
+            ImageView view_ordercenter_item_image= (ImageView) itemView.findViewById(R.id.view_ordercenter_item_image);
+            imageViews.add(view_ordercenter_item_image);
             TextView view_ordercenter_item_num= (TextView) itemView.findViewById(R.id.view_ordercenter_item_num);
             numTextViews.add(view_ordercenter_item_num);
             TextView view_ordercenter_item_text= (TextView) itemView.findViewById(R.id.view_ordercenter_item_text);
+            textViews.add(view_ordercenter_item_text);
             switch (i) {
                 case 0:
                     view_ordercenter_item_text.setText("全部");
+                    view_ordercenter_item_image.setImageResource(R.mipmap.order_icon1_black);
+                    view_ordercenter_item_text.setTextColor(Color.BLACK);
                     break;
                 case 1:
                     view_ordercenter_item_text.setText("待确认");
+                    view_ordercenter_item_image.setImageResource(R.mipmap.order_icon2_black);
+                    view_ordercenter_item_text.setTextColor(Color.BLACK);
                     break;
                 case 2:
                     view_ordercenter_item_text.setText("待发货");
+                    view_ordercenter_item_image.setImageResource(R.mipmap.order_icon3_black);
+                    view_ordercenter_item_text.setTextColor(Color.BLACK);
                     break;
                 case 3:
                     view_ordercenter_item_text.setText("待收货");
+                    view_ordercenter_item_image.setImageResource(R.mipmap.order_icon4_black);
+                    view_ordercenter_item_text.setTextColor(Color.BLACK);
                     break;
                 case 4:
                     view_ordercenter_item_text.setText("待付款");
+                    view_ordercenter_item_image.setImageResource(R.mipmap.order_icon5_black);
+                    view_ordercenter_item_text.setTextColor(Color.BLACK);
                     break;
                 case 5:
                     view_ordercenter_item_text.setText("已完成");
+                    view_ordercenter_item_image.setImageResource(R.mipmap.order_icon6_black);
+                    view_ordercenter_item_text.setTextColor(Color.BLACK);
                     break;
                 case 6:
                     view_ordercenter_item_text.setText("已关闭");
+                    view_ordercenter_item_image.setImageResource(R.mipmap.order_icon7_black);
+                    view_ordercenter_item_text.setTextColor(Color.BLACK);
                     break;
                 case 7:
                     view_ordercenter_item_text.setText("已取消");
+                    view_ordercenter_item_image.setImageResource(R.mipmap.order_icon8_black);
+                    view_ordercenter_item_text.setTextColor(Color.BLACK);
                     break;
                 case 8:
                     view_ordercenter_item_text.setText("退货");
+                    view_ordercenter_item_image.setImageResource(R.mipmap.order_icon9_black);
+                    view_ordercenter_item_text.setTextColor(Color.BLACK);
                     break;
             }
             GridLayout.LayoutParams param = new GridLayout.LayoutParams();

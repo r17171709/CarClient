@@ -51,6 +51,10 @@ import de.greenrobot.event.EventBus;
  */
 public class PayOrderActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
     @Bind(R.id.payorder_userinfo)
     TextView payorder_userinfo;
     @Bind(R.id.payorder_address)
@@ -87,7 +91,7 @@ public class PayOrderActivity extends BaseActivity {
     //当前展示的viewGroup
     ViewGroup viewGroup=null;
     String invoice_type;
-    String invoice_title;
+    String invoice_title="individual";
 
     int total=0;
     double money=0;
@@ -117,6 +121,8 @@ public class PayOrderActivity extends BaseActivity {
     }
 
     private void initViews() {
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
+        view_toolbar_center_title.setText("订单提交");
         for (int i=0;i<models.size();i++) {
             final int i_=i;
             if (!models.get(i).isChecked()) {
@@ -131,10 +137,11 @@ public class PayOrderActivity extends BaseActivity {
             price_layout.setOnTextChangeListener(new PriceView.TextChangeListener() {
                 @Override
                 public void onTextChange(int num) {
-                    Log.d("PayOrderActivity", "onTextChange");
                     if (isBind) {
                         return;
                     }
+                    adapter_ordercenter_payorder_sec_title.setText("x"+num);
+                    models.get(i_).setQuantity(num);
                     total=0;
                     money=0;
                     for (int i=0;i<models.size();i++) {
@@ -146,8 +153,6 @@ public class PayOrderActivity extends BaseActivity {
                     }
                     payorder_all_price.setText("共"+total+"件商品  合计："+money+"元");
 
-                    adapter_ordercenter_payorder_sec_title.setText("x"+num);
-                    models.get(i_).setQuantity(num);
                 }
             });
             price_layout.setCurrentNum(models.get(i).getQuantity());
@@ -187,7 +192,7 @@ public class PayOrderActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.payorder_invoice_commit, R.id.payorder_tip_bglayout, R.id.payorder_invoice_type_layout, R.id.payorder_invoice_title_type_layout, R.id.payorder_address_layout})
+    @OnClick({R.id.payorder_invoice_commit, R.id.payorder_tip_bglayout, R.id.payorder_invoice_type_layout, R.id.payorder_invoice_title_type_layout, R.id.payorder_address_layout, R.id.view_toolbar_center_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.payorder_invoice_commit:
@@ -283,6 +288,9 @@ public class PayOrderActivity extends BaseActivity {
                 }
                 intent.putExtras(bundle);
                 startActivityForResult(intent, ParamUtils.RESULT_ADDRESS);
+                break;
+            case R.id.view_toolbar_center_back:
+                finish();
                 break;
         }
     }

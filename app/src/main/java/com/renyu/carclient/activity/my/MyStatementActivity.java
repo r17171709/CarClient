@@ -53,7 +53,7 @@ public class MyStatementActivity extends BaseActivity {
     }
 
     private void initViews() {
-        view_toolbar_center_title.setText("收支明细");
+        view_toolbar_center_title.setText("支付记录");
         view_toolbar_center_back.setVisibility(View.VISIBLE);
         myincomestatement_rv.setHasFixedSize(true);
         myincomestatement_rv.setLayoutManager(new LinearLayoutManager(this));
