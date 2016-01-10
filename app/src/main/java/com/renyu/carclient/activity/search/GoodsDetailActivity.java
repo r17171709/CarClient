@@ -54,6 +54,10 @@ import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
  */
 public class GoodsDetailActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
     @Bind(R.id.goodsdetailview)
     ProductDetailView goodsdetailview;
     @Bind(R.id.goodsdetil_vp)
@@ -110,6 +114,8 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
     private void initViews() {
+        view_toolbar_center_title.setText("商品详情");
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
         if (userModel==null) {
             goodsdetil_isLogin.setVisibility(View.VISIBLE);
         }
@@ -118,7 +124,7 @@ public class GoodsDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.goodsdetail_params, R.id.goodsdetail_cartype, R.id.goodsdetail_paytype, R.id.goodsdetail_tip_bglayout, R.id.goodsdetail_addcart, R.id.goodsdetail_paynow, R.id.goodsdetail_service, R.id.goodsdetil_fav})
+    @OnClick({R.id.goodsdetail_params, R.id.goodsdetail_cartype, R.id.goodsdetail_paytype, R.id.goodsdetail_tip_bglayout, R.id.goodsdetail_addcart, R.id.goodsdetail_paynow, R.id.goodsdetail_service, R.id.goodsdetil_fav, R.id.view_toolbar_center_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.goodsdetail_params:
@@ -212,12 +218,15 @@ public class GoodsDetailActivity extends BaseActivity {
                     ImageView goodsdetail_params_child_image= (ImageView) view3.findViewById(R.id.goodsdetail_params_child_image);
                     TextView goodsdetail_params_child_text= (TextView) view3.findViewById(R.id.goodsdetail_params_child_text);
                     if (i==0) {
+                        goodsdetail_params_child_image.setImageResource(R.mipmap.ic_kuai);
                         goodsdetail_params_child_text.setText("由当地服务商提供快速配送");
                     }
                     else if (i==1) {
+                        goodsdetail_params_child_image.setImageResource(R.mipmap.ic_zhun);
                         goodsdetail_params_child_text.setText("专业产品团队保障货品精准交付");
                     }
                     else if (i==2) {
+                        goodsdetail_params_child_image.setImageResource(R.mipmap.ic_mian);
                         goodsdetail_params_child_text.setText("无运费、退货上门取件，随时退款");
                     }
                     goodsdetail_service_layout.addView(view3);
@@ -239,6 +248,9 @@ public class GoodsDetailActivity extends BaseActivity {
                     return;
                 }
                 addFav(model.isChoucang());
+                break;
+            case R.id.view_toolbar_center_back:
+                finish();
                 break;
         }
     }
@@ -415,10 +427,11 @@ public class GoodsDetailActivity extends BaseActivity {
                 goodsdetil_title.setText(model.getTitle());
                 goodsdetil_store.setText("库存：" + model.getStore());
 
-                goodsdetailview.setUrl("http://www.kzmall.cn/wap/itempic.html?item_id="+model.getItem_id());
+//                goodsdetailview.setUrl("http://www.kzmall.cn/wap/itempic.html?item_id="+model.getItem_id());
+                goodsdetailview.setUrl("http://www.baidu.com");
 
                 if (model.isChoucang()) {
-                    goodsdetil_fav.setImageResource(R.mipmap.ic_fav);
+                    goodsdetil_fav.setImageResource(R.mipmap.ic_fav_sel);
                 }
                 else {
                     goodsdetil_fav.setImageResource(R.mipmap.ic_fav);
@@ -493,7 +506,7 @@ public class GoodsDetailActivity extends BaseActivity {
                             goodsdetil_fav.setImageResource(R.mipmap.ic_fav);
                         }
                         else {
-                            goodsdetil_fav.setImageResource(R.mipmap.ic_fav);
+                            goodsdetil_fav.setImageResource(R.mipmap.ic_fav_sel);
                         }
                     }
                 } else {

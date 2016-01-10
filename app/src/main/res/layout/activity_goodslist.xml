@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_goods_listtype"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"

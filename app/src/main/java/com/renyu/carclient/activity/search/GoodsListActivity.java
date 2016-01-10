@@ -129,6 +129,7 @@ public class GoodsListActivity extends BaseActivity {
                     goods_list_rv.setAdapter(gridAdapter);
                     isLinearMode=!isLinearMode;
                 }
+                goods_list_changetype.setImageResource(R.mipmap.ic_goods_gridtype);
                 pop.dismiss();
             }
         });
@@ -141,6 +142,7 @@ public class GoodsListActivity extends BaseActivity {
                     goods_list_rv.setAdapter(linearAdapter);
                     isLinearMode=!isLinearMode;
                 }
+                goods_list_changetype.setImageResource(R.mipmap.ic_goods_listtype);
                 pop.dismiss();
             }
         });

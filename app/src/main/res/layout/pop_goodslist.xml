@@ -6,13 +6,23 @@
     <TextView
         android:id="@+id/pop_goodslist_grid"
         android:text="大图"
-        android:padding="20dip"
+        android:drawableLeft="@mipmap/ic_goods_gridtype"
+        android:drawablePadding="5dip"
+        android:gravity="center"
+        android:padding="15dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="#999999"></View>
     <TextView
         android:id="@+id/pop_goodslist_list"
         android:text="列表"
-        android:padding="20dip"
+        android:drawableLeft="@mipmap/ic_goods_listtype"
+        android:drawablePadding="5dip"
+        android:gravity="center"
+        android:padding="15dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

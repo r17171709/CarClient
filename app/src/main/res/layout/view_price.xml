@@ -6,7 +6,7 @@
     <TextView
         android:id="@id/price_min"
         android:layout_width="40dip"
-        android:layout_height="40dip"
+        android:layout_height="30dip"
         android:gravity="center"
         android:textSize="14sp"
         android:textColor="@android:color/black"
@@ -15,7 +15,7 @@
     <EditText
         android:id="@id/price_input"
         android:layout_width="50dip"
-        android:layout_height="40dip"
+        android:layout_height="30dip"
         android:gravity="center"
         android:textSize="14sp"
         android:inputType="number"
@@ -27,7 +27,7 @@
     <TextView
         android:id="@id/price_add"
         android:layout_width="40dip"
-        android:layout_height="40dip"
+        android:layout_height="30dip"
         android:gravity="center"
         android:textSize="14sp"
         android:background="@drawable/drawable_square"

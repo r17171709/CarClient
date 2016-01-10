@@ -5,20 +5,26 @@
     <TextView
         android:id="@+id/tip_bglayout_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="44dip"
+        android:background="#eeeeee"
         android:gravity="center"
         android:text="适配车型"/>
     <LinearLayout
         android:id="@+id/tip_bglayout_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
     </LinearLayout>
     <TextView
         android:id="@+id/tip_bglayout_close"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="71dip"
+        android:background="@android:color/holo_red_dark"
         android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
         android:text="关闭"/>
+
 </LinearLayout>
