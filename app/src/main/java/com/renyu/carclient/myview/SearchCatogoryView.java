@@ -36,20 +36,10 @@ public class SearchCatogoryView extends LinearLayout {
 
     OnFinalChoiceListener listener;
 
-    int cat_fir_id=-1;
-    int cat_sec_id=-1;
     int cat_id=-1;
 
     int width=0;
     int height=0;
-
-    public void setCatFirId(int cat_fir_id) {
-        this.cat_fir_id=cat_fir_id;
-    }
-
-    public void setCatSecId(int cat_sec_id) {
-        this.cat_sec_id=cat_sec_id;
-    }
 
     public void setCatId(int cat_id) {
         this.cat_id=cat_id;

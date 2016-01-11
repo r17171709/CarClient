@@ -1,16 +1,27 @@
 package com.renyu.carclient.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.search.GoodsDetailActivity;
+import com.renyu.carclient.activity.search.GoodsListActivity;
+import com.renyu.carclient.activity.search.SearchCategoryActivity;
 import com.renyu.carclient.base.BaseFragment;
+import com.renyu.carclient.commons.ParamUtils;
 import com.zbar.lib.CaptureActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -42,7 +53,13 @@ public class IndexFragment extends BaseFragment {
                 return false;
             }
         });
-        main_wv.setWebChromeClient(new WebChromeClient());
+        main_wv.addJavascriptInterface(new WebAppInterface(getActivity()), "android");
+        main_wv.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                return super.onJsAlert(view, url, message, result);
+            }
+        });
         WebSettings settings=main_wv.getSettings();
         settings.setDomStorageEnabled(true);
         settings.setBlockNetworkImage(false);
@@ -51,7 +68,7 @@ public class IndexFragment extends BaseFragment {
         settings.setDatabaseEnabled(true);
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(false);
-        main_wv.loadUrl("http://www.kzmall.cn/wap");
+        main_wv.loadUrl("http://www.kzmall.cn/wap?type=android");
     }
 
     @OnClick({R.id.toolbar_main_right_button})
@@ -61,6 +78,59 @@ public class IndexFragment extends BaseFragment {
                 Intent intent1=new Intent(getActivity(), CaptureActivity.class);
                 startActivity(intent1);
                 break;
+        }
+    }
+
+    public class WebAppInterface {
+        Context context=null;
+
+        public WebAppInterface(Context context) {
+            this.context=context;
+        }
+
+        @JavascriptInterface
+        public void showToast(String string) {
+            Log.d("WebAppInterface", string);
+            try {
+                JSONObject object=new JSONObject(string);
+                if (object.getString("type").equals("cat")) {
+                    int cat_id=object.getInt("cat_id");
+                    //前往分类主页面
+                    if (cat_id==-1) {
+                        Intent intent1=new Intent(getActivity(), SearchCategoryActivity.class);
+                        startActivity(intent1);
+                    }
+                    //商品分类列表
+                    else {
+                        Intent intent=new Intent(getActivity(), GoodsListActivity.class);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("type", ParamUtils.CAT);
+                        bundle.putInt("cat_id", cat_id);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                }
+                //商品品牌列表
+                else if (object.getString("type").equals("brand")) {
+                    Intent intent=new Intent(getActivity(), GoodsListActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("type", ParamUtils.BRAND);
+                    bundle.putInt("cat_id", -1);
+                    bundle.putInt("brand_id", object.getInt("brand_id"));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                //商品详情页
+                else if (object.getString("type").equals("item")) {
+                    Intent intent=new Intent(getActivity(), GoodsDetailActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("item_id", object.getString("item_id"));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

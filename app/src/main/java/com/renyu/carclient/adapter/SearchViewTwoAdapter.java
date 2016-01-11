@@ -1,8 +1,6 @@
 package com.renyu.carclient.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
-import com.renyu.carclient.activity.search.GoodsListActivity;
 import com.renyu.carclient.commons.CommonUtils;
-import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.CategoryModel;
 
 import java.util.ArrayList;
@@ -35,8 +31,6 @@ public class SearchViewTwoAdapter extends RecyclerView.Adapter<RecyclerView.View
     ArrayList<CategoryModel> models=null;
     OnMenuChoiceListener listener=null;
     SearchViewAdapter.OnItemClickListener listener1=null;
-
-    int firstCatId=-1;
 
     public interface OnMenuChoiceListener {
         void openClose(int position);
@@ -143,9 +137,5 @@ public class SearchViewTwoAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public void setFirstChoiceCat(int firstCatId) {
-        this.firstCatId=firstCatId;
     }
 }

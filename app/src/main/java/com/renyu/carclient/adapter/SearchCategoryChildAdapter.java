@@ -93,8 +93,6 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
                     Bundle bundle=new Bundle();
                     bundle.putString("type", ParamUtils.CAT);
                     bundle.putInt("cat_id", models.get(position).getCat_id());
-                    bundle.putInt("cat_sec_id", models.get(position).getParent_id());
-                    bundle.putInt("cat_fir_id", firstCatId);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 }

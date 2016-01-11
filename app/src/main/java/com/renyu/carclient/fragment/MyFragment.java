@@ -75,17 +75,19 @@ public class MyFragment extends BaseFragment {
                 startActivity(myaddress_intent);
                 break;
             case R.id.my_paylist:
-                Intent mystatement_intent=new Intent(getActivity(), MyStatementActivity.class);
-                startActivity(mystatement_intent);
-                break;
+                return;
+//                Intent mystatement_intent=new Intent(getActivity(), MyStatementActivity.class);
+//                startActivity(mystatement_intent);
+//                break;
             case R.id.my_feedback:
                 Intent myfeedback_intent=new Intent(getActivity(), MyFeedBackActivity.class);
                 startActivity(myfeedback_intent);
                 break;
             case R.id.my_repayment:
-                Intent myrepayment_intent=new Intent(getActivity(), MyRepaymentActivity.class);
-                startActivity(myrepayment_intent);
-                break;
+                return;
+//                Intent myrepayment_intent=new Intent(getActivity(), MyRepaymentActivity.class);
+//                startActivity(myrepayment_intent);
+//                break;
             case R.id.my_avatar:
                 if (!lastAvatar.equals("")) {
                     File file=new File(lastAvatar);

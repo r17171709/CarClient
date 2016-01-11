@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutD
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.order.CartActivity;
 import com.renyu.carclient.activity.order.OrderCenterDetailActivity;
+import com.renyu.carclient.activity.order.OrderCenterSearchActivity;
 import com.renyu.carclient.adapter.OrderAdapter;
 import com.renyu.carclient.base.BaseFragment;
 import com.renyu.carclient.commons.ACache;
@@ -103,6 +105,14 @@ public class OrderFragment extends BaseFragment {
         view_toolbar_center_next.setVisibility(View.VISIBLE);
         view_toolbar_center_next.setImageResource(R.mipmap.ic_goodslist_cart);
         View headview= LayoutInflater.from(getActivity()).inflate(R.layout.view_ordercenterheadview, null, false);
+        LinearLayout ordercenter_senior= (LinearLayout) headview.findViewById(R.id.ordercenter_senior);
+        ordercenter_senior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2=new Intent(getActivity(), OrderCenterSearchActivity.class);
+                startActivity(intent2);
+            }
+        });
         GridLayout ordercenter_gridlayout= (GridLayout) headview.findViewById(R.id.ordercenter_gridlayout);
         int width= CommonUtils.getScreenWidth(getActivity())/5;
         for (int i=0;i<9;i++) {

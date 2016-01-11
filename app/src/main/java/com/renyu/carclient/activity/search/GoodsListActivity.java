@@ -154,8 +154,6 @@ public class GoodsListActivity extends BaseActivity {
 
         if (getIntent().getExtras().getString("type").equals(ParamUtils.CAT)) {
             SearchCatogoryView view= (SearchCatogoryView) LayoutInflater.from(this).inflate(R.layout.view_search_category, null, false);
-            view.setCatSecId(getIntent().getExtras().getInt("cat_sec_id"));
-            view.setCatFirId(getIntent().getExtras().getInt("cat_fir_id"));
             view.setCatId(getIntent().getExtras().getInt("cat_id"));
             view.setOnFinalChoiceListener(new SearchCatogoryView.OnFinalChoiceListener() {
                 @Override
@@ -250,8 +248,10 @@ public class GoodsListActivity extends BaseActivity {
             params.put("cat_id", cat_id);
         }
         else if (getIntent().getExtras().getString("type").equals(ParamUtils.BRAND)) {
+            if (!cat_id.equals("-1")) {
+                params.put("cat_id", cat_id);
+            }
             params.put("brand_id", brand_id);
-            params.put("cat_id", cat_id);
         }
         params.put("page_size", "20");
         params.put("page_no", ""+page_no);
