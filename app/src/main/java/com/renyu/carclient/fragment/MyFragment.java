@@ -13,8 +13,6 @@ import com.renyu.carclient.R;
 import com.renyu.carclient.activity.my.MyAddressActivity;
 import com.renyu.carclient.activity.my.MyFeedBackActivity;
 import com.renyu.carclient.activity.my.MyInfoActivity;
-import com.renyu.carclient.activity.my.MyRepaymentActivity;
-import com.renyu.carclient.activity.my.MyStatementActivity;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.base.BaseFragment;
 import com.renyu.carclient.commons.ACache;

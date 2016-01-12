@@ -103,6 +103,9 @@ public class CollectionFragment extends BaseFragment {
             public void onSuccess(String string) {
                 ArrayList<CollectionModel> temp=JsonParse.getCollectionModels(string);
                 if (temp!=null) {
+                    for (int i=0;i<temp.size();i++) {
+                        temp.get(i).setFlag(isChecked);
+                    }
                     leftModels.clear();
                     leftModels.addAll(temp);
                     adapter.notifyDataSetChanged();

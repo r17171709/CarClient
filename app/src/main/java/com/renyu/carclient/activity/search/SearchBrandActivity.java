@@ -3,7 +3,10 @@ package com.renyu.carclient.activity.search;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,9 +40,6 @@ import rx.schedulers.Schedulers;
  */
 public class SearchBrandActivity extends BaseActivity {
 
-
-    @Bind(R.id.view_toolbar_center_image)
-    ImageView view_toolbar_center_image;
     @Bind(R.id.view_toolbar_center_title)
     TextView view_toolbar_center_title;
     @Bind(R.id.view_toolbar_center_back)
@@ -53,7 +53,11 @@ public class SearchBrandActivity extends BaseActivity {
     @Bind(R.id.searchbrand_child)
     RecyclerView searchbrand_child;
     SearchBrandChildAdapter childAdapter=null;
+    @Bind(R.id.searchbrand_edit)
+    EditText searchbrand_edit;
 
+    //原始结果
+    ArrayList<SearchBrandModel> modelsSource;
     //首字母序列
     ArrayList<String> letterIndicator=null;
     //listview对应首字母位置
@@ -117,6 +121,30 @@ public class SearchBrandActivity extends BaseActivity {
 
         searchbrand_child.setHasFixedSize(true);
         searchbrand_child.setLayoutManager(new LinearLayoutManager(this));
+
+        searchbrand_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchbrand_child.setVisibility(View.GONE);
+                ArrayList<SearchBrandModel> temp=new ArrayList<SearchBrandModel>();
+                for (int i=0;i<modelsSource.size();i++) {
+                    if (modelsSource.get(i).getBrand_name().indexOf(s.toString())!=-1) {
+                        temp.add(modelsSource.get(i));
+                    }
+                }
+                initData(temp);
+            }
+        });
     }
 
     private void getBrandList() {
@@ -125,6 +153,7 @@ public class SearchBrandActivity extends BaseActivity {
             @Override
             public void onSuccess(String string) {
                 ArrayList<SearchBrandModel> models= JsonParse.getSearchBrandListModel(string);
+                modelsSource=models;
                 initData(models);
             }
 

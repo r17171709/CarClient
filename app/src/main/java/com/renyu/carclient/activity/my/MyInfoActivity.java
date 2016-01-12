@@ -6,6 +6,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.commons.ACache;
@@ -81,6 +84,7 @@ public class MyInfoActivity extends BaseActivity {
 
         view_toolbar_center_back.setVisibility(View.VISIBLE);
         view_toolbar_center_title.setText("基本信息");
+        ImageLoader.getInstance().displayImage(userModel.getHead_photo(), myinfo_avatar, getAvatarDisplayImageOptions());
 
         getMyData();
     }
@@ -148,5 +152,14 @@ public class MyInfoActivity extends BaseActivity {
         }
     }
 
-
+    public DisplayImageOptions getAvatarDisplayImageOptions() {
+        return new DisplayImageOptions.Builder()
+                .showImageOnFail(R.mipmap.ic_me_logo)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .showImageForEmptyUri(R.mipmap.ic_me_logo)
+                .showImageOnLoading(R.mipmap.ic_me_logo)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+    }
 }

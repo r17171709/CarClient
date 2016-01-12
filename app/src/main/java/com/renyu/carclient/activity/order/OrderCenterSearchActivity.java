@@ -4,13 +4,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
@@ -82,6 +80,8 @@ public class OrderCenterSearchActivity extends BaseActivity {
                 senior_productid.setText("");
                 senior_time1.setText("");
                 senior_time2.setText("");
+                senior_time1.setTag("0");
+                senior_time2.setTag("0");
                 senior_price1.setText("");
                 senior_price2.setText("");
                 break;

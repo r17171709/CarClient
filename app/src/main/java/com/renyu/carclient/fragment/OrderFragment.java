@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,6 +23,7 @@ import com.renyu.carclient.R;
 import com.renyu.carclient.activity.order.CartActivity;
 import com.renyu.carclient.activity.order.OrderCenterDetailActivity;
 import com.renyu.carclient.activity.order.OrderCenterSearchActivity;
+import com.renyu.carclient.activity.order.OrderCenterSearchResultActivity;
 import com.renyu.carclient.adapter.OrderAdapter;
 import com.renyu.carclient.base.BaseFragment;
 import com.renyu.carclient.commons.ACache;
@@ -105,6 +109,23 @@ public class OrderFragment extends BaseFragment {
         view_toolbar_center_next.setVisibility(View.VISIBLE);
         view_toolbar_center_next.setImageResource(R.mipmap.ic_goodslist_cart);
         View headview= LayoutInflater.from(getActivity()).inflate(R.layout.view_ordercenterheadview, null, false);
+        final EditText ordercenter_edittext= (EditText) headview.findViewById(R.id.ordercenter_edittext);
+        ordercenter_edittext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId== EditorInfo.IME_ACTION_SEARCH) {
+                    Intent intent=new Intent(getActivity(), OrderCenterSearchResultActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("senior_status", "");
+                    if (!ordercenter_edittext.getText().toString().equals("")) {
+                        bundle.putString("senior_product", ordercenter_edittext.getText().toString());
+                    }
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
         LinearLayout ordercenter_senior= (LinearLayout) headview.findViewById(R.id.ordercenter_senior);
         ordercenter_senior.setOnClickListener(new View.OnClickListener() {
             @Override

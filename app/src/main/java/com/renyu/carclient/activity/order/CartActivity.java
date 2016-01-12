@@ -155,14 +155,10 @@ public class CartActivity extends BaseActivity {
                 String items="";
                 for (int i=0;i<models.size();i++) {
                     if (models.get(i).isChecked()) {
-                        if (i==models.size()-1) {
-                            items+=models.get(i).getItem_id();
-                        }
-                        else {
-                            items+=models.get(i).getItem_id()+",";
-                        }
+                        items+=models.get(i).getItem_id()+",";
                     }
                 }
+                items=items.substring(0, items.length()-1);
                 if (items.equals("")) {
                     showToast("请至少选择一个商品");
                     return;

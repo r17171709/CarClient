@@ -127,6 +127,22 @@ public class MyAddressAddActivity extends BaseActivity {
     }
 
     private void addAddress() {
+        if (addcustomer_address.getText().toString().equals("")) {
+            showToast("请输入收货地址");
+            return;
+        }
+        if (addcustomer_phonenum.getText().toString().equals("") || addcustomer_phonenum.getText().toString().length()<11) {
+            showToast("请填写手机号码");
+            return;
+        }
+        if (addcustomer_contact.getText().toString().equals("")) {
+            showToast("请填写联系人");
+            return;
+        }
+        if (addcustomer_zip.getText().toString().equals("")) {
+            showToast("请填写邮政编码");
+            return;
+        }
         HashMap<String, String> params= ParamUtils.getSignParams("app.user.address.addr", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
         if (addressModel!=null) {
             params= ParamUtils.getSignParams("app.user.address.update", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");

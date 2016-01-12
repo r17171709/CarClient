@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -56,6 +59,8 @@ public class GoodsListActivity extends BaseActivity {
     ImageView goods_list_changetype;
     @Bind(R.id.goods_list_choice)
     LinearLayout goods_list_choice;
+    @Bind(R.id.goods_list_edit)
+    EditText goods_list_edit;
 
     PopupWindow pop=null;
 
@@ -194,7 +199,19 @@ public class GoodsListActivity extends BaseActivity {
             current_brand_id=""+getIntent().getExtras().getInt("brand_id");
             getAllLists(current_cat_id, current_brand_id);
         }
-
+        goods_list_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId== EditorInfo.IME_ACTION_SEARCH) {
+                    Intent intent=new Intent(GoodsListActivity.this, GoodsListSearchActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("keyWords", goods_list_edit.getText().toString());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
     }
 
     @OnClick({R.id.goods_list_price, R.id.goods_list_sale, R.id.goods_list_screening, R.id.goods_list_changetype, R.id.view_toolbar_center_back, R.id.view_toolbar_center_next})
@@ -283,16 +300,15 @@ public class GoodsListActivity extends BaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK) {
-            if (requestCode==ParamUtils.RESULT_LOGIN) {
-                if (isLinearMode) {
-                    linearAdapter.notifyDataSetChanged();
-                }
-                else {
-                    gridAdapter.notifyDataSetChanged();
-                }
+    protected void onResume() {
+        super.onResume();
+        if (userModel!= ACache.get(this).getAsObject("user")) {
+            userModel= ACache.get(this).getAsObject("user")!=null?(UserModel) ACache.get(this).getAsObject("user"):null;
+            if (isLinearMode) {
+                linearAdapter.notifyDataSetChanged();
+            }
+            else {
+                gridAdapter.notifyDataSetChanged();
             }
         }
     }
