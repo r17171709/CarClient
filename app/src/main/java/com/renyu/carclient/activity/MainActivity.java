@@ -293,4 +293,9 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
+
+    public void loginOut() {
+        userModel=null;
+        switchFragment("one");
+    }
 }

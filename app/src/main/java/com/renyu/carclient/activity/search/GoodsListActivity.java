@@ -32,6 +32,7 @@ import com.renyu.carclient.model.GoodsListModel;
 import com.renyu.carclient.model.JsonParse;
 import com.renyu.carclient.model.UserModel;
 import com.renyu.carclient.myview.SearchBrandView;
+import com.renyu.carclient.myview.SearchCarTypeView;
 import com.renyu.carclient.myview.SearchCatogoryView;
 
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class GoodsListActivity extends BaseActivity {
 
     String current_cat_id="";
     String current_brand_id="";
+    String current_car_id="";
 
     UserModel userModel=null;
 
@@ -116,6 +118,9 @@ public class GoodsListActivity extends BaseActivity {
                 }
                 else if (getIntent().getExtras().getString("type").equals(ParamUtils.BRAND)) {
                     getAllLists(current_cat_id, current_brand_id);
+                }
+                else if (getIntent().getExtras().getString("type").equals(ParamUtils.CAR)) {
+                    getAllLists2(current_car_id);
                 }
             }
         });
@@ -158,7 +163,7 @@ public class GoodsListActivity extends BaseActivity {
         pop.setOutsideTouchable(true);
 
         if (getIntent().getExtras().getString("type").equals(ParamUtils.CAT)) {
-            SearchCatogoryView view= (SearchCatogoryView) LayoutInflater.from(this).inflate(R.layout.view_search_category, null, false);
+            final SearchCatogoryView view= (SearchCatogoryView) LayoutInflater.from(this).inflate(R.layout.view_search_category, null, false);
             view.setCatId(getIntent().getExtras().getInt("cat_id"));
             view.setOnFinalChoiceListener(new SearchCatogoryView.OnFinalChoiceListener() {
                 @Override
@@ -171,9 +176,15 @@ public class GoodsListActivity extends BaseActivity {
                 }
             });
             goods_list_choice.addView(view);
+            goods_list_choice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goods_list_choice.setVisibility(View.GONE);
+                }
+            });
         }
-        else {
-            SearchBrandView view=(SearchBrandView) LayoutInflater.from(this).inflate(R.layout.view_search_brand, null, false);
+        else if (getIntent().getExtras().getString("type").equals(ParamUtils.BRAND)){
+            final SearchBrandView view=(SearchBrandView) LayoutInflater.from(this).inflate(R.layout.view_search_brand, null, false);
             view.setCatId(getIntent().getExtras().getInt("cat_id"));
             view.setBrandId(getIntent().getExtras().getInt("brand_id"));
             view.setOnFinalChoiceListener(new SearchBrandView.OnFinalChoiceListener() {
@@ -188,6 +199,34 @@ public class GoodsListActivity extends BaseActivity {
                 }
             });
             goods_list_choice.addView(view);
+            goods_list_choice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goods_list_choice.setVisibility(View.GONE);
+                }
+            });
+        }
+        else if (getIntent().getExtras().getString("type").equals(ParamUtils.CAR)) {
+            final SearchCarTypeView view= (SearchCarTypeView) LayoutInflater.from(this).inflate(R.layout.view_search_cartype, null, false);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goods_list_choice.setVisibility(View.GONE);
+                }
+            });
+            view.setOnFinalChoiceListener(new SearchCarTypeView.OnFinalChoiceListener() {
+                @Override
+                public void onChoicePosition(String brand) {
+                    getAllLists2(brand);
+                }
+            });
+            goods_list_choice.addView(view);
+            goods_list_choice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    view.setVisibility(View.GONE);
+                }
+            });
         }
 
         if (getIntent().getExtras().getString("type").equals(ParamUtils.CAT)) {
@@ -198,6 +237,10 @@ public class GoodsListActivity extends BaseActivity {
             current_cat_id=""+getIntent().getExtras().getInt("cat_id");
             current_brand_id=""+getIntent().getExtras().getInt("brand_id");
             getAllLists(current_cat_id, current_brand_id);
+        }
+        else if (getIntent().getExtras().getString("type").equals(ParamUtils.CAR)) {
+            current_car_id=getIntent().getExtras().getString("nlevelid");
+            getAllLists2(current_car_id);
         }
         goods_list_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -289,12 +332,53 @@ public class GoodsListActivity extends BaseActivity {
                     }
                     page_no++;
                 }
+                else {
+                    showToast("未知错误");
+                }
                 goods_list_swipy.setRefreshing(false);
             }
 
             @Override
             public void onError() {
                 goods_list_swipy.setRefreshing(false);
+                showToast(getResources().getString(R.string.network_error));
+            }
+        });
+    }
+
+    private void getAllLists2(String keyWords) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.item.search", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("page_size", "20");
+        params.put("page_no", ""+page_no);
+        params.put("search_keywords", keyWords);
+        params.put("isCar", "1");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                ArrayList<GoodsListModel> tempModels= JsonParse.getGoodsListModel(string);
+                if (tempModels!=null) {
+                    if (page_no==1) {
+                        models.clear();
+                    }
+                    models.addAll(tempModels);
+                    if (isLinearMode) {
+                        goods_list_rv.setAdapter(linearAdapter);
+                    }
+                    else {
+                        goods_list_rv.setAdapter(gridAdapter);
+                    }
+                    page_no++;
+                }
+                else {
+                    showToast("未知错误");
+                }
+                goods_list_swipy.setRefreshing(false);
+            }
+
+            @Override
+            public void onError() {
+                goods_list_swipy.setRefreshing(false);
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

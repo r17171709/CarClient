@@ -153,13 +153,18 @@ public class SearchBrandActivity extends BaseActivity {
             @Override
             public void onSuccess(String string) {
                 ArrayList<SearchBrandModel> models= JsonParse.getSearchBrandListModel(string);
-                modelsSource=models;
-                initData(models);
+                if (models==null) {
+                    showToast("未知错误");
+                }
+                else {
+                    modelsSource=models;
+                    initData(models);
+                }
             }
 
             @Override
             public void onError() {
-
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -175,14 +180,19 @@ public class SearchBrandActivity extends BaseActivity {
             @Override
             public void onSuccess(String string) {
                 ArrayList<SearchBrandModel> models= JsonParse.getSecondSearchBrandModel(string);
-                childAdapter=new SearchBrandChildAdapter(SearchBrandActivity.this, models);
-                childAdapter.setParentId(brand_id);
-                searchbrand_child.setAdapter(childAdapter);
+                if (models==null) {
+                    showToast("未知错误");
+                }
+                else {
+                    childAdapter=new SearchBrandChildAdapter(SearchBrandActivity.this, models);
+                    childAdapter.setParentId(brand_id);
+                    searchbrand_child.setAdapter(childAdapter);
+                }
             }
 
             @Override
             public void onError() {
-
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -271,5 +281,15 @@ public class SearchBrandActivity extends BaseActivity {
         tempModels.addAll(values);
 
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (searchbrand_child.getVisibility()==View.VISIBLE) {
+            searchbrand_child.setVisibility(View.GONE);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 }

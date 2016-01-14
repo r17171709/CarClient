@@ -136,11 +136,14 @@ public class SearchCategoryActivity extends BaseActivity {
                     allModels.addAll(models);
                     adapter.notifyDataSetChanged();
                 }
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
             public void onError() {
-
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -165,13 +168,24 @@ public class SearchCategoryActivity extends BaseActivity {
                 else {
                     childModels.clear();
                     searchcategory_child_rv.setAdapter(null);
+                    showToast("未知错误");
                 }
             }
 
             @Override
             public void onError() {
-
+                showToast(getResources().getString(R.string.network_error));
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (searchcategory_child_rv.getVisibility()==View.VISIBLE) {
+            searchcategory_child_rv.setVisibility(View.GONE);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 }

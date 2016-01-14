@@ -202,13 +202,16 @@ public class CartActivity extends BaseActivity {
                 ArrayList<ProductModel> temp=JsonParse.getCartList(string);
                 if (temp!=null) {
                     models.addAll(temp);
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
             public void onError() {
-
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -240,6 +243,7 @@ public class CartActivity extends BaseActivity {
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -271,6 +275,7 @@ public class CartActivity extends BaseActivity {
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

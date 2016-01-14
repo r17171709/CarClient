@@ -41,10 +41,18 @@
 
         </android.support.v7.widget.RecyclerView>
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchcartype_rv2"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#eeeeee">
+
+        </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/searchcartype_child"
             android:layout_alignParentRight="true"
             android:visibility="gone"
-            android:layout_width="200dip"
+            android:layout_width="220dip"
             android:layout_height="match_parent"
             android:background="@android:color/white">
 

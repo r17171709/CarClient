@@ -284,7 +284,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
 
             @Override
             public void onError() {
-
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -306,6 +306,10 @@ public class OrderCenterDetailActivity extends BaseActivity {
                     if (model.getOrder().get(i).isChecked()) {
                         oid+=""+model.getOrder().get(i).getOid()+",";
                     }
+                }
+                if (oid.equals("")) {
+                    showToast("请选择至少一件商品");
+                    return;
                 }
                 returnSales(model, oid.substring(0, oid.length()-1));
 
@@ -341,11 +345,15 @@ public class OrderCenterDetailActivity extends BaseActivity {
                         EventBus.getDefault().post(new OrderModel());
                     }
                 }
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -370,11 +378,15 @@ public class OrderCenterDetailActivity extends BaseActivity {
                         EventBus.getDefault().post(new OrderModel());
                     }
                 }
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -400,11 +412,15 @@ public class OrderCenterDetailActivity extends BaseActivity {
                         EventBus.getDefault().post(new OrderModel());
                     }
                 }
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

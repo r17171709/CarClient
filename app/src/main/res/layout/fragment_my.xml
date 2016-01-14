@@ -265,6 +265,17 @@
                     android:textColor="#020202"
                     android:text="客服电话：4009696611"/>
             </LinearLayout>
+            <Button
+                android:id="@+id/my_loginout"
+                android:layout_width="200dip"
+                android:layout_height="40dip"
+                android:layout_marginTop="40dip"
+                android:layout_marginBottom="20dip"
+                android:text="退出登录"
+                android:layout_gravity="center"
+                android:textColor="@android:color/white"
+                android:background="@drawable/rectangle_background_red"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

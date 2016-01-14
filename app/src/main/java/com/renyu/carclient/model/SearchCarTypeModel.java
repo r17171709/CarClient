@@ -4,22 +4,27 @@ package com.renyu.carclient.model;
  * Created by renyu on 15/12/7.
  */
 public class SearchCarTypeModel {
-    String title="";
-    String imageUrl="";
+    /**
+     * brand : 1234
+     * brand_img : null
+     */
 
-    public String getTitle() {
-        return title;
+    private String brand;
+    private String brand_img;
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setBrand_img(String brand_img) {
+        this.brand_img = brand_img;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public String getBrand_img() {
+        return brand_img;
     }
 }

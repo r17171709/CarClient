@@ -2,16 +2,18 @@ package com.renyu.carclient.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.SearchCarTypeDetailActivity;
+import com.renyu.carclient.commons.CommonUtils;
 import com.renyu.carclient.model.SearchCarTypeChildModel;
 
 import java.util.ArrayList;
@@ -28,14 +30,14 @@ public class SearchCarTypeChildAdapter extends RecyclerView.Adapter {
     final static int CHILD=2;
 
     Context context=null;
-    ArrayList<SearchCarTypeChildModel> models=null;
+    ArrayList<Object> models=null;
     OnMenuChoiceListener listener=null;
 
     public interface OnMenuChoiceListener {
         void openClose(int position);
     }
 
-    public SearchCarTypeChildAdapter(Context context, ArrayList<SearchCarTypeChildModel> models, OnMenuChoiceListener listener) {
+    public SearchCarTypeChildAdapter(Context context, ArrayList<Object> models, OnMenuChoiceListener listener) {
         this.context = context;
         this.models = models;
         this.listener = listener;
@@ -54,17 +56,17 @@ public class SearchCarTypeChildAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final int position_=position;
         if (getItemViewType(position)==PARENT) {
-            ((SearchCarTypeChild1ViewHolder) holder).adapter_searchcartype_child_1_text.setText(models.get(position).getText());
+            ((SearchCarTypeChild1ViewHolder) holder).adapter_searchcartype_child_1_text.setText(models.get(position).toString());
             ((SearchCarTypeChild1ViewHolder) holder).adapter_searchcartype_child_1_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.openClose(position_);
                 }
             });
-            if (models.get(position).isOpen()) {
+            if (((SearchCarTypeChildModel) (models.get(position+1))).isOpen()) {
                 ((SearchCarTypeChild1ViewHolder) holder).adapter_searchcartype_child_1_image.setImageResource(R.mipmap.ic_arr_down_red);
             }
             else {
@@ -72,18 +74,22 @@ public class SearchCarTypeChildAdapter extends RecyclerView.Adapter {
             }
         }
         else if (getItemViewType(position)==CHILD) {
-            ((SearchCarTypeChild2ViewHolder) holder).adapter_searchcartype_child_2_text.setText(models.get(position).getText());
-            if (models.get(position).isOpen()) {
+            ((SearchCarTypeChild2ViewHolder) holder).adapter_searchcartype_child_2_text.setText(((SearchCarTypeChildModel) (models.get(position))).getModels());
+            if (((SearchCarTypeChildModel) (models.get(position))).isOpen()) {
                 ((SearchCarTypeChild2ViewHolder) holder).adapter_searchcartype_child_2_layout.setVisibility(View.VISIBLE);
-                ((SearchCarTypeChild2ViewHolder) holder).adapter_searchcartype_child_2_layout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 70));
+                ((SearchCarTypeChild2ViewHolder) holder).adapter_searchcartype_child_2_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(context, 44)));
             }
             else {
-                ((SearchCarTypeChild2ViewHolder) holder).adapter_searchcartype_child_2_layout.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
+                ((SearchCarTypeChild2ViewHolder) holder).adapter_searchcartype_child_2_layout.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
             }
             ((SearchCarTypeChild2ViewHolder) holder).adapter_searchcartype_child_2_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(context, SearchCarTypeDetailActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("brand", ((SearchCarTypeChildModel) (models.get(position))).getBrand());
+                    bundle.putString("models", ((SearchCarTypeChildModel) (models.get(position))).getModels());
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             });
@@ -97,7 +103,7 @@ public class SearchCarTypeChildAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (models.get(position).getParentId()==-1) {
+        if (models.get(position) instanceof String) {
             return PARENT;
         }
         else {
@@ -108,7 +114,7 @@ public class SearchCarTypeChildAdapter extends RecyclerView.Adapter {
     public static class SearchCarTypeChild1ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.adapter_searchcartype_child_1_layout)
-        RelativeLayout adapter_searchcartype_child_1_layout;
+        LinearLayout adapter_searchcartype_child_1_layout;
         @Bind(R.id.adapter_searchcartype_child_1_text)
         TextView adapter_searchcartype_child_1_text;
         @Bind(R.id.adapter_searchcartype_child_1_image)
@@ -123,7 +129,7 @@ public class SearchCarTypeChildAdapter extends RecyclerView.Adapter {
     public static class SearchCarTypeChild2ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.adapter_searchcartype_child_2_layout)
-        RelativeLayout adapter_searchcartype_child_2_layout;
+        LinearLayout adapter_searchcartype_child_2_layout;
         @Bind(R.id.adapter_searchcartype_child_2_text)
         TextView adapter_searchcartype_child_2_text;
 

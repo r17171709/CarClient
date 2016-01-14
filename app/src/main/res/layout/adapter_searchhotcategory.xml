@@ -3,7 +3,8 @@
     android:layout_width="80dip"
     android:layout_height="80dip"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:id="@+id/searchhotcategory_layout">
     <ImageView
         android:id="@+id/searchhotcategory_image"
         android:layout_width="50dip"

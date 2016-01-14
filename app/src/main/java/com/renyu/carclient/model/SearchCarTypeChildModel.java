@@ -1,63 +1,49 @@
 package com.renyu.carclient.model;
 
-import java.util.ArrayList;
-
 /**
  * Created by renyu on 15/12/7.
  */
 public class SearchCarTypeChildModel {
-    int parentId=-1;
-    int id=-1;
-    String text="";
-    String imageUrl="";
     boolean isOpen=false;
-    ArrayList<SearchCarTypeChildModel> lists=null;
 
-    public int getParentId() {
-        return parentId;
+    /**
+     * brand : ASDF
+     * models : 广汽本田 奥德赛
+     */
+
+    private String brand;
+    private String models;
+    private String flag;
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
+    public void setModels(String models) {
+        this.models = models;
     }
 
-    public String getText() {
-        return text;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public String getModels() {
+        return models;
     }
 
     public boolean isOpen() {
         return isOpen;
     }
 
-    public void setIsOpen(boolean isOpen) {
-        this.isOpen = isOpen;
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 
-    public ArrayList<SearchCarTypeChildModel> getLists() {
-        return lists;
+    public String getFlag() {
+        return flag;
     }
 
-    public void setLists(ArrayList<SearchCarTypeChildModel> lists) {
-        this.lists = lists;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 }

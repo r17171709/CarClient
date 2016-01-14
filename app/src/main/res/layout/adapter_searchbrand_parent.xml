@@ -4,7 +4,7 @@
     android:layout_height="wrap_content" android:gravity="center_vertical">
     <TextView
         android:id="@+id/searchbrand_parent_text"
-        android:background="#f6f6f6"
+        android:background="#eeeeee"
         android:paddingLeft="10dip"
         android:textColor="@android:color/black"
         android:gravity="center_vertical"

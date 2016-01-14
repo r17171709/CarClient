@@ -398,6 +398,7 @@ public class OrderFragment extends BaseFragment {
                     models.clear();
                 }
                 adapter.notifyDataSetChanged();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -467,6 +468,7 @@ public class OrderFragment extends BaseFragment {
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -526,6 +528,7 @@ public class OrderFragment extends BaseFragment {
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

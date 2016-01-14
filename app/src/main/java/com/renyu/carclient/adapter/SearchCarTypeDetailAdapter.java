@@ -2,14 +2,18 @@ package com.renyu.carclient.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.GoodsListActivity;
+import com.renyu.carclient.commons.ParamUtils;
+import com.renyu.carclient.model.SearchCarDetalModel;
 
 import java.util.ArrayList;
 
@@ -22,9 +26,9 @@ import butterknife.ButterKnife;
 public class SearchCarTypeDetailAdapter extends RecyclerView.Adapter<SearchCarTypeDetailAdapter.SearchCarTypeDetailViewHolder> {
 
     Context context=null;
-    ArrayList<String> models=null;
+    ArrayList<SearchCarDetalModel> models=null;
 
-    public SearchCarTypeDetailAdapter(Context context, ArrayList<String> models) {
+    public SearchCarTypeDetailAdapter(Context context, ArrayList<SearchCarDetalModel> models) {
         this.context = context;
         this.models = models;
     }
@@ -36,14 +40,19 @@ public class SearchCarTypeDetailAdapter extends RecyclerView.Adapter<SearchCarTy
     }
 
     @Override
-    public void onBindViewHolder(SearchCarTypeDetailViewHolder holder, int position) {
+    public void onBindViewHolder(SearchCarTypeDetailViewHolder holder, final int position) {
         holder.adpter_searchcartypedetail_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, GoodsListActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("type", ParamUtils.CAR);
+                bundle.putString("nlevelid", models.get(position).getNlevelid());
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });
+        holder.adpter_searchcartypedetail_text.setText(models.get(position).getSales_name());
     }
 
     @Override
@@ -55,6 +64,8 @@ public class SearchCarTypeDetailAdapter extends RecyclerView.Adapter<SearchCarTy
 
         @Bind(R.id.adpter_searchcartypedetail_layout)
         LinearLayout adpter_searchcartypedetail_layout;
+        @Bind(R.id.adpter_searchcartypedetail_text)
+        TextView adpter_searchcartypedetail_text;
 
         public SearchCarTypeDetailViewHolder(View itemView) {
             super(itemView);

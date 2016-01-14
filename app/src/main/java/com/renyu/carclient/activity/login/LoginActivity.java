@@ -64,6 +64,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

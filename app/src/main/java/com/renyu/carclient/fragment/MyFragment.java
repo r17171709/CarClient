@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.MainActivity;
 import com.renyu.carclient.activity.my.MyAddressActivity;
 import com.renyu.carclient.activity.my.MyFeedBackActivity;
 import com.renyu.carclient.activity.my.MyInfoActivity;
@@ -61,7 +62,7 @@ public class MyFragment extends BaseFragment {
         ImageLoader.getInstance().displayImage(userModel.getHead_photo(), my_avatar, getAvatarDisplayImageOptions());
     }
 
-    @OnClick({R.id.my_info, R.id.my_address, R.id.my_paylist, R.id.my_feedback, R.id.my_repayment, R.id.my_avatar})
+    @OnClick({R.id.my_info, R.id.my_address, R.id.my_paylist, R.id.my_feedback, R.id.my_repayment, R.id.my_avatar, R.id.my_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.my_info:
@@ -94,6 +95,10 @@ public class MyFragment extends BaseFragment {
                     }
                 }
                 ((BaseActivity) getActivity()).openChoiceImage();
+                break;
+            case R.id.my_loginout:
+                ACache.get(getActivity()).remove("user");
+                ((MainActivity) getActivity()).loginOut();
                 break;
         }
     }

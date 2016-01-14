@@ -2,6 +2,7 @@ package com.renyu.carclient.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.renyu.carclient.R;
@@ -12,9 +13,16 @@ import com.renyu.carclient.adapter.SearchhotBrandAdapter;
 import com.renyu.carclient.adapter.SearchhotCarTypeAdapter;
 import com.renyu.carclient.adapter.SearchhotCategoryAdapter;
 import com.renyu.carclient.base.BaseFragment;
+import com.renyu.carclient.commons.OKHttpHelper;
+import com.renyu.carclient.commons.ParamUtils;
+import com.renyu.carclient.model.HotBrandModel;
+import com.renyu.carclient.model.HotCarModel;
+import com.renyu.carclient.model.HotCatModel;
+import com.renyu.carclient.model.JsonParse;
 import com.renyu.carclient.myview.NoScrollGridView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -35,9 +43,9 @@ public class SearchFragment extends BaseFragment {
     SearchhotBrandAdapter hotbrandAdapter=null;
     SearchhotCarTypeAdapter hotCarTypeAdapter=null;
 
-    ArrayList<String> modelsHotCate=null;
-    ArrayList<String> modelsHotBrand=null;
-    ArrayList<String> modelsHotCarType=null;
+    ArrayList<HotCatModel> modelsHotCate=null;
+    ArrayList<HotBrandModel> modelsHotBrand=null;
+    ArrayList<HotCarModel> modelsHotCarType=null;
 
     @Override
     public int initContentView() {
@@ -49,54 +57,10 @@ public class SearchFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         modelsHotCate=new ArrayList<>();
-        modelsHotCate.add("");
-        modelsHotCate.add("");
-        modelsHotCate.add("");
-        modelsHotCate.add("");
-        modelsHotCate.add("");
-        modelsHotCate.add("");
-        modelsHotCate.add("");
-        modelsHotCate.add("");
-        modelsHotCate.add("");
-        modelsHotCate.add("");
         modelsHotBrand=new ArrayList<>();
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
-        modelsHotBrand.add("");
         modelsHotCarType=new ArrayList<>();
-        modelsHotCarType.add("");
-        modelsHotCarType.add("");
-        modelsHotCarType.add("");
-        modelsHotCarType.add("");
-        modelsHotCarType.add("");
-        modelsHotCarType.add("");
-        modelsHotCarType.add("");
-        modelsHotCarType.add("");
-        modelsHotCarType.add("");
-        modelsHotCarType.add("");
 
-        initViews();
+        getHotDefault();
     }
 
     private void initViews() {
@@ -109,7 +73,7 @@ public class SearchFragment extends BaseFragment {
     }
 
     @OnClick({R.id.search_category, R.id.search_brand, R.id.search_cartype})
-    public void jumpClick(View view) {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search_category:
                 Intent intent1=new Intent(getActivity(), SearchCategoryActivity.class);
@@ -125,5 +89,24 @@ public class SearchFragment extends BaseFragment {
                 break;
 
         }
+    }
+
+    private void getHotDefault() {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.hot.goods", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                HashMap<String, Object> maps=JsonParse.getHot(string);
+                modelsHotCate.addAll((ArrayList<HotCatModel>) maps.get("hot_cat"));
+                modelsHotBrand.addAll((ArrayList<HotBrandModel>) maps.get("hot_brand"));
+                modelsHotCarType.addAll((ArrayList<HotCarModel>) maps.get("hot_car"));
+                initViews();
+            }
+
+            @Override
+            public void onError() {
+                showToast(getResources().getString(R.string.network_error));
+            }
+        });
     }
 }

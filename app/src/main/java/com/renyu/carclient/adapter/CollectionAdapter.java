@@ -30,10 +30,16 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
     Context context=null;
     ArrayList<CollectionModel> models;
+    OnDeleteListener listener;
 
-    public CollectionAdapter(Context context, ArrayList<CollectionModel> models) {
+    public CollectionAdapter(Context context, ArrayList<CollectionModel> models, OnDeleteListener listener) {
         this.context = context;
         this.models = models;
+        this.listener = listener;
+    }
+
+    public interface OnDeleteListener {
+        void deletePosition(String item_id, final int position);
     }
 
     @Override
@@ -43,7 +49,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     }
 
     @Override
-    public void onBindViewHolder(CollectionHolder holder, int position) {
+    public void onBindViewHolder(CollectionHolder holder, final int position) {
         final int position_=position;
         if (models.get(position).isFlag()) {
             holder.adapter_collection_delete.setVisibility(View.VISIBLE);
@@ -57,7 +63,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         holder.adapter_collection_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.deletePosition(""+models.get(position_).getItem_id(), position_);
             }
         });
         holder.adapter_collection_layout.setOnClickListener(new View.OnClickListener() {

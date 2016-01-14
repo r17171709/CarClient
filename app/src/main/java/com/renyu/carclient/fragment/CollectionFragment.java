@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.CollectionAdapter;
 import com.renyu.carclient.base.BaseFragment;
+import com.renyu.carclient.commons.ACache;
 import com.renyu.carclient.commons.OKHttpHelper;
 import com.renyu.carclient.commons.ParamUtils;
 import com.renyu.carclient.model.CollectionModel;
 import com.renyu.carclient.model.JsonParse;
+import com.renyu.carclient.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +47,8 @@ public class CollectionFragment extends BaseFragment {
 
     PopupWindow popupWindow=null;
 
+    UserModel userModel=null;
+
     @Override
     public int initContentView() {
         return R.layout.fragment_collection;
@@ -56,6 +60,8 @@ public class CollectionFragment extends BaseFragment {
 
         leftModels=new ArrayList<>();
 
+        userModel= ACache.get(getActivity()).getAsObject("user")!=null?(UserModel) ACache.get(getActivity()).getAsObject("user"):null;
+
         initViews();
     }
 
@@ -65,7 +71,12 @@ public class CollectionFragment extends BaseFragment {
         view_toolbar_center_text_next.setText("编辑");
         cartype_rv.setHasFixedSize(true);
         cartype_rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter=new CollectionAdapter(getActivity(), leftModels);
+        adapter=new CollectionAdapter(getActivity(), leftModels, new CollectionAdapter.OnDeleteListener() {
+            @Override
+            public void deletePosition(String item_id, int position) {
+                deleteFav(item_id, position);
+            }
+        });
         cartype_rv.setAdapter(adapter);
 
         View view= LayoutInflater.from(getActivity()).inflate(R.layout.pop_collection, null, false);
@@ -97,7 +108,7 @@ public class CollectionFragment extends BaseFragment {
 
     private void getCollectList() {
         HashMap<String, String> params= ParamUtils.getSignParams("app.itemcollect.list", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
-        params.put("user_id", "57");
+        params.put("user_id", ""+userModel.getUser_id());
         httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
             @Override
             public void onSuccess(String string) {
@@ -110,6 +121,31 @@ public class CollectionFragment extends BaseFragment {
                     leftModels.addAll(temp);
                     adapter.notifyDataSetChanged();
                 }
+                else {
+                    showToast("未知错误");
+                }
+            }
+
+            @Override
+            public void onError() {
+                showToast(getResources().getString(R.string.network_error));
+            }
+        });
+    }
+
+    public void deleteFav(String item_id, final int position) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.itemcollect.cancel", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", ""+userModel.getUser_id());
+        params.put("item_id", item_id);
+        httpHelper.commonPostRequest(ParamUtils.api, params, new OKHttpHelper.StartListener() {
+            @Override
+            public void onStart() {
+                leftModels.remove(position);
+                adapter.notifyDataSetChanged();
+            }
+        }, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
 
             }
 

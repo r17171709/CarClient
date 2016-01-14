@@ -152,9 +152,12 @@ public class OrderCenterSearchResultActivity extends BaseActivity {
                 }
                 if (tempModels!=null) {
                     models.addAll(tempModels);
+                    adapter.notifyDataSetChanged();
+                    page_no++;
                 }
-                adapter.notifyDataSetChanged();
-                page_no++;
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
@@ -166,6 +169,7 @@ public class OrderCenterSearchResultActivity extends BaseActivity {
                     models.clear();
                 }
                 adapter.notifyDataSetChanged();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -204,11 +208,15 @@ public class OrderCenterSearchResultActivity extends BaseActivity {
                         EventBus.getDefault().post(new OrderModel());
                     }
                 }
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -237,11 +245,15 @@ public class OrderCenterSearchResultActivity extends BaseActivity {
                         EventBus.getDefault().post(new OrderModel());
                     }
                 }
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

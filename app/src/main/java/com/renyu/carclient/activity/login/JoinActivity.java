@@ -1,9 +1,11 @@
 package com.renyu.carclient.activity.login;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
@@ -23,6 +25,10 @@ import butterknife.OnClick;
  */
 public class JoinActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
     @Bind(R.id.join_name)
     EditText join_name;
     @Bind(R.id.join_area)
@@ -44,7 +50,19 @@ public class JoinActivity extends BaseActivity {
         return R.layout.activity_join;
     }
 
-    @OnClick({R.id.join_commit, R.id.join_area})
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initViews();
+    }
+
+    private void initViews() {
+        view_toolbar_center_title.setText("立即申请");
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick({R.id.join_commit, R.id.join_area, R.id.view_toolbar_center_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.join_commit:
@@ -55,6 +73,9 @@ public class JoinActivity extends BaseActivity {
             case R.id.join_area:
                 Intent intent=new Intent(JoinActivity.this, AreaActivity.class);
                 startActivityForResult(intent, ParamUtils.RESULT_AREA);
+                break;
+            case R.id.view_toolbar_center_back:
+                finish();
                 break;
         }
     }
@@ -96,6 +117,7 @@ public class JoinActivity extends BaseActivity {
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

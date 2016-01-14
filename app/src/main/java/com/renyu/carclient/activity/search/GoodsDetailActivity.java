@@ -79,6 +79,8 @@ public class GoodsDetailActivity extends BaseActivity {
     Button goodsdetil_isLogin;
     @Bind(R.id.goodsdetil_price)
     TextView goodsdetil_price;
+    @Bind(R.id.goodsdetil_realprice)
+    TextView goodsdetil_realprice;
 
     ArrayList<ImageView> imageViews=null;
     ArrayList<String> urls=null;
@@ -128,6 +130,9 @@ public class GoodsDetailActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.goodsdetail_params:
+                if (model==null) {
+                    return;
+                }
                 goodsdetail_tip_layout.removeAllViews();
                 View view1=LayoutInflater.from(GoodsDetailActivity.this).inflate(R.layout.view_tip_bglayout, null, false);
                 TextView tip_bglayout_title= (TextView) view1.findViewById(R.id.tip_bglayout_title);
@@ -196,6 +201,9 @@ public class GoodsDetailActivity extends BaseActivity {
                     startActivityForResult(intent, ParamUtils.RESULT_LOGIN);
                     return;
                 }
+                if (model==null) {
+                    return;
+                }
                 ArrayList<GoodsListModel> listModels=new ArrayList<>();
                 model.setChecked(true);
                 model.setQuantity(price_layout.getPriceNum());
@@ -245,6 +253,9 @@ public class GoodsDetailActivity extends BaseActivity {
                 if (userModel==null) {
                     Intent intent_fav=new Intent(GoodsDetailActivity.this, LoginActivity.class);
                     startActivityForResult(intent_fav, ParamUtils.RESULT_LOGIN);
+                    return;
+                }
+                if (model==null) {
                     return;
                 }
                 addFav(model.isChoucang());
@@ -397,6 +408,10 @@ public class GoodsDetailActivity extends BaseActivity {
             public void onSuccess(String string) {
                 dismissDialog();
                 model = JsonParse.getGoodsDetailModel(string);
+                if (model==null) {
+                    showToast("未知错误");
+                    return;
+                }
                 //加载图片滚动
                 if (model.getList_image().equals("")) {
 
@@ -436,13 +451,22 @@ public class GoodsDetailActivity extends BaseActivity {
                     goodsdetil_fav.setImageResource(R.mipmap.ic_fav);
                 }
 
-                goodsdetil_price.setText("￥"+model.getPrice());
-                goodsdetil_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                if (model.getReal_price().equals("-1")) {
+                    goodsdetil_price.setText("￥"+model.getPrice());
+                }
+                else {
+                    goodsdetil_price.setText("￥"+model.getPrice());
+                    goodsdetil_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    goodsdetil_realprice.setText("￥"+model.getReal_price());
+                    goodsdetil_realprice.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
@@ -474,11 +498,15 @@ public class GoodsDetailActivity extends BaseActivity {
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
 
     private void addFav(final boolean isAdd) {
+        if (model==null) {
+            return;
+        }
         HashMap<String, String> params;
         if (isAdd) {
             params= ParamUtils.getSignParams("app.itemcollect.cancel", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
@@ -516,6 +544,7 @@ public class GoodsDetailActivity extends BaseActivity {
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

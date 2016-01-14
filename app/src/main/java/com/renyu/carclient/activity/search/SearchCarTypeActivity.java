@@ -3,13 +3,21 @@ package com.renyu.carclient.activity.search;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.adapter.SearchCarTypeAdapter;
 import com.renyu.carclient.adapter.SearchCarTypeChildAdapter;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.commons.CommonUtils;
+import com.renyu.carclient.commons.OKHttpHelper;
+import com.renyu.carclient.commons.ParamUtils;
+import com.renyu.carclient.model.JsonParse;
 import com.renyu.carclient.model.SearchCarTypeChildModel;
 import com.renyu.carclient.model.SearchCarTypeHeadModel;
 import com.renyu.carclient.model.SearchCarTypeModel;
@@ -22,6 +30,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -33,6 +42,10 @@ import rx.schedulers.Schedulers;
  */
 public class SearchCarTypeActivity extends BaseActivity {
 
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
+    @Bind(R.id.view_toolbar_center_back)
+    ImageView view_toolbar_center_back;
     @Bind(R.id.searchcartype_letterindicator)
     LetterIndicatorView searchcartype_letterindicator;
     SearchCarTypeAdapter adapter=null;
@@ -42,7 +55,13 @@ public class SearchCarTypeActivity extends BaseActivity {
     @Bind(R.id.searchcartype_child)
     RecyclerView searchcartype_child;
     SearchCarTypeChildAdapter childAdapter=null;
+    @Bind(R.id.searchcartype_edit)
+    EditText searchcartype_edit;
+    @Bind(R.id.searchcartype_rv2)
+    RecyclerView searchcartype_rv2;
 
+    //全部一级目录对象集合
+    ArrayList<SearchCarTypeModel> allModels;
     //首字母序列
     ArrayList<String> letterIndicator=null;
     //listview对应首字母位置
@@ -51,7 +70,9 @@ public class SearchCarTypeActivity extends BaseActivity {
     HashMap<String, ArrayList<SearchCarTypeModel>> models=null;
     //列表加载对象
     ArrayList<Object> tempModels=null;
-    ArrayList<SearchCarTypeChildModel> childModels=null;
+    ArrayList<Object> childModels=null;
+
+    String lastBrand="";
 
     @Override
     public int initContentView() {
@@ -68,11 +89,12 @@ public class SearchCarTypeActivity extends BaseActivity {
         childModels=new ArrayList<>();
 
         initViews();
-
-        initData();
+        getCarAllType();
     }
 
     private void initViews() {
+        view_toolbar_center_title.setText("车型");
+        view_toolbar_center_back.setVisibility(View.VISIBLE);
         searchcartype_letterindicator.setOnLetterChangedListener(new LetterIndicatorView.OnLetterChangedListener() {
             @Override
             public void LetterChanged(int position) {
@@ -84,13 +106,18 @@ public class SearchCarTypeActivity extends BaseActivity {
         searchcartype_rv.setLayoutManager(manager);
         adapter=new SearchCarTypeAdapter(this, tempModels, new SearchCarTypeAdapter.OnOperationListener() {
             @Override
-            public void positionChoice(int position) {
-                if (searchcartype_child.getVisibility()== View.VISIBLE) {
-                    searchcartype_child.setVisibility(View.GONE);
+            public void positionChoice(String brand) {
+                if (lastBrand.equals(brand)) {
+                    if (searchcartype_child.getVisibility()== View.VISIBLE) {
+                        searchcartype_child.setVisibility(View.GONE);
+                    }
+                    else {
+                        searchcartype_child.setVisibility(View.VISIBLE);
+                    }
                 }
                 else {
                     searchcartype_child.setVisibility(View.VISIBLE);
-                    openChild(position);
+                    getCarTypeByPosition(brand);
                 }
             }
         });
@@ -101,41 +128,78 @@ public class SearchCarTypeActivity extends BaseActivity {
         childAdapter=new SearchCarTypeChildAdapter(this, childModels, new SearchCarTypeChildAdapter.OnMenuChoiceListener() {
             @Override
             public void openClose(int position) {
-                boolean flag=childModels.get(position).isOpen();
-                int parentId=childModels.get(position).getId();
+                boolean flag=((SearchCarTypeChildModel) (childModels.get(position+1))).isOpen();
                 for (int i=0;i<childModels.size();i++) {
-                    if (childModels.get(i).getParentId()==parentId) {
-                        childModels.get(i).setIsOpen(!flag);
+                    if (childModels.get(i) instanceof SearchCarTypeChildModel) {
+                        if (((SearchCarTypeChildModel) (childModels.get(i))).getFlag().equals(childModels.get(position).toString())) {
+                            ((SearchCarTypeChildModel) (childModels.get(i))).setOpen(!flag);
+                        }
                     }
                 }
-                childModels.get(position).setIsOpen(!flag);
                 childAdapter.notifyDataSetChanged();
             }
         });
-    }
 
-    private void initData() {
-        //未加工对象
-        ArrayList<SearchCarTypeModel> results=new ArrayList<>();
-        String[] names={"福斯", "红线", "昆仑润滑油", "福特润滑油", "康普顿", "AMSOIL汽油机油", "MOTUL汽油机油", "加德士汽油机油", "美孚汽油机油", "四洲汽油机油"};
-        for (int i=0;i<names.length;i++) {
-            SearchCarTypeModel model1=new SearchCarTypeModel();
-            model1.setTitle(names[i]);
-            results.add(model1);
-        }
-        letterIndicatorCompare(results);
+        searchcartype_rv2.setHasFixedSize(true);
+        searchcartype_rv2.setLayoutManager(new LinearLayoutManager(this));
+        searchcartype_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (allModels!=null) {
+                    if (s.equals("")) {
+                        searchcartype_rv2.setVisibility(View.GONE);
+                    }
+                    else {
+                        searchcartype_rv2.setVisibility(View.VISIBLE);
+                        ArrayList<Object> temp=new ArrayList<Object>();
+                        for (int i=0;i<allModels.size();i++) {
+                            if (allModels.get(i).getBrand().indexOf(s.toString())!=-1) {
+                                temp.add(allModels.get(i));
+                            }
+                        }
+                        searchcartype_rv2.setAdapter(new SearchCarTypeAdapter(SearchCarTypeActivity.this, temp, new SearchCarTypeAdapter.OnOperationListener() {
+                            @Override
+                            public void positionChoice(String brand) {
+                                if (lastBrand.equals(brand)) {
+                                    if (searchcartype_child.getVisibility()== View.VISIBLE) {
+                                        searchcartype_child.setVisibility(View.GONE);
+                                    }
+                                    else {
+                                        searchcartype_child.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                                else {
+                                    searchcartype_child.setVisibility(View.VISIBLE);
+                                    getCarTypeByPosition(brand);
+                                }
+                            }
+                        }));
+                    }
+                }
+            }
+        });
     }
 
     /**
      * 首字母排序
      */
-    private void letterIndicatorCompare(ArrayList<SearchCarTypeModel> results) {
+    private void letterIndicatorCompare(ArrayList<SearchCarTypeModel> results, final ArrayList<SearchCarTypeModel> hotModels) {
         Observable.just(results).map(new Func1<ArrayList<SearchCarTypeModel>, HashMap<String, ArrayList<SearchCarTypeModel>>>() {
             @Override
             public HashMap<String, ArrayList<SearchCarTypeModel>> call(ArrayList<SearchCarTypeModel> SearchCarTypeModels) {
                 HashMap<String, ArrayList<SearchCarTypeModel>> map = new HashMap<>();
                 for (int i = 0; i < SearchCarTypeModels.size(); i++) {
-                    String firstLetter = CommonUtils.getFirstPinyin(SearchCarTypeModels.get(i).getTitle());
+                    String firstLetter = CommonUtils.getFirstPinyin(SearchCarTypeModels.get(i).getBrand());
                     if (map.containsKey(firstLetter)) {
                         ArrayList<SearchCarTypeModel> arrayList = map.get(firstLetter);
                         arrayList.add(SearchCarTypeModels.get(i));
@@ -161,7 +225,7 @@ public class SearchCarTypeActivity extends BaseActivity {
                 letterIndicator=keys;
                 searchcartype_letterindicator.setLetters(letterIndicator);
                 models=stringArrayListHashMap;
-                refreshList();
+                refreshList(hotModels);
             }
         });
     }
@@ -174,18 +238,11 @@ public class SearchCarTypeActivity extends BaseActivity {
         }
     }
 
-    public void refreshList() {
+    public void refreshList(ArrayList<SearchCarTypeModel> hotModels) {
         tempModels.clear();
         sections.clear();
-
         SearchCarTypeHeadModel headModel=new SearchCarTypeHeadModel();
-        ArrayList<SearchCarTypeModel> tempHead=new ArrayList<>();
-        for (int i=0;i<30;i++) {
-            SearchCarTypeModel temp=new SearchCarTypeModel();
-            temp.setTitle("agerge"+i);
-            tempHead.add(temp);
-        }
-        headModel.setLists(tempHead);
+        headModel.setLists(hotModels);
         tempModels.add(headModel);
         ArrayList<Object> values=new ArrayList<>();
         for (int i=0;i<letterIndicator.size();i++) {
@@ -204,34 +261,71 @@ public class SearchCarTypeActivity extends BaseActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void openChild(int position) {
-        ArrayList<SearchCarTypeChildModel> tempModels=new ArrayList<>();
-        for (int i=0;i<10;i++) {
-            SearchCarTypeChildModel parentModel=new SearchCarTypeChildModel();
-            parentModel.setId(i);
-            parentModel.setImageUrl("");
-            parentModel.setIsOpen(true);
-            parentModel.setParentId(-1);
-            parentModel.setText("acascas"+i);
-            ArrayList<SearchCarTypeChildModel> temp=new ArrayList<>();
-            for (int j=0;j<5;j++) {
-                SearchCarTypeChildModel childModel=new SearchCarTypeChildModel();
-                childModel.setId(j);
-                childModel.setImageUrl("");
-                childModel.setIsOpen(true);
-                childModel.setParentId(i);
-                childModel.setText("acascaschild"+j);
-                temp.add(childModel);
+    private void getCarAllType() {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.modelsmatch.api.getBrands", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                allModels=JsonParse.getCarType(string);
+                ArrayList<SearchCarTypeModel> hotModels=JsonParse.getHotCarType(string);
+                if (tempModels!=null) {
+                    letterIndicatorCompare(allModels, hotModels);
+                }
+                else {
+                    showToast("未知错误");
+                }
             }
-            parentModel.setLists(temp);
-            tempModels.add(parentModel);
-        }
 
-        childModels.clear();
-        for (int i=0;i<tempModels.size();i++) {
-            childModels.add(tempModels.get(i));
-            childModels.addAll(tempModels.get(i).getLists());
+            @Override
+            public void onError() {
+                showToast(getResources().getString(R.string.network_error));
+            }
+        });
+    }
+
+    private void getCarTypeByPosition(String brand) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.modelsmatch.api.getCars", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("brand", brand);
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                ArrayList<Object> tempmodels=JsonParse.getCarTypeChilds(string);
+                if (tempmodels==null) {
+                    showToast("未知错误");
+                }
+                else {
+                    childModels.clear();
+                    childModels.addAll(tempmodels);
+                    searchcartype_child.setAdapter(childAdapter);
+                }
+            }
+
+            @Override
+            public void onError() {
+                showToast(getResources().getString(R.string.network_error));
+            }
+        });
+    }
+
+    @OnClick({R.id.view_toolbar_center_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.view_toolbar_center_back:
+                finish();
+                break;
         }
-        searchcartype_child.setAdapter(childAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (searchcartype_child.getVisibility()==View.VISIBLE) {
+            searchcartype_child.setVisibility(View.GONE);
+        }
+        else if (searchcartype_rv2.getVisibility()==View.VISIBLE) {
+            searchcartype_rv2.setVisibility(View.GONE);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 }

@@ -98,13 +98,16 @@ public class MyAddressActivity extends BaseActivity {
                 ArrayList<AddressModel> temp= JsonParse.getAddressModels(string);
                 if (temp!=null) {
                     models.addAll(temp);
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
             public void onError() {
-
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

@@ -29,8 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
-                    android:textSize="15sp"
-                    android:text="123123"/>
+                    android:textSize="15sp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -49,8 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
-                    android:textSize="15sp"
-                    android:text="123123"/>
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
         <de.hdodenhof.circleimageview.CircleImageView
@@ -81,8 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:text="123123"/>
+            android:textSize="15sp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -106,8 +103,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            android:inputType="number"
-            android:text="123123"/>
+            android:inputType="number" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -130,8 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:text="123123"/>
+            android:textSize="15sp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -184,8 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:text="123123"/>
+                android:textSize="15sp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -209,8 +203,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="15sp"
-                android:inputType="number"
-                android:text="123123"/>
+                android:inputType="number" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -233,8 +226,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:text="123123"/>
+                android:textSize="15sp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -258,8 +250,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="15sp"
-                android:inputType="number"
-                android:text="123123"/>
+                android:inputType="number" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -282,8 +273,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:text="123123"/>
+                android:textSize="15sp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -307,8 +297,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="15sp"
-                android:inputType="number"
-                android:text="123123"/>
+                android:inputType="number" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -355,8 +344,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="15sp"
-                android:inputType="number"
-                android:text="123123"/>
+                android:inputType="number" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -379,8 +367,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:text="123123"/>
+                android:textSize="15sp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -403,8 +390,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:text="123123"/>
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -102,12 +102,16 @@ public class GoodsListSearchActivity extends BaseActivity {
                     page_no++;
                     linearAdapter.notifyDataSetChanged();
                 }
+                else {
+                    showToast("未知错误");
+                }
                 goodslist_search_swipy.setRefreshing(false);
             }
 
             @Override
             public void onError() {
                 goodslist_search_swipy.setRefreshing(false);
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

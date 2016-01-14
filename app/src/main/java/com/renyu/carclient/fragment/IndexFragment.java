@@ -4,20 +4,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.login.LoginActivity;
+import com.renyu.carclient.activity.order.CartActivity;
 import com.renyu.carclient.activity.search.GoodsDetailActivity;
 import com.renyu.carclient.activity.search.GoodsListActivity;
+import com.renyu.carclient.activity.search.GoodsListSearchActivity;
 import com.renyu.carclient.activity.search.SearchCategoryActivity;
 import com.renyu.carclient.base.BaseFragment;
+import com.renyu.carclient.commons.ACache;
 import com.renyu.carclient.commons.ParamUtils;
+import com.renyu.carclient.model.UserModel;
 import com.zbar.lib.CaptureActivity;
 
 import org.json.JSONException;
@@ -33,6 +42,10 @@ public class IndexFragment extends BaseFragment {
 
     @Bind(R.id.main_wv)
     WebView main_wv;
+    @Bind(R.id.toolbar_main_search)
+    EditText toolbar_main_search;
+
+    UserModel userModel=null;
 
     @Override
     public int initContentView() {
@@ -43,6 +56,10 @@ public class IndexFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initViews();
+    }
+
+    private void initViews() {
         main_wv.setSaveEnabled(true);
         main_wv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         main_wv.setWebViewClient(new WebViewClient() {
@@ -69,14 +86,36 @@ public class IndexFragment extends BaseFragment {
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(false);
         main_wv.loadUrl("http://www.kzmall.cn/wap?type=android");
+
+        toolbar_main_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId== EditorInfo.IME_ACTION_SEARCH) {
+                    Intent intent=new Intent(getActivity(), GoodsListSearchActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("keyWords", toolbar_main_search.getText().toString());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
     }
 
-    @OnClick({R.id.toolbar_main_right_button})
-    public void jumpClick(View view) {
+    @OnClick({R.id.toolbar_main_right_button, R.id.toolbar_main_left_button})
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar_main_right_button:
-                Intent intent1=new Intent(getActivity(), CaptureActivity.class);
-                startActivity(intent1);
+                if (userModel == null) {
+                    Intent intent=new Intent(getActivity(), LoginActivity.class);
+                    startActivityForResult(intent, ParamUtils.RESULT_LOGIN);
+                }
+                Intent intent=new Intent(getActivity(), CartActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.toolbar_main_left_button:
+                Intent intent2=new Intent(getActivity(), CaptureActivity.class);
+                startActivity(intent2);
                 break;
         }
     }
@@ -140,5 +179,12 @@ public class IndexFragment extends BaseFragment {
             main_wv.goBack();
         }
         return flag;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        userModel= ACache.get(getActivity()).getAsObject("user")!=null?(UserModel) ACache.get(getActivity()).getAsObject("user"):null;
     }
 }

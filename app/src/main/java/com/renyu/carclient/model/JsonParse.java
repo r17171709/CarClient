@@ -499,4 +499,168 @@ public class JsonParse {
         }
         return null;
     }
+
+    public static HashMap<String, Object> getHot(String string) {
+        HashMap<String, Object> map=null;
+        try {
+            map=new HashMap<>();
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data1=result.getJSONObject("data");
+
+            JSONArray hot_cat_array=data1.getJSONArray("hot_cat");
+            ArrayList<HotCatModel> models=new ArrayList<>();
+            for (int i=0;i<hot_cat_array.length();i++) {
+                HotCatModel model=new HotCatModel();
+                JSONObject hot_cat_obj=hot_cat_array.getJSONObject(i);
+                model.setCat_id(hot_cat_obj.getString("cat_id"));
+                model.setCat_logo(hot_cat_obj.getString("cat_logo"));
+                model.setCat_name(hot_cat_obj.getString("cat_name"));
+                models.add(model);
+            }
+            map.put("hot_cat", models);
+
+            JSONArray hot_brand_array=data1.getJSONArray("hot_brand");
+            ArrayList<HotBrandModel> models1=new ArrayList<>();
+            for (int i=0;i<hot_brand_array.length();i++) {
+                HotBrandModel model=new HotBrandModel();
+                JSONObject hot_brand_obj=hot_brand_array.getJSONObject(i);
+                model.setBrand_id(hot_brand_obj.getString("brand_id"));
+                model.setBrand_logo(hot_brand_obj.getString("brand_logo"));
+                model.setBrand_name(hot_brand_obj.getString("brand_name"));
+                models1.add(model);
+            }
+            map.put("hot_brand", models1);
+
+            JSONArray hot_car_array=data1.getJSONArray("hot_car");
+            ArrayList<HotCarModel> models2=new ArrayList<>();
+            for (int i=0;i<hot_car_array.length();i++) {
+                HotCarModel model=new HotCarModel();
+                JSONObject hot_car_obj=hot_car_array.getJSONObject(i);
+                model.setCar_id(hot_car_obj.getString("car_id"));
+                model.setCar_logo(hot_car_obj.getString("car_logo"));
+                model.setCar_name(hot_car_obj.getString("car_name"));
+                models2.add(model);
+            }
+            map.put("hot_car", models2);
+            return map;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取车型数据
+     * @param string
+     * @return
+     */
+    public static ArrayList<SearchCarTypeModel> getCarType(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data1=result.getJSONObject("data");
+            JSONArray carBrands=data1.getJSONArray("carBrands");
+            ArrayList<SearchCarTypeModel> models=new ArrayList<>();
+            for (int i=0;i<carBrands.length();i++) {
+                JSONObject object1=carBrands.getJSONObject(i);
+                JSONArray array=object1.getJSONArray("brands");
+                for (int j=0;j<array.length();j++) {
+                    JSONObject object2=array.getJSONObject(j);
+                    SearchCarTypeModel model=new SearchCarTypeModel();
+                    model.setBrand(object2.getString("brand"));
+                    model.setBrand_img(object2.getString("brand_img"));
+                    models.add(model);
+                }
+            }
+            return models;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取车型热门数据
+     * @param string
+     * @return
+     */
+    public static ArrayList<SearchCarTypeModel> getHotCarType(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data1=result.getJSONObject("data");
+            JSONArray carBrands=data1.getJSONArray("hotBrands");
+            ArrayList<SearchCarTypeModel> models=new ArrayList<>();
+            for (int i=0;i<carBrands.length();i++) {
+                JSONObject object1=carBrands.getJSONObject(i);
+                SearchCarTypeModel model=new SearchCarTypeModel();
+                model.setBrand(object1.getString("brand"));
+                model.setBrand_img(object1.getString("brand_img"));
+                models.add(model);
+            }
+            return models;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 车型二级分类
+     * @param string
+     * @return
+     */
+    public static ArrayList<Object> getCarTypeChilds(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONArray data1=result.getJSONArray("data");
+            ArrayList<Object> models=new ArrayList<>();
+            for (int i=0;i<data1.length();i++) {
+                JSONObject object1=data1.getJSONObject(i);
+                models.add(object1.getString("cars"));
+                JSONArray array=object1.getJSONArray("modelList");
+                for (int j=0;j<array.length();j++) {
+                    JSONObject object2=array.getJSONObject(j);
+                    SearchCarTypeChildModel model=new SearchCarTypeChildModel();
+                    model.setBrand(object2.getString("brand"));
+                    model.setModels(object2.getString("models"));
+                    model.setFlag(object1.getString("cars"));
+                    model.setOpen(true);
+                    models.add(model);
+                }
+            }
+            return models;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取车型三级分类
+     * @param string
+     * @return
+     */
+    public static ArrayList<SearchCarDetalModel> getCarDetails(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONArray data1=result.getJSONArray("data");
+            ArrayList<SearchCarDetalModel> models=new ArrayList<>();
+            for (int i=0;i<data1.length();i++) {
+                JSONObject object1=data1.getJSONObject(i);
+                SearchCarDetalModel model=new SearchCarDetalModel();
+                model.setModel_year(object1.getString("model_year"));
+                model.setNlevelid(object1.getString("nlevelid"));
+                model.setSales_name(object1.getString("sales_name"));
+                models.add(model);
+            }
+            return models;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

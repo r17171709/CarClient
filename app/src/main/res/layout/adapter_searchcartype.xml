@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/adapter_searchcartype_layout"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/adapter_searchcartype_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"/>
-    <TextView
-        android:id="@+id/adapter_searchcartype_text"
+    android:background="@android:color/white"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="70dip">
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/adapter_searchcartype_image"
+            android:layout_width="55dip"
+            android:layout_height="55dip"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dip"
+            android:src="@mipmap/ic_launcher"/>
+        <TextView
+            android:id="@+id/adapter_searchcartype_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:text="123"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dip"
+            android:src="@mipmap/ic_arr_right_black"/>
+    </LinearLayout>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="123"/>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_arr_right_black"/>
+        android:layout_height="0.5dip"
+        android:background="#999999"></View>
 </LinearLayout>

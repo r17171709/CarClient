@@ -83,11 +83,15 @@ public class MyFeedBackActivity extends BaseActivity {
                         myfeedback_edit.setText("");
                     }
                 }
+                else {
+                    showToast("未知错误");
+                }
             }
 
             @Override
             public void onError() {
                 dismissDialog();
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }

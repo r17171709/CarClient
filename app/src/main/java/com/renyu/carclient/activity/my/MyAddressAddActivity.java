@@ -171,7 +171,7 @@ public class MyAddressAddActivity extends BaseActivity {
 
             @Override
             public void onError() {
-
+                showToast(getResources().getString(R.string.network_error));
             }
         });
     }
