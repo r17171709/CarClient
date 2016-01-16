@@ -78,6 +78,12 @@ public class SearchCategoryActivity extends BaseActivity {
                 httpHelper.cancel(ParamUtils.api);
                 if (currentChoice!=position) {
                     currentChoice=position;
+                    for (int i=0;i<allModels.size();i++) {
+                        allModels.get(i).setSelect(false);
+                    }
+                    allModels.get(position).setSelect(true);
+                    adapter.notifyDataSetChanged();
+
                     searchcategory_child_rv.setVisibility(View.VISIBLE);
                     if (tempCategory.containsKey(allModels.get(position).getCat_id())) {
                         ArrayList<CategoryModel> models=tempCategory.get(allModels.get(position).getCat_id());
@@ -119,6 +125,15 @@ public class SearchCategoryActivity extends BaseActivity {
                     }
                 }
                 childModels.get(position).setOpen(!flag);
+                childAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void choiceItem(int position) {
+                for (int i=0;i<childModels.size();i++) {
+                    childModels.get(i).setSelect(false);
+                }
+                childModels.get(position).setSelect(true);
                 childAdapter.notifyDataSetChanged();
             }
         });

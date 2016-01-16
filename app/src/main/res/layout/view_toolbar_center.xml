@@ -20,7 +20,9 @@
             android:id="@+id/view_toolbar_center_title"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:text="查找"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxWidth="200dip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

@@ -15,7 +15,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
-import com.renyu.carclient.activity.search.GoodsListSearchActivity;
+import com.renyu.carclient.activity.search.GoodsListActivity;
 import com.renyu.carclient.model.HotCarModel;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class SearchhotCarTypeAdapter extends BaseAdapter {
         holder.searchhotcategory_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, GoodsListSearchActivity.class);
+                Intent intent=new Intent(context, GoodsListActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("keyWords", models.get(position).getCar_name());
                 intent.putExtras(bundle);

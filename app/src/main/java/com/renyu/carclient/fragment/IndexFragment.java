@@ -21,7 +21,6 @@ import com.renyu.carclient.activity.login.LoginActivity;
 import com.renyu.carclient.activity.order.CartActivity;
 import com.renyu.carclient.activity.search.GoodsDetailActivity;
 import com.renyu.carclient.activity.search.GoodsListActivity;
-import com.renyu.carclient.activity.search.GoodsListSearchActivity;
 import com.renyu.carclient.activity.search.SearchCategoryActivity;
 import com.renyu.carclient.base.BaseFragment;
 import com.renyu.carclient.commons.ACache;
@@ -91,8 +90,9 @@ public class IndexFragment extends BaseFragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId== EditorInfo.IME_ACTION_SEARCH) {
-                    Intent intent=new Intent(getActivity(), GoodsListSearchActivity.class);
+                    Intent intent=new Intent(getActivity(), GoodsListActivity.class);
                     Bundle bundle=new Bundle();
+                    bundle.putString("type", ParamUtils.SEARCH);
                     bundle.putString("keyWords", toolbar_main_search.getText().toString());
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -109,6 +109,7 @@ public class IndexFragment extends BaseFragment {
                 if (userModel == null) {
                     Intent intent=new Intent(getActivity(), LoginActivity.class);
                     startActivityForResult(intent, ParamUtils.RESULT_LOGIN);
+                    return;
                 }
                 Intent intent=new Intent(getActivity(), CartActivity.class);
                 startActivity(intent);

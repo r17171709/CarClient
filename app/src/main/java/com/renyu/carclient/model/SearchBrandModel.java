@@ -12,6 +12,8 @@ public class SearchBrandModel {
     private String cat_id;
     private String cat_name;
 
+    private boolean isSelect=false;
+
     public void setBrand_logo(String brand_logo) {
         this.brand_logo = brand_logo;
     }
@@ -50,5 +52,13 @@ public class SearchBrandModel {
 
     public void setCat_name(String cat_name) {
         this.cat_name = cat_name;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 }

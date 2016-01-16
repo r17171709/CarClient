@@ -305,6 +305,7 @@ public class OrderFragment extends BaseFragment {
             }
         });
         ordercenter_lv.setAdapter(adapter);
+        ordercenter_swipy.setDirection(SwipyRefreshLayoutDirection.BOTH);
         ordercenter_swipy.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         ordercenter_swipy.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override

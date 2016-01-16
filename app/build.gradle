@@ -39,7 +39,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:support-v13:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.android.support:gridlayout-v7:23.1.1'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
@@ -49,7 +48,7 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.github.orangegangsters:swipy:1.2.0@aar'
+    compile 'com.github.orangegangsters:swipy:1.2.2'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.edmodo:cropper:1.0.1'
     compile project(':module_photoview')

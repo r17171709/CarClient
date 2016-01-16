@@ -87,7 +87,7 @@ public class SearchCarTypeView extends LinearLayout {
         goods_search_cartype.setLayoutManager(new LinearLayoutManager(context));
         adapter=new SearchCarTypeAdapter(context, tempModels, new SearchCarTypeAdapter.OnOperationListener() {
             @Override
-            public void positionChoice(String brand) {
+            public void positionChoice(String brand, int position) {
                 listener.onChoicePosition(brand);
             }
         });

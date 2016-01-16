@@ -59,6 +59,7 @@ public class SearchCarTypeActivity extends BaseActivity {
     EditText searchcartype_edit;
     @Bind(R.id.searchcartype_rv2)
     RecyclerView searchcartype_rv2;
+    SearchCarTypeAdapter adapter2=null;
 
     //全部一级目录对象集合
     ArrayList<SearchCarTypeModel> allModels;
@@ -71,6 +72,7 @@ public class SearchCarTypeActivity extends BaseActivity {
     //列表加载对象
     ArrayList<Object> tempModels=null;
     ArrayList<Object> childModels=null;
+    ArrayList<Object> tempModels2=null;
 
     String lastBrand="";
 
@@ -86,6 +88,7 @@ public class SearchCarTypeActivity extends BaseActivity {
         sections=new HashMap<>();
         models=new HashMap<>();
         tempModels=new ArrayList<>();
+        tempModels2=new ArrayList<>();
         childModels=new ArrayList<>();
 
         initViews();
@@ -106,7 +109,7 @@ public class SearchCarTypeActivity extends BaseActivity {
         searchcartype_rv.setLayoutManager(manager);
         adapter=new SearchCarTypeAdapter(this, tempModels, new SearchCarTypeAdapter.OnOperationListener() {
             @Override
-            public void positionChoice(String brand) {
+            public void positionChoice(String brand, int position) {
                 if (lastBrand.equals(brand)) {
                     if (searchcartype_child.getVisibility()== View.VISIBLE) {
                         searchcartype_child.setVisibility(View.GONE);
@@ -116,6 +119,15 @@ public class SearchCarTypeActivity extends BaseActivity {
                     }
                 }
                 else {
+                    if (position!=-1) {
+                        for (int i=0;i<tempModels.size();i++) {
+                            if (tempModels.get(i) instanceof SearchCarTypeModel) {
+                                ((SearchCarTypeModel) tempModels.get(i)).setSelect(false);
+                            }
+                        }
+                        ((SearchCarTypeModel) tempModels.get(position)).setSelect(true);
+                        adapter.notifyDataSetChanged();
+                    }
                     searchcartype_child.setVisibility(View.VISIBLE);
                     getCarTypeByPosition(brand);
                 }
@@ -138,8 +150,45 @@ public class SearchCarTypeActivity extends BaseActivity {
                 }
                 childAdapter.notifyDataSetChanged();
             }
+
+            @Override
+            public void selected(int position) {
+                for (int i=0;i<childModels.size();i++) {
+                    if (childModels.get(i) instanceof SearchCarTypeChildModel) {
+                        ((SearchCarTypeChildModel) (childModels.get(i))).setSelect(false);
+                    }
+                }
+                ((SearchCarTypeChildModel) (childModels.get(position))).setSelect(true);
+                childAdapter.notifyDataSetChanged();
+            }
         });
 
+        adapter2=new SearchCarTypeAdapter(SearchCarTypeActivity.this, tempModels2, new SearchCarTypeAdapter.OnOperationListener() {
+            @Override
+            public void positionChoice(String brand, int position) {
+                if (lastBrand.equals(brand)) {
+                    if (searchcartype_child.getVisibility()== View.VISIBLE) {
+                        searchcartype_child.setVisibility(View.GONE);
+                    }
+                    else {
+                        searchcartype_child.setVisibility(View.VISIBLE);
+                    }
+                }
+                else {
+                    if (position!=-1) {
+                        for (int i=0;i<tempModels2.size();i++) {
+                            if (tempModels2.get(i) instanceof SearchCarTypeModel) {
+                                ((SearchCarTypeModel) tempModels2.get(i)).setSelect(false);
+                            }
+                        }
+                        ((SearchCarTypeModel) tempModels2.get(position)).setSelect(true);
+                        adapter2.notifyDataSetChanged();
+                    }
+                    searchcartype_child.setVisibility(View.VISIBLE);
+                    getCarTypeByPosition(brand);
+                }
+            }
+        });
         searchcartype_rv2.setHasFixedSize(true);
         searchcartype_rv2.setLayoutManager(new LinearLayoutManager(this));
         searchcartype_edit.addTextChangedListener(new TextWatcher() {
@@ -156,34 +205,19 @@ public class SearchCarTypeActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (allModels!=null) {
-                    if (s.equals("")) {
+                    if (s.toString().equals("")) {
                         searchcartype_rv2.setVisibility(View.GONE);
                     }
                     else {
                         searchcartype_rv2.setVisibility(View.VISIBLE);
-                        ArrayList<Object> temp=new ArrayList<Object>();
+                        tempModels2.clear();
                         for (int i=0;i<allModels.size();i++) {
                             if (allModels.get(i).getBrand().indexOf(s.toString())!=-1) {
-                                temp.add(allModels.get(i));
+                                allModels.get(i).setSelect(false);
+                                tempModels2.add(allModels.get(i));
                             }
                         }
-                        searchcartype_rv2.setAdapter(new SearchCarTypeAdapter(SearchCarTypeActivity.this, temp, new SearchCarTypeAdapter.OnOperationListener() {
-                            @Override
-                            public void positionChoice(String brand) {
-                                if (lastBrand.equals(brand)) {
-                                    if (searchcartype_child.getVisibility()== View.VISIBLE) {
-                                        searchcartype_child.setVisibility(View.GONE);
-                                    }
-                                    else {
-                                        searchcartype_child.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                                else {
-                                    searchcartype_child.setVisibility(View.VISIBLE);
-                                    getCarTypeByPosition(brand);
-                                }
-                            }
-                        }));
+                        searchcartype_rv2.setAdapter(adapter2);
                     }
                 }
             }
@@ -250,9 +284,9 @@ public class SearchCarTypeActivity extends BaseActivity {
             //添加大写字母序号
             values.add(letterIndicator.get(i));
             //得到大写字母中所含有的model
-            ArrayList<SearchCarTypeModel> SearchCarTypeModels=models.get(letterIndicator.get(i));
-            for (int j=0;j<SearchCarTypeModels.size();j++) {
-                SearchCarTypeModel SearchCarTypeModel=SearchCarTypeModels.get(j);
+            ArrayList<SearchCarTypeModel> searchCarTypeModels=models.get(letterIndicator.get(i));
+            for (int j=0;j<searchCarTypeModels.size();j++) {
+                SearchCarTypeModel SearchCarTypeModel=searchCarTypeModels.get(j);
                 values.add(SearchCarTypeModel);
             }
         }

@@ -25,6 +25,7 @@ public class ParamUtils {
     public final static String CAT="cat_type";
     public final static String BRAND="brand_type";
     public final static String CAR="car_type";
+    public final static String SEARCH="search_type";
 
     public final static int RESULT_LOGIN=1000;
     public final static int RESULT_ADDRESS=1001;

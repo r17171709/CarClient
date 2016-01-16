@@ -1,7 +1,10 @@
 package com.renyu.carclient.activity.login;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,6 +21,7 @@ import com.renyu.carclient.model.JsonParse;
 import java.util.HashMap;
 
 import butterknife.Bind;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -41,6 +45,8 @@ public class JoinActivity extends BaseActivity {
     EditText join_tel;
     @Bind(R.id.join_check)
     CheckBox join_check;
+    @Bind(R.id.join_commit)
+    TextView join_commit;
 
     String cityIds="";
     String cityNames="";
@@ -60,6 +66,70 @@ public class JoinActivity extends BaseActivity {
     private void initViews() {
         view_toolbar_center_title.setText("立即申请");
         view_toolbar_center_back.setVisibility(View.VISIBLE);
+        join_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changeColor();
+            }
+        });
+        join_contact.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changeColor();
+            }
+        });
+        join_address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changeColor();
+            }
+        });
+        join_tel.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changeColor();
+            }
+        });
     }
 
     @OnClick({R.id.join_commit, R.id.join_area, R.id.view_toolbar_center_back})
@@ -133,6 +203,21 @@ public class JoinActivity extends BaseActivity {
                 cityNames += CommonUtils.getCityInfo(values[i]);
             }
             join_area.setText(cityNames);
+            changeColor();
+        }
+    }
+
+    @OnCheckedChanged(R.id.join_check)
+    public void OnCheckedChanged(boolean flag) {
+        changeColor();
+    }
+
+    private void changeColor() {
+        if (!join_name.getText().toString().equals("") && !cityIds.equals("") && !join_contact.getText().toString().equals("") && !join_address.getText().toString().equals("") && !join_tel.getText().toString().equals("") && join_check.isChecked()) {
+            join_commit.setBackgroundColor(Color.RED);
+        }
+        else {
+            join_commit.setBackgroundColor(Color.parseColor("#acacac"));
         }
     }
 }

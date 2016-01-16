@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.renyu.carclient.R;
 import com.renyu.carclient.activity.search.SearchBrandActivity;
@@ -32,6 +33,8 @@ import butterknife.OnClick;
  */
 public class SearchFragment extends BaseFragment {
 
+    @Bind(R.id.view_toolbar_center_title)
+    TextView view_toolbar_center_title;
     @Bind(R.id.search_hot_category)
     NoScrollGridView search_hot_category;
     @Bind(R.id.search_hot_brand)
@@ -64,6 +67,7 @@ public class SearchFragment extends BaseFragment {
     }
 
     private void initViews() {
+        view_toolbar_center_title.setText("查找");
         hotCateAdapter=new SearchhotCategoryAdapter(getActivity(), modelsHotCate);
         search_hot_category.setAdapter(hotCateAdapter);
         hotbrandAdapter=new SearchhotBrandAdapter(getActivity(), modelsHotBrand);

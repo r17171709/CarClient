@@ -113,6 +113,13 @@ public class SearchBrandActivity extends BaseActivity {
                 else {
                     searchbrand_child.setVisibility(View.VISIBLE);
                     getBrandList(((SearchBrandModel) tempModels.get(position)).getBrand_id());
+                    for (int i=0;i<tempModels.size();i++) {
+                        if (tempModels.get(i) instanceof SearchBrandModel) {
+                            ((SearchBrandModel) tempModels.get(i)).setSelect(false);
+                        }
+                    }
+                    ((SearchBrandModel) tempModels.get(position)).setSelect(true);
+                    adapter.notifyDataSetChanged();
                 }
                 currentPosition=position;
             }

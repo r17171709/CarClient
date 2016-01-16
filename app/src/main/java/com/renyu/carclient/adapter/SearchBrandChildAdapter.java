@@ -2,6 +2,7 @@ package com.renyu.carclient.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,8 +55,20 @@ public class SearchBrandChildAdapter extends RecyclerView.Adapter<SearchBrandChi
                 bundle.putInt("brand_id", brand_id);
                 intent.putExtras(bundle);
                 context.startActivity(intent);
+
+                for (int i=0;i<models.size();i++) {
+                    models.get(i).setSelect(false);
+                }
+                models.get(position).setSelect(true);
+                notifyDataSetChanged();
             }
         });
+        if (models.get(position).isSelect()) {
+            holder.searchbrandchild_layout.setBackgroundColor(Color.parseColor("#e3e3e3"));
+        }
+        else {
+            holder.searchbrandchild_layout.setBackgroundColor(Color.WHITE);
+        }
     }
 
     @Override

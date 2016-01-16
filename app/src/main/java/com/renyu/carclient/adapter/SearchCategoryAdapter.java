@@ -1,6 +1,7 @@
 package com.renyu.carclient.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,14 @@ public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAd
             }
         });
         ImageLoader.getInstance().displayImage(models.get(position).getCat_logo(), holder.searchcategory_parent_image, getCategoryImageOptions());
+        if (!models.get(position).isSelect()) {
+            holder.searchcategory_parent_layout.setBackgroundColor(Color.parseColor("#e3e3e3"));
+            holder.searchcategory_parent_text.setTextColor(Color.BLACK);
+        }
+        else {
+            holder.searchcategory_parent_layout.setBackgroundColor(Color.parseColor("#626262"));
+            holder.searchcategory_parent_text.setTextColor(Color.WHITE);
+        }
     }
 
     @Override
@@ -66,8 +75,6 @@ public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAd
         ImageView searchcategory_parent_image;
         @Bind(R.id.searchcategory_parent_text)
         TextView searchcategory_parent_text;
-        @Bind(R.id.searchcategory_parent_arror)
-        ImageView searchcategory_parent_arror;
 
         public SearchCategoryHolder(View itemView) {
             super(itemView);

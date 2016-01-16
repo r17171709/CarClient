@@ -18,7 +18,7 @@ public class CategoryModel {
     private String cat_name;
     private String cat_logo;
     private int cat_id;
-
+    private boolean isSelect=false;
     private boolean isOpen=true;
     ArrayList<CategoryModel> lists=null;
 
@@ -60,6 +60,14 @@ public class CategoryModel {
 
     public void setOpen(boolean open) {
         isOpen = open;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 
     public ArrayList<CategoryModel> getLists() {

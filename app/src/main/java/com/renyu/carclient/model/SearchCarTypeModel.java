@@ -11,6 +11,7 @@ public class SearchCarTypeModel {
 
     private String brand;
     private String brand_img;
+    private boolean isSelect;
 
     public void setBrand(String brand) {
         this.brand = brand;
@@ -26,5 +27,13 @@ public class SearchCarTypeModel {
 
     public String getBrand_img() {
         return brand_img;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 }

@@ -1,6 +1,7 @@
 package com.renyu.carclient.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +68,14 @@ public class SearchBrandAdapter extends RecyclerView.Adapter<SearchBrandAdapter.
                 }
             });
             ImageLoader.getInstance().displayImage(((SearchBrandModel) models.get(position)).getBrand_logo(), holder.searchbrand_image, getBrandImageOptions());
+            if (!((SearchBrandModel) models.get(position)).isSelect()) {
+                holder.searchbrand_layout.setBackgroundColor(Color.parseColor("#e3e3e3"));
+                holder.searchbrand_title.setTextColor(Color.BLACK);
+            }
+            else {
+                holder.searchbrand_layout.setBackgroundColor(Color.parseColor("#626262"));
+                holder.searchbrand_title.setTextColor(Color.WHITE);
+            }
         }
     }
 

@@ -143,6 +143,7 @@ public class JsonParse {
                     model.setBrand_id(object1.getInt("brand_id"));
                     model.setBrand_logo(object1.getString("brand_logo"));
                     model.setBrand_name(object1.getString("brand_name"));
+                    model.setSelect(false);
                     models.add(model);
                 }
                 return models;
@@ -171,6 +172,7 @@ public class JsonParse {
                     SearchBrandModel model=new SearchBrandModel();
                     model.setCat_id(object1.getString("cat_id"));
                     model.setCat_name(object1.getString("cat_name"));
+                    model.setSelect(false);
                     models.add(model);
                 }
                 return models;

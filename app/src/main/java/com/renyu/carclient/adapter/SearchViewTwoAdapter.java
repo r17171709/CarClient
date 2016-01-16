@@ -1,6 +1,7 @@
 package com.renyu.carclient.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +94,12 @@ public class SearchViewTwoAdapter extends RecyclerView.Adapter<RecyclerView.View
                     listener1.onItemClick(position);
                 }
             });
+            if (models.get(position).isSelect()) {
+                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setBackgroundColor(Color.parseColor("#e3e3e3"));
+            }
+            else {
+                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setBackgroundColor(Color.WHITE);
+            }
         }
     }
 

@@ -108,6 +108,11 @@ public class SearchCatogoryView extends LinearLayout {
         }, new SearchViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                for (int i=0;i<secondModels.size();i++) {
+                    secondModels.get(i).setSelect(false);
+                }
+                secondModels.get(position).setSelect(true);
+                goods_catogory_adapter_parent.notifyDataSetChanged();
                 listener.onChoicePosition(""+secondModels.get(position).getCat_id());
             }
         });

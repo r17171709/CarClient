@@ -5,6 +5,7 @@ package com.renyu.carclient.model;
  */
 public class SearchCarTypeChildModel {
     boolean isOpen=false;
+    boolean isSelect=false;
 
     /**
      * brand : ASDF
@@ -45,5 +46,13 @@ public class SearchCarTypeChildModel {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 }

@@ -1,6 +1,7 @@
 package com.renyu.carclient.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.renyu.carclient.R;
 import com.renyu.carclient.commons.CommonUtils;
+import com.renyu.carclient.model.SearchBrandModel;
 import com.renyu.carclient.model.SearchCarTypeHeadModel;
 import com.renyu.carclient.model.SearchCarTypeModel;
 
@@ -34,7 +36,7 @@ public class SearchCarTypeAdapter extends RecyclerView.Adapter<SearchCarTypeAdap
     OnOperationListener listener=null;
 
     public interface OnOperationListener {
-        void positionChoice(String brand);
+        void positionChoice(String brand, int position);
     }
 
     public SearchCarTypeAdapter(Context context, ArrayList<Object> models, OnOperationListener listener) {
@@ -71,9 +73,17 @@ public class SearchCarTypeAdapter extends RecyclerView.Adapter<SearchCarTypeAdap
             holder.adapter_searchcartype_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.positionChoice(((SearchCarTypeModel) models.get(position)).getBrand());
+                    listener.positionChoice(((SearchCarTypeModel) models.get(position)).getBrand(), position);
                 }
             });
+            if (!((SearchCarTypeModel) models.get(position)).isSelect()) {
+                holder.adapter_searchcartype_layout.setBackgroundColor(Color.parseColor("#e3e3e3"));
+                holder.adapter_searchcartype_text.setTextColor(Color.BLACK);
+            }
+            else {
+                holder.adapter_searchcartype_layout.setBackgroundColor(Color.parseColor("#626262"));
+                holder.adapter_searchcartype_text.setTextColor(Color.WHITE);
+            }
         }
         else if (getItemViewType(position)==ITEM_HEAD) {
             holder.headview_searchcartype_gl.removeAllViews();
@@ -84,7 +94,7 @@ public class SearchCarTypeAdapter extends RecyclerView.Adapter<SearchCarTypeAdap
                 headview_searchcartype_item_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.positionChoice(((SearchCarTypeHeadModel) models.get(position)).getLists().get(i_).getBrand());
+                        listener.positionChoice(((SearchCarTypeHeadModel) models.get(position)).getLists().get(i_).getBrand(), -1);
                     }
                 });
                 headview_searchcartype_item_layout.setLayoutParams(new ViewGroup.LayoutParams((CommonUtils.getScreenWidth(context)-CommonUtils.dip2px(context, 32))/4, CommonUtils.dip2px(context, 100)));

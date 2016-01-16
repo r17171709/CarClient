@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.login_login, R.id.login_join})
+    @OnClick({R.id.login_login, R.id.login_join, R.id.login_forget})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_login:
@@ -79,6 +79,9 @@ public class LoginActivity extends BaseActivity {
                 Intent intent=new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.login_forget:
+                Intent intent1=new Intent(LoginActivity.this, ForgetActivity.class);
+                startActivity(intent1);
         }
     }
 }

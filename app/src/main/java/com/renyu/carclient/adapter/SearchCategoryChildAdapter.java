@@ -2,6 +2,7 @@ package com.renyu.carclient.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public interface OnMenuChoiceListener {
         void openClose(int position);
+        void choiceItem(int position);
     }
 
     public SearchCategoryChildAdapter(Context context, ArrayList<CategoryModel> models, OnMenuChoiceListener listener) {
@@ -95,8 +97,15 @@ public class SearchCategoryChildAdapter extends RecyclerView.Adapter<RecyclerVie
                     bundle.putInt("cat_id", models.get(position).getCat_id());
                     intent.putExtras(bundle);
                     context.startActivity(intent);
+                    listener.choiceItem(position);
                 }
             });
+            if (models.get(position).isSelect()) {
+                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setBackgroundColor(Color.parseColor("#e3e3e3"));
+            }
+            else {
+                ((SearchCategoryChild2ViewHolder) holder).adapter_searchcategory_child_2_layout.setBackgroundColor(Color.WHITE);
+            }
         }
     }
 
