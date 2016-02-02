@@ -1,5 +1,6 @@
 package com.renyu.carclient.activity.order;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.pay.AliPayActivty;
 import com.renyu.carclient.adapter.OrderAdapter;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.commons.ACache;
@@ -126,7 +128,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
         else {
             ordercenter_state_layout.setVisibility(View.GONE);
         }
-        adapter=new OrderAdapter(this, models, true, getIntent().getExtras().getBoolean("isEdit"), null, null, null);
+        adapter=new OrderAdapter(this, models, true, getIntent().getExtras().getBoolean("isEdit"), null, null, null, null);
         ordercenter_slv.setAdapter(adapter);
         if (getIntent().getExtras().getBoolean("isEdit")) {
             ordercenter_oper.setVisibility(View.GONE);
@@ -251,6 +253,12 @@ public class OrderCenterDetailActivity extends BaseActivity {
                 else if (status.equals("RECEIVE_GOODS")) {
                     ordercenter_commit.setVisibility(View.VISIBLE);
                     ordercenter_commit.setText("付款");
+                    ordercenter_commit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getPayDetail();
+                        }
+                    });
                     ordercenter_applyreturn.setVisibility(View.VISIBLE);
                     ordercenter_applyreturn.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -285,6 +293,34 @@ public class OrderCenterDetailActivity extends BaseActivity {
             @Override
             public void onError() {
                 showToast(getResources().getString(R.string.network_error));
+            }
+        });
+    }
+
+    private void getPayDetail() {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.payment", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", "" + userModel.getUser_id());
+        params.put("tid", tid);
+        params.put("pay_app_id", "alipay");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                String payData=JsonParse.getPayData(string);
+                if (payData==null) {
+                    showToast("获取支付参数失败");
+                }
+                else {
+                    Intent intent=new Intent(OrderCenterDetailActivity.this, AliPayActivty.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("payInfo", payData);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, ParamUtils.RESULT_PAY);
+                }
+            }
+
+            @Override
+            public void onError() {
+
             }
         });
     }
@@ -423,5 +459,16 @@ public class OrderCenterDetailActivity extends BaseActivity {
                 showToast(getResources().getString(R.string.network_error));
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==ParamUtils.RESULT_PAY && resultCode==RESULT_OK) {
+            status="TRADE_FINISHED";
+            initViews();
+            getOrderDetail();
+            EventBus.getDefault().post(new OrderModel());
+        }
     }
 }

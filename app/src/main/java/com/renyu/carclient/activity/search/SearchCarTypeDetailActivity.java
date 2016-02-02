@@ -75,6 +75,9 @@ public class SearchCarTypeDetailActivity extends BaseActivity {
                     models.addAll(temps);
                     adapter.notifyDataSetChanged();
                 }
+                if (temps.size()==0) {
+                    showToast("搜索结果为空");
+                }
             }
 
             @Override

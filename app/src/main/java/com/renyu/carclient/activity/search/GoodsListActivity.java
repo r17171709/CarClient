@@ -422,6 +422,14 @@ public class GoodsListActivity extends BaseActivity {
                             gridAdapter.notifyDataSetChanged();
                         }
                     }
+                    if (tempModels.size()==0) {
+                        if (page_no==1) {
+                            showToast("搜索结果为空");
+                        }
+                        else {
+                            showToast("没有更多数据了");
+                        }
+                    }
                     page_no++;
                 }
                 else {
@@ -474,6 +482,14 @@ public class GoodsListActivity extends BaseActivity {
                             gridAdapter.notifyDataSetChanged();
                         }
                     }
+                    if (tempModels.size()==0) {
+                        if (page_no==1) {
+                            showToast("搜索结果为空");
+                        }
+                        else {
+                            showToast("没有更多数据了");
+                        }
+                    }
                     page_no++;
                 }
                 else {
@@ -523,6 +539,14 @@ public class GoodsListActivity extends BaseActivity {
                         }
                         else {
                             gridAdapter.notifyDataSetChanged();
+                        }
+                    }
+                    if (tempModels.size()==0) {
+                        if (page_no==1) {
+                            showToast("搜索结果为空");
+                        }
+                        else {
+                            showToast("没有更多数据了");
                         }
                     }
                     page_no++;

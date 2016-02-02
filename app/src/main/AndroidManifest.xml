@@ -57,6 +57,7 @@
         <activity android:name=".activity.my.MyFeedBackActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.my.MyRepaymentActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="com.zbar.lib.CaptureActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.pay.AliPayActivty" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:screenOrientation="portrait"></activity>
         <activity android:name=".imageUtils.CameraActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".imageUtils.CameraBeforeActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".imageUtils.CropActivity" android:screenOrientation="portrait"></activity>
@@ -94,6 +95,14 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- alipay sdk begin -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <!-- alipay sdk end -->
     </application>
-
 </manifest>

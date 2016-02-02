@@ -665,4 +665,20 @@ public class JsonParse {
         }
         return null;
     }
+
+    /**
+     * 获取支付的参数
+     * @param string
+     * @return
+     */
+    public static String getPayData(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            return result.getString("data");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -30,6 +30,7 @@ public class ParamUtils {
     public final static int RESULT_LOGIN=1000;
     public final static int RESULT_ADDRESS=1001;
     public final static int RESULT_AREA=1002;
+    public final static int RESULT_PAY=1003;
     public final static int takecamera_result=10003;
     public final static int choicePic_result=10008;
     public final static int crop_result=10021;

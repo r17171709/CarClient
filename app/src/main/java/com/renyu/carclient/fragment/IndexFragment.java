@@ -77,6 +77,9 @@ public class IndexFragment extends BaseFragment {
             }
         });
         WebSettings settings=main_wv.getSettings();
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setDefaultFixedFontSize(36);
         settings.setDomStorageEnabled(true);
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);

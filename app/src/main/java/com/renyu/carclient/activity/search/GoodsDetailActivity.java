@@ -126,9 +126,16 @@ public class GoodsDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.goodsdetail_params, R.id.goodsdetail_cartype, R.id.goodsdetail_paytype, R.id.goodsdetail_tip_bglayout, R.id.goodsdetail_addcart, R.id.goodsdetail_paynow, R.id.goodsdetail_service, R.id.goodsdetil_fav, R.id.view_toolbar_center_back})
+    @OnClick({R.id.goodsdetail_params, R.id.goodsdetail_cartype, R.id.goodsdetail_paytype, R.id.goodsdetail_tip_bglayout, R.id.goodsdetail_addcart, R.id.goodsdetail_paynow, R.id.goodsdetail_service, R.id.goodsdetil_fav, R.id.view_toolbar_center_back, R.id.goodsdetil_isLogin})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.goodsdetil_isLogin:
+                if (userModel==null) {
+                    Intent intent=new Intent(GoodsDetailActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, ParamUtils.RESULT_LOGIN);
+                    return;
+                }
+                break;
             case R.id.goodsdetail_params:
                 if (model==null) {
                     return;

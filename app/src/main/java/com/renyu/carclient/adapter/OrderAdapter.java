@@ -47,6 +47,7 @@ public class OrderAdapter extends BaseAdapter {
     OnReturnListener listener;
     OnCancelListener cancelListener;
     OnReceiveListener receiveListener;
+    OnPayListener payListener;
 
     public interface OnReturnListener {
         void returnValue(OrderModel model, int position);
@@ -60,7 +61,11 @@ public class OrderAdapter extends BaseAdapter {
         void receiveValue(int position);
     }
 
-    public OrderAdapter(Context context, ArrayList<OrderModel> models, boolean isDetail, boolean isEdit, OnReturnListener listener, OnCancelListener cancelListener, OnReceiveListener receiveListener) {
+    public interface OnPayListener {
+        void payValue(int position);
+    }
+
+    public OrderAdapter(Context context, ArrayList<OrderModel> models, boolean isDetail, boolean isEdit, OnReturnListener listener, OnCancelListener cancelListener, OnReceiveListener receiveListener, OnPayListener payListener) {
         this.context = context;
         this.models = models;
         this.isDetail=isDetail;
@@ -68,6 +73,7 @@ public class OrderAdapter extends BaseAdapter {
         this.cancelListener=cancelListener;
         this.isEdit=isEdit;
         this.receiveListener=receiveListener;
+        this.payListener=payListener;
 
         df = new DecimalFormat("###.00");
 
@@ -133,7 +139,7 @@ public class OrderAdapter extends BaseAdapter {
                     receiveListener.receiveValue(position_);
                 }
                 else if (models.get(position_).getStatus().equals("RECEIVE_GOODS")) {
-
+                    payListener.payValue(position_);
                 }
                 else if (models.get(position_).getStatus().equals("TRADE_FINISHED")) {
 

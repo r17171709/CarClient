@@ -1,5 +1,6 @@
 package com.renyu.carclient.activity.order;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.renyu.carclient.R;
+import com.renyu.carclient.activity.pay.AliPayActivty;
 import com.renyu.carclient.adapter.OrderAdapter;
 import com.renyu.carclient.base.BaseActivity;
 import com.renyu.carclient.commons.ACache;
@@ -46,6 +48,8 @@ public class OrderCenterSearchResultActivity extends BaseActivity {
     UserModel userModel = null;
 
     int page_no = 1;
+    //当前支付选项
+    int pay_choice=-1;
 
     @Override
     public int initContentView() {
@@ -89,6 +93,12 @@ public class OrderCenterSearchResultActivity extends BaseActivity {
             @Override
             public void receiveValue(int position) {
                 commitReceive(models.get(position));
+            }
+        }, new OrderAdapter.OnPayListener() {
+            @Override
+            public void payValue(int position) {
+                pay_choice=position;
+                pay(models.get(position));
             }
         });
         ordercenter_lv.setAdapter(adapter);
@@ -153,6 +163,14 @@ public class OrderCenterSearchResultActivity extends BaseActivity {
                 if (tempModels!=null) {
                     models.addAll(tempModels);
                     adapter.notifyDataSetChanged();
+                    if (tempModels.size()==0) {
+                        if (page_no==1) {
+                            showToast("搜索结果为空");
+                        }
+                        else {
+                            showToast("没有更多数据了");
+                        }
+                    }
                     page_no++;
                 }
                 else {
@@ -262,5 +280,50 @@ public class OrderCenterSearchResultActivity extends BaseActivity {
         ordercenter_swipy.setRefreshing(true);
         page_no=1;
         getOrderLists();
+    }
+
+    private void pay(OrderModel orderModel) {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.payment", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", "" + userModel.getUser_id());
+        params.put("tid", ""+orderModel.getTid());
+        params.put("pay_app_id", "alipay");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                String payData=JsonParse.getPayData(string);
+                if (payData==null) {
+                    showToast("获取支付参数失败");
+                }
+                else {
+                    Intent intent=new Intent(OrderCenterSearchResultActivity.this, AliPayActivty.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("payInfo", payData);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, ParamUtils.RESULT_PAY);
+                }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==ParamUtils.RESULT_PAY && resultCode== Activity.RESULT_OK) {
+
+            Intent intent=new Intent(OrderCenterSearchResultActivity.this, OrderCenterDetailActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString("tid", ""+models.get(pay_choice).getTid());
+            bundle.putString("status", "TRADE_FINISHED");
+            bundle.putBoolean("isEdit", false);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+            EventBus.getDefault().post(new OrderModel());
+        }
     }
 }
