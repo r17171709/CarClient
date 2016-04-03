@@ -1,5 +1,7 @@
 package com.renyu.carclient.activity.order;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import com.renyu.carclient.model.JsonParse;
 import com.renyu.carclient.model.OrderModel;
 import com.renyu.carclient.model.UserModel;
 import com.renyu.carclient.myview.NoScrollListview;
+import com.renyu.carclient.wxapi.PayActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -256,7 +259,17 @@ public class OrderCenterDetailActivity extends BaseActivity {
                     ordercenter_commit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            getPayDetail();
+                            new AlertDialog.Builder(OrderCenterDetailActivity.this).setItems(new String[]{"支付宝支付", "微信支付"}, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which==0) {
+                                        getAliPayDetail();
+                                    }
+                                    else if (which==1) {
+                                        getWeixinPayDetail();
+                                    }
+                                }
+                            }).show();
                         }
                     });
                     ordercenter_applyreturn.setVisibility(View.VISIBLE);
@@ -297,7 +310,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
         });
     }
 
-    private void getPayDetail() {
+    private void getAliPayDetail() {
         HashMap<String, String> params= ParamUtils.getSignParams("app.user.payment", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
         params.put("user_id", "" + userModel.getUser_id());
         params.put("tid", tid);
@@ -305,7 +318,7 @@ public class OrderCenterDetailActivity extends BaseActivity {
         httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
             @Override
             public void onSuccess(String string) {
-                String payData=JsonParse.getPayData(string);
+                String payData=JsonParse.getAliPayData(string);
                 if (payData==null) {
                     showToast("获取支付参数失败");
                 }
@@ -316,6 +329,28 @@ public class OrderCenterDetailActivity extends BaseActivity {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, ParamUtils.RESULT_PAY);
                 }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
+    private void getWeixinPayDetail() {
+        HashMap<String, String> params= ParamUtils.getSignParams("app.user.payment", "28062e40a8b27e26ba3be45330ebcb0133bc1d1cf03e17673872331e859d2cd4");
+        params.put("user_id", "" + userModel.getUser_id());
+        params.put("tid", tid);
+        params.put("pay_app_id", "weixinpay");
+        httpHelper.commonPostRequest(ParamUtils.api, params, null, new OKHttpHelper.RequestListener() {
+            @Override
+            public void onSuccess(String string) {
+                Intent intent=new Intent(OrderCenterDetailActivity.this, PayActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("payInfo", string);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
 
             @Override

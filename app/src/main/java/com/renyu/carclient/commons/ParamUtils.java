@@ -16,7 +16,7 @@ public class ParamUtils {
     public final static String IMAGECACHE=DIR+ File.separator+"cache";
     public final static String DB=DIR+File.separator+"db";
     //微信分享ID
-    public final static String WEIXIN_SHAREID="";
+    public final static String WEIXIN_SHAREID="wx886bde5275db6ce5";
     //QQ分享ID manifest里面也要配置
     public final static String QQ_SHAREID="";
 

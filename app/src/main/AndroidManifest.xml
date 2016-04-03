@@ -56,12 +56,24 @@
         <activity android:name=".activity.my.MyStatementActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.my.MyFeedBackActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.my.MyRepaymentActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.my.MyCouponActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.my.MessageCenterActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.my.SendMessageActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="com.zbar.lib.CaptureActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.pay.AliPayActivty" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:screenOrientation="portrait"></activity>
         <activity android:name=".imageUtils.CameraActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".imageUtils.CameraBeforeActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".imageUtils.CropActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".imageUtils.ImagePreviewActivity" android:screenOrientation="portrait"></activity>
+        <!-- weixin pay-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
+        <activity android:name=".wxapi.PayActivity"
+            android:theme="@android:style/Theme.Translucent" android:screenOrientation="portrait"></activity>
         <!--微信分享相关-->
         <activity
             android:name=".wxapi.WXEntryActivity"

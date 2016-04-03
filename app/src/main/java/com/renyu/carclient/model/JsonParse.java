@@ -667,15 +667,116 @@ public class JsonParse {
     }
 
     /**
-     * 获取支付的参数
+     * 获取优惠券
      * @param string
      * @return
      */
-    public static String getPayData(String string) {
+    public static ArrayList<CouponModel> getCouponModels(String string) {
+        ArrayList<CouponModel> models=new ArrayList<>();
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data=result.getJSONObject("data");
+            JSONArray data1=data.getJSONArray("data");
+            for (int i=0;i<data1.length();i++) {
+                CouponModel model=new CouponModel();
+                JSONObject object1=data1.getJSONObject(i);
+                model.setCoupon_code(object1.getString("coupon_code"));
+                model.setUser_id(object1.getInt("user_id"));
+                model.setShop_id(object1.getInt("shop_id"));
+                model.setCoupon_id(object1.getInt("coupon_id"));
+                model.setObtain_desc(object1.getString("obtain_desc"));
+                model.setObtain_time(object1.getInt("obtain_time"));
+                model.setIs_valid(object1.getString("is_valid"));
+                model.setUsed_platform(object1.getString("used_platform"));
+                model.setCanuse_start_time(object1.getInt("canuse_start_time"));
+                model.setCanuse_end_time(object1.getInt("canuse_end_time"));
+                model.setLimit_money(object1.getString("limit_money"));
+                model.setDeduct_money(object1.getString("deduct_money"));
+                model.setCoupon_name(object1.getString("coupon_name"));
+                model.setCoupon_desc(object1.getString("coupon_desc"));
+                models.add(model);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return models;
+    }
+
+    /**
+     * 获取站内信
+     * @param string
+     * @return
+     */
+    public static ArrayList<MessageModel> getMessageLists(String string) {
+        ArrayList<MessageModel> models=new ArrayList<>();
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data=result.getJSONObject("data");
+            JSONArray data1=data.getJSONArray("data");
+            for (int i=0;i<data1.length();i++) {
+                JSONObject object1=data1.getJSONObject(i);
+                MessageModel model=new MessageModel();
+                model.setNotice_id(object1.getInt("notice_id"));
+                model.setFrom_id(object1.getString("from_id"));
+                model.setTo_id(object1.getString("to_id"));
+                model.setType(object1.getString("type"));
+                model.setTitle(object1.getString("title"));
+                model.setContent(object1.getString("content"));
+                model.setCreate_time(object1.getInt("create_time"));
+                model.setStatus(object1.getString("status"));
+                model.setUser_name(object1.getString("user_name"));
+                models.add(model);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return models;
+    }
+
+    /**
+     * 获取支付宝支付的参数
+     * @param string
+     * @return
+     */
+    public static String getAliPayData(String string) {
         try {
             JSONObject object=new JSONObject(string);
             JSONObject result=object.getJSONObject("result");
             return result.getString("data");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取微信支付的参数
+     * @param string
+     * @return
+     */
+    public static HashMap<String, String> getWeixinPayData(String string) {
+        try {
+            JSONObject object=new JSONObject(string);
+            JSONObject result=object.getJSONObject("result");
+            JSONObject data=result.getJSONObject("data");
+            String noncestr=data.getString("noncestr");
+            String partnerid=data.getString("partnerid");
+            String prepayid=data.getString("prepayid");
+            String package_=data.getString("package");
+            String appid=data.getString("appid");
+            String sign=data.getString("sign");
+            String timestamp=data.getString("timestamp");
+            HashMap<String, String> map=new HashMap<>();
+            map.put("noncestr", noncestr);
+            map.put("partnerid", partnerid);
+            map.put("prepayid", prepayid);
+            map.put("package", package_);
+            map.put("appid", appid);
+            map.put("sign", sign);
+            map.put("timestamp", timestamp);
+            return map;
         } catch (JSONException e) {
             e.printStackTrace();
         }

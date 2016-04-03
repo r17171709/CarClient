@@ -6,14 +6,14 @@
     <include layout="@layout/view_toolbar_center"></include>
     <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/messagecenter_swipy"
+        android:id="@+id/mycoupon_swipy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srl_direction="both">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/messagecenter_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/mycoupon_rv"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
 
         </android.support.v7.widget.RecyclerView>
     </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>

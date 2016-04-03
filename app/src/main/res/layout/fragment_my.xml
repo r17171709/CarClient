@@ -120,6 +120,38 @@
 
             </View>
             <LinearLayout
+                android:id="@+id/my_coupon"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="36dip"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_me_8"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dip"
+                    android:textColor="#020202"
+                    android:text="我的优惠券"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|center"
+                    android:textSize="12sp"
+                    android:textColor="#050505"
+                    android:drawableRight="@mipmap/ic_arr_right_black" />
+            </LinearLayout>
+            <View
+                android:background="#a8a8a8"
+                android:layout_width="match_parent"
+                android:layout_height="1dip">
+
+            </View>
+            <LinearLayout
                 android:id="@+id/my_address"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
@@ -233,6 +265,38 @@
                     android:layout_marginLeft="13dip"
                     android:textColor="#020202"
                     android:text="申请售后"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|center"
+                    android:textSize="12sp"
+                    android:textColor="#050505"
+                    android:drawableRight="@mipmap/ic_arr_right_black" />
+            </LinearLayout>
+            <View
+                android:background="#a8a8a8"
+                android:layout_width="match_parent"
+                android:layout_height="1dip">
+
+            </View>
+            <LinearLayout
+                android:id="@+id/my_message"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="36dip"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_me_9"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dip"
+                    android:textColor="#020202"
+                    android:text="站内信"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

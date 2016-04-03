@@ -48,7 +48,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by renyu on 15/10/17.
@@ -614,5 +616,12 @@ public class CommonUtils {
 
     private static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
+
+    public static String getTimeFormat(int time) {
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Date date=new Date();
+        date.setTime(Long.parseLong(time+"000"));
+        return dateFormat.format(date);
     }
 }

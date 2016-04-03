@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/ordercenter_price"
-                android:text="400元"
+                android:visibility="invisible"
                 android:textColor="#a20000"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"

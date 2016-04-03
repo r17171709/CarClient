@@ -465,7 +465,7 @@ public class GoodsDetailActivity extends BaseActivity {
                     goodsdetil_price.setText("￥"+model.getPrice());
                     goodsdetil_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     goodsdetil_realprice.setText("￥"+model.getReal_price());
-                    goodsdetil_realprice.setVisibility(View.VISIBLE);
+                    goodsdetil_realprice.setVisibility(View.INVISIBLE);
                 }
 
             }

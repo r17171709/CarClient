@@ -39,6 +39,7 @@
                     android:textColor="#949494"
                     android:layout_marginRight="3dip"
                     android:layout_marginTop="3dip"
+                    android:visibility="invisible"
                     android:text="指导价："/>
                 <TextView
                     android:id="@+id/cart_normalprice"
@@ -46,6 +47,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
                     android:layout_marginTop="3dip"
+                    android:visibility="invisible"
                     android:text="100"/>
             </LinearLayout>
             <LinearLayout
@@ -68,6 +70,7 @@
                     android:inputType="number"
                     android:textColor="@android:color/black"
                     android:layout_marginTop="3dip"
+                    android:visibility="invisible"
                     android:text="100"/>
             </LinearLayout>
         </LinearLayout>

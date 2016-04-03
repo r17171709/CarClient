@@ -38,6 +38,7 @@
                 android:textColor="#c40000"
                 android:textSize="16sp"
                 android:layout_marginTop="3dip"
+                android:visibility="invisible"
                 android:text="title"/>
         </LinearLayout>
         <TextView

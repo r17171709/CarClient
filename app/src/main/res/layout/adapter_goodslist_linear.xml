@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#7d7d7d"
                 android:layout_marginTop="3dip"
+                android:visibility="invisible"
                 android:text="title"/>
         </RelativeLayout>
         <View
